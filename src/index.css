@@ -36,6 +36,9 @@ a:focus {
   flex-direction: row;
  
 }
+.p{
+  cursor: pointer
+}
 .deleteset button{
  
    margin-left: 20px;

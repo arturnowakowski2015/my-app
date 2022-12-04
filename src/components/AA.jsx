@@ -26,7 +26,7 @@ function withParams(Component) {
 let stop = 0;
 let items = [];
 
-
+let arr = []
 
 class AA extends React.Component {
 
@@ -71,42 +71,28 @@ class AA extends React.Component {
   furl(settingsid, idrec, bazaid, tryb, upstr) {
 
     this.setState({ i: bazaid })
-    if (tryb == "c") {
-      let el = {
-        id: idrec,
-        title: upstr ? upstr : "ooo"
-      }
-      items.push(el)
-    };
-    for (let ii = 0; ii < items.length; ii++)
-      alert(items[0] ? items[ii].title + "   length) " + items[ii].id : "")
 
 
     this.setState({ settings: settingsid });
 
     this.setState({ changes: [] });
-    let arr = []
+
 
     fetch(this.state.urls[bazaid])
       .then((response) => response.json())
       .then((response) => {
         // set the state 
         this.setState({
-          data: response.map((t) => {
-            for (let i = 0; i < items.length; i++) {
-              if (t.id == items[i].id)
-                t.title = items[i].title;
-            }
-            return t
-          })
+          data: response
         });
-        let arr = [];
+        arr = [];
         response.map((t) => {
-          t = { id: t.id, checked: false }
+          t = { id: t.id, checked: false, category: "new" }
           arr.push(t)
           return t;
         }
-        )
+
+        );
         this.setState({ changes: arr })
         this.setState({
           columns: Object.keys(response[0]).map((t) => {
@@ -207,9 +193,12 @@ class AA extends React.Component {
 
 
 
+
+
   render() {
     let change = false;
     const [count, updateCount] = this.context;
+
     function setch(i, r) {
 
 
@@ -239,7 +228,7 @@ class AA extends React.Component {
       this.setState({
         data: this.state.data.filter(f => !arr.some(item => item.id === f.id))
       })
-      console.log(JSON.stringify("oo    " + this.state.data))
+
       //this.setState({ changes: this.state.changes.map((t) => { return   t.checked=false  })})
       //window.location.href = "/a/pagination"
 
@@ -251,7 +240,7 @@ class AA extends React.Component {
 
           <div class="LT">
             <div class="TreeNode">
-              <TreeNode familyTree={tree.children} id={0} depth={0} />
+              <TreeNode changeintree={(category) => alert(category)} familyTree={tree.children} arr1={arr} count={count} id={0} depth={0} />
             </div>
             <div class="LTchild">
               <Link class="a2" to="/a/pagination/settings" onClick={() => this.setState({ settings: 1 })}>settings</Link>
@@ -300,7 +289,7 @@ class AA extends React.Component {
           <div class="LT">
             <div class="TreeNode">aaaaa
               <Update i={this.state.i} furl={this.furl.bind(this)} />
-              <TreeNode familyTree={tree.children} id={0} depth={0} />
+              <TreeNode familyTree={tree.children} arr1={arr} id={0} depth={0} />
             </div>
 
 
@@ -317,7 +306,7 @@ class AA extends React.Component {
 
             <div class="LT">
               <div class="TreeNode">
-                <TreeNode familyTree={tree.children} id={0} depth={0} />
+                <TreeNode familyTree={tree.children} arr1={arr} id={0} depth={0} />
               </div>
               <div class="LTchild">
                 <Settings data={this.state.data} columns={this.state.columns} changePPP={this.changePPP.bind(this)}
@@ -326,7 +315,10 @@ class AA extends React.Component {
                   flagsettings={this.state.flagsettings} postPerPage={this.state.postPerPage} />
                 <Link class="a2" to="/a/pagination" onClick={() => this.setState({ settings: 0 })}>back to main</Link>
                 <Link class="a2" to="/a/pagination/url" onClick={() => this.setState({ settings: 2 })}>change database</Link>
-                <Table i={this.state.i} data={this.state.data} setch={this.setch.bind(this)} familyTree={tree.children}
+
+
+
+                <Table i={this.state.i} data={this.state.data} setch={() => setch()} familyTree={tree.children}
                   columns={this.state.columns.map((t, i) => {
                     if (i == this.state.icolumn && this.state.checked) t.col.disp = false;
                     else if (i == this.state.icolumn && this.state.checked == false) t.col.disp = true;
@@ -337,6 +329,10 @@ class AA extends React.Component {
                   dff={this.state.dff} str={this.props.params.str}
                   items={items} furl={this.furl.bind(this)} id={this.state.i} settingsid={this.state.settings}
                 />
+
+
+
+
               </div>
             </div>
           </div>
