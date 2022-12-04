@@ -1,0 +1,145 @@
+body {
+  background: white;
+  padding: 20px;
+  font-family: Helvetica;
+}
+ 
+
+
+
+
+
+
+
+.apagination{
+  display: flex;
+  flex-direction:row;
+}
+.my-3 {
+  display: flex;
+  flex-direction: row;
+}
+
+.a:link {
+  background-color: #fff;
+  color: red;
+}
+ 
+a:hover,
+a:focus {
+  background-color: #333;
+  color: blue;
+  transition: all 0.5s ease-out;
+}
+.deleteset {
+  display: flex;
+  flex-direction: row;
+ 
+}
+.deleteset button{
+ 
+   margin-left: 20px;
+   border-radius: 10px 10px 10px 10px;
+   cursor: pointer
+}
+.pagbtn div {
+  margin: 5px;
+}
+
+#container, .LT {
+
+  border-rigth: solid black 2px;
+ 
+ }
+.LTchild{ 
+  position:absolute;
+  top:90px;
+  left:300px;
+}
+.TreeNode {
+  position:absolute;
+  top:100px; 
+}
+.table{  
+  border: gray solid;
+ }
+ 
+.col { 
+  white-space: nowrap; }
+.X1 {
+  position: absolute;
+  left: 130px;
+  top: -250px;
+}
+.a1{  margin-bottom:25px;
+      width: 600px;
+ }
+.a2 {padding-right: 10px}
+.a1:hover~.X1 {
+  position: absolute;
+  left: 130px;
+  top: 0px;
+
+  transition: all 0.5s ease-out;
+}
+
+.X2 {
+  position: absolute;
+  left: 130px;
+  top: -250px;
+}
+
+.a2:hover~.X2 {
+  position: absolute;
+  left: 130px;
+  top: 0px;
+  transition: all 0.5s ease-out;
+}
+
+.X3 {
+  position: absolute;
+  left: 130px;
+  top: -250px;
+}
+
+.a3:hover~.X3 {
+  position: absolute;
+  left: 130px;
+  top: 0px;
+  transition: all 0.5s ease-out;
+}
+
+nav {
+  background-color: rgb(255, 162, 2);
+ 
+
+  display: flex;
+  flex-direction: row;
+  opacity: 1;
+  width: auto;
+
+  height: auto;
+
+}
+.col{
+  cursor:pointer;
+}
+nav div {
+  padding: 10px;
+}
+
+.view {
+  position: relative;
+  top: 50px
+}
+
+.item img {
+  width: 100%;
+  height: auto
+}
+
+.Link{
+  margin-left: 300px;
+  border-left: black solid 2px;
+  border-right: black solid 2px;
+}
