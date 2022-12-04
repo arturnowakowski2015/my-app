@@ -102,7 +102,7 @@ const Table = (props, columns) => {
         navigate("/a/pagination/putin", { state: { id } })
         props.setch(id, { id: 90, checked: true })
         let t = count.filter((t) => { return t.id == id })
-        updateCount(t.length ? "" : { id: id, checked: true }, id, 0, [])
+        updateCount(t.length ? "" : { id: id, checked: true }, id, 0)
 
     }
 
@@ -150,10 +150,12 @@ const Table = (props, columns) => {
 
                     : col[j].col.disp = false
 
-        });
+        }); console.log("b1ba   " + JSON.stringify(count));
         return (<tr class="cell">{row.checkbox == true ? <input type="checkbox" id={row.id + "/"}
             checked={count[i].checked ? "" : ""} />
-            : <input type="checkbox" id={row.id} checked={count[i] ? count[i].checked : ""}
+            : <input type="checkbox" id={row.id} checked={(count.filter((tt) => { return tt.id == row.id })[0] != undefined
+                ? count.filter((tt) => { return tt.id == row.id })[0].checked
+                : "")}
                 onChange={(r) => setch(row.id, r)} />}{tr}</tr>);
 
     }
