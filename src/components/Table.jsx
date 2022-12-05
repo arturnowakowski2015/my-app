@@ -59,8 +59,10 @@ const Table = (props, columns) => {
     const arr = [];
     const lastPost = number * postPerPage;
     const firstPost = lastPost - postPerPage;
-
-    const currentPost = data.slice(firstPost, lastPost);
+    console.log("fg    " + JSON.stringify(data))
+    let e = data.filter(f => count.filter(item => f.id === item.id))
+    const currentPost = props.flag == 1 ? e.slice(firstPost, lastPost) : data.slice(firstPost, lastPost)
+    console.log("bbbbbbbbbbbbbbbbbb    " + JSON.stringify(data))
     const pageNumber = [];
     let cell = { col: { name: "ddd", disp: true } };
     let col = [cell];
@@ -150,7 +152,14 @@ const Table = (props, columns) => {
 
                     : col[j].col.disp = false
 
-        }); console.log("b1ba   " + JSON.stringify(count));
+        });
+
+
+
+
+
+
+        console.log("b1ba   " + JSON.stringify(e));
         return (<tr class="cell">{row.checkbox == true ? <input type="checkbox" id={row.id + "/"}
             checked={count[i].checked ? "" : ""} />
             : <input type="checkbox" id={row.id} checked={(count.filter((tt) => { return tt.id == row.id })[0] != undefined

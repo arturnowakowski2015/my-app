@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import { recits, tree } from '../data/dummy';
 import "../index.css"
 let c = 0;
@@ -18,7 +19,7 @@ const makeids = (nodes, i) => {
 const makeidlev = (nodes, i, tt) => {
   return nodes && nodes.forEach((t) => {
     t.depth = tt;
-    t.bgcolor = "yellow";
+    t.bgcolor = "white";
 
     if (t.children) { makeidlev(t.children, 0, ++tt); --tt }
   });
@@ -52,9 +53,11 @@ const TreeNode = (props) => {
 
     y = nodes && nodes.map((t) => {
 
-      if (t.depth == tdepth[0] && t.id == tid[0])
+      if (t.depth == tdepth[0] && t.id == tid[0] && t.bgcolor != "green")
+
         t.bgcolor = "blue";
-      else t.bgcolor = "white"
+      else if (t.bgcolor != "green") t.bgcolor = "white"
+
       markEl(e, t.children, depth, id)
       return t;
     })
@@ -78,17 +81,45 @@ const TreeNode = (props) => {
 
 
   }
-  return <div style={{ paddingLeft: "20px", width: "50px" }} >
+
+  const markIn = (e, nodes, depth, id) => {
+
+    y = nodes && nodes.map((t) => {
+
+      if (t.depth == tdepth[0] && t.id == tid[0])
+
+        t.bgcolor = "green";
+      else t.bgcolor = "white"
+
+      markIn(e, t.children, depth, id)
+      return t;
+    })
+
+
+    return y;
+    tdepth = []; tid = [];
+  }
+
+
+  return <div style={{ paddingLeft: "10px", width: "50px" }} >
     {familyTree.map((t, i) => {
       return <div class="fw-bold text-nowrap" onMouseOut={() => { tdepth = []; tid = [] }}
+        onClick={(e) => {
+          props.changeintree(t.name);
+          e.stopPropagation()
+          bck(e, props.familyTree, t.depth, t.id);
+          markIn(e, familyTree, t.depth, t.id)
+        }}
         onMouseOver={(e) => { bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id) }}
-        style={{ paddingLeft: "20px" }} >
-        <p onClick={() => props.changeintree(t.name)} class="p fw-bold"
-          style={{ backgroundColor: t.bgcolor }}>{t.name} {props.arr1 && props.arr1[0] ?
-            props.arr1[0].category == t.name ? props.arr1.length : "" : ""}</p>
+        style={{ paddingLeft: "10px" }} >
+        <p
+          onMouseOut={(e) => { bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id) }} class="p fw-bold"
+          style={{ backgroundColor: t.bgcolor }}>{t.name} </p>
 
 
-        {t.children && <TreeNode familyTree={t.children} changeintree={props.changeintree} id={i} arr1={props.arr1} depth={props.depth + 1} />}</div>
+        {t.children && <TreeNode familyTree={t.children}
+          prevCategory={props.prevCategory}
+          changeintree={props.changeintree} id={i} arr1={props.arr1} depth={props.depth + 1} />}</div>
 
 
     })

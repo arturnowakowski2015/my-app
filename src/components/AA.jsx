@@ -4,7 +4,8 @@ import {
   Routes,
   Route,
   Link,
-  useParams
+  useParams,
+  useLocation
 } from "react-router-dom";
 
 import Table from "./Table";
@@ -25,16 +26,16 @@ function withParams(Component) {
 }
 let stop = 0;
 let items = [];
-
+let y = [];
 let arr = []
-
+let choosen = ""
 class AA extends React.Component {
 
   static contextType = UserContext;
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
+      data: { new: [], selected: [1], opened: [2], removed: [3], labels: [4] },
       columns: [],
       strd: [],
       flagsettings: 0,
@@ -58,7 +59,8 @@ class AA extends React.Component {
       change: false,
       changes: [],
       changeall: false,
-      checkall: true
+      checkall: true,
+      categories: ["new", ""]
     };
     this.setRec = this.setRec.bind(this);
     this.df = this.df.bind(this)
@@ -82,18 +84,10 @@ class AA extends React.Component {
       .then((response) => response.json())
       .then((response) => {
         // set the state 
-        this.setState({
-          data: response
-        });
-        arr = [];
-        response.map((t) => {
-          t = { id: t.id, checked: false, category: "new" }
-          arr.push(t)
-          return t;
-        }
+        if (this.state.data[this.state.categories[0]].length == 0)
+          this.state.data[this.state.categories[0]] = response
 
-        );
-        this.setState({ changes: arr })
+
         this.setState({
           columns: Object.keys(response[0]).map((t) => {
 
@@ -119,7 +113,7 @@ class AA extends React.Component {
   }
   m(e) {
     this.setState({
-      data: this.props.data.map((t, i) => {
+      data: [this.state.categories[0]] = this.props.data.map((t, i) => {
 
         if (this.props.params.id == i) t.title = this.state.str;
         return t
@@ -156,7 +150,7 @@ class AA extends React.Component {
     this.setState({
       settings: 0,
       flag: 1,
-      data: t
+      data: [this.state.categories[0]] = t
     });
 
 
@@ -166,11 +160,12 @@ class AA extends React.Component {
 
   componentDidMount() {
 
-
+    console.log("count   " + this.props.params.count)
     if (stop == 0) {
       const r = this.props.params.id && this.props.params.f == undefined ? this.props.params.id : this.state.i;
 
       this.furl(this.state.settings, null, 0, "u", "dd d");
+      console.log("  compunt       " + JSON.stringify(arr))
       this.setState({
         strd: this.state.urls.map((t, i) => (
 
@@ -196,9 +191,10 @@ class AA extends React.Component {
 
 
   render() {
+
     let change = false;
     const [count, updateCount] = this.context;
-
+    arr = count.map((t) => t)
     function setch(i, r) {
 
 
@@ -226,7 +222,7 @@ class AA extends React.Component {
       let arr = count.filter((t) => t.checked == true)
 
       this.setState({
-        data: this.state.data.filter(f => !arr.some(item => item.id === f.id))
+        data: [this.state.categories[0]] = this.state.data[this.state.categories[0]].filter(f => !arr.some(item => item.id === f.id))
       })
 
       //this.setState({ changes: this.state.changes.map((t) => { return   t.checked=false  })})
@@ -234,40 +230,62 @@ class AA extends React.Component {
 
 
     }
+    function setchoosen(r) {
+      this.state.data[this.state.categories[0]] = r
+
+    }
+    arr = count; console.log("eeee    " + JSON.stringify(this.state.data[this.state.categories[0]]))
+
     return (
-      <div>{this.state.data.length}
+      <div>{
+      }
         {this.state.settings == 0 && this.props.params.f == undefined &&
 
           <div class="LT">
             <div class="TreeNode">
-              <TreeNode changeintree={(category) => alert(category)} familyTree={tree.children} arr1={arr} count={count} id={0} depth={0} />
+              <TreeNode changeintree={(category) => {
+
+
+                if (this.state.categories) {
+                  this.state.categories[1] = this.state.categories[0];
+                  this.state.categories[0] = category
+                }
+              }} familyTree={tree.children} arr1={arr} count={count} prevCategory={this.state.categories[0]} id={0} depth={0} />
             </div>
             <div class="LTchild">
               <Link class="a2" to="/a/pagination/settings" onClick={() => this.setState({ settings: 1 })}>settings</Link>
 
-
-
-
-              {count[0].id &&
+              {arr.length > 0 &&
                 <div>
                   <ButtonModal familyTree={tree.children}
                     checkall={() => {
                       this.setState({ checkall: !this.state.checkall });
-                      (this.state.checkall ? updateCount("", 0, 1, this.state.data) : updateCount("", 0, 2, this.state.data))
+                      (this.state.checkall ? updateCount("", 0, 1, this.state.data[this.state.categories[0]]) : updateCount("", 0, 2, this.state.data[this.state.categories[0]]))
                     }}
+                    changecategory={(category, flag) => {
+                      this.setState({ flag: 1 })
+                      y = this.state.data[this.state.categories[0]].filter(f => arr.some(item => item.id === f.id))
 
+
+                      this.state.data[this.state.categories[0]] = y
+                      console.log("ll  2  " + JSON.stringify(this.state.data[this.state.categories[0]]))
+                      y = this.state.data[this.state.categories[0]].filter(f => !arr.some(item => item.id === f.id))
+                      this.state.data[this.state.categories[1]] = y
+                    }
+                    }
                     deleteel={() => {
                       let arr = count.filter((t) => t.checked == true)
 
                       this.setState({
-                        data: this.state.data.filter(f => !arr.some(item => item.id === f.id))
+                        data: [this.state.categories[0]] = this.state.data[this.state.categories[0]].filter(f => !arr.some(item => item.id === f.id))
                       })
                     }}
                   />
                 </div>
               }
 
-              <Table i={this.state.i} data={this.state.data} setch={() => setch()} familyTree={tree.children}
+
+              <Table i={this.state.i} data={this.state.data[this.state.categories[0]]} setch={() => setch()} familyTree={tree.children}
                 columns={this.state.columns.map((t, i) => {
                   if (i == this.state.icolumn && this.state.checked) t.col.disp = false;
                   else if (i == this.state.icolumn && this.state.checked == false) t.col.disp = true;
@@ -276,7 +294,7 @@ class AA extends React.Component {
                 })}
                 flagsettings={this.state.flagsettings} postPerPage={this.state.postPerPage}
                 dff={this.state.dff} str={this.props.params.str}
-                items={items} furl={this.furl.bind(this)} id={this.state.i} settingsid={this.state.settings}
+                items={items} furl={this.furl.bind(this)} id={this.state.i} flag={this.state.flag} settingsid={this.state.settings}
               />
             </div>
 
@@ -318,7 +336,7 @@ class AA extends React.Component {
 
 
 
-                <Table i={this.state.i} data={this.state.data} setch={() => setch()} familyTree={tree.children}
+                <Table i={this.state.i} data={this.state.data[this.state.categories[0]]} setch={() => setch()} familyTree={tree.children}
                   columns={this.state.columns.map((t, i) => {
                     if (i == this.state.icolumn && this.state.checked) t.col.disp = false;
                     else if (i == this.state.icolumn && this.state.checked == false) t.col.disp = true;

@@ -3,10 +3,10 @@ import UserContext from "./User"; let y = 0;
 function AppProvider(props) {
 
   const [changeAll, setChangeAll] = React.useState(0)
-  const [count, setCount] = React.useState([{}]);
+  const [count, setCount] = React.useState([]);
   const df = () => { };
 
-  function updateCount(e, id, all, data) {
+  function updateCount(e, id, all, data, data2) {
     setChangeAll(all);
     let r = [];
     if (all == 0) {
