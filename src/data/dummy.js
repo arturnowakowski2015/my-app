@@ -8,7 +8,7 @@ export const tree = {
   age: 90,
   children: [
     {
-      name: "",
+      name: "root",
     },
     {
       name: "new",

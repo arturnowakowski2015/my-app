@@ -1,15 +1,15 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
- 
+
     Link
-  } from "react-router-dom";
+} from "react-router-dom";
 const Pagination = props => {
     const [el, setEl] = useState(0)
 
     let url = ""
     let ul = "";
-    const funk = (e,i) => {
-      //  ul = window.location.href.slice(window.location.href.lastIndexOf("/"), window.location.length + 1)
+    const funk = (e, i) => {
+        //  ul = window.location.href.slice(window.location.href.lastIndexOf("/"), window.location.length + 1)
         e.preventDefault();
         e.stopPropagation();
         props.ChangePage(i)
@@ -30,7 +30,7 @@ const Pagination = props => {
                     <div class="pagbtn" >
                         {
                             props.number == i + 1 ?
-                                <div><Link to={"/a/pagination/" + Elem} onClick={(event) => funk(event,Elem)}
+                                <div><Link to={"/a/" + props.acturl + "pagination/" + Elem} onClick={(event) => funk(event, Elem)}
 
 
                                 >
@@ -38,7 +38,7 @@ const Pagination = props => {
                                 </Link>
                                 </div>
                                 :
-                                <div><Link to={"/a/pagination/" + Elem} onClick={(event) => funk(event,Elem)}
+                                <div><Link to={"/a/" + props.acturl + "pagination/" + Elem} onClick={(event) => funk(event, Elem)}
 
 
                                 >

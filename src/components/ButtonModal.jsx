@@ -47,7 +47,7 @@ const ButtonModal = props => {
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
           Launch static backdrop modal
         </button>
-        <button type="button" class="btn btn-primary" onClick={() => props.checkall()} onMouseOut={() => navigate("/a/pagination")}>
+        <button type="button" class="btn btn-primary" onClick={() => props.checkall()} onMouseOut={() => navigate("/a/" + props.ac[0].cat + "/pagination")}>
           check/uncheck
         </button>
         <button type="button" class="btn btn-primary" onClick={() => props.deleteel()} >
@@ -70,7 +70,7 @@ const ButtonModal = props => {
               </form>
             </div>
             <div class="modal-footer">
-              <button type="button" onClick={() => { props.changecategory(name, 1); navigate("/a/pagination") }} class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" onClick={() => { props.changecategory(name, 1); navigate("/a/" + props.ac.cat + "/pagination") }} class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
             </div>
           </div>

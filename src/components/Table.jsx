@@ -101,7 +101,7 @@ const Table = (props, columns) => {
     }
     const setch = (id, r) => {
         alert(r.target.checked)
-        navigate("/a/pagination/putin", { state: { id } })
+        navigate("/a/" + props.acturl + "/pagination/putin", { state: { id } })
         props.setch(id, { id: 90, checked: true })
         let t = count.filter((t) => { return t.id == id })
         updateCount(t.length ? "" : { id: id, checked: true }, id, 0)
@@ -208,7 +208,7 @@ const Table = (props, columns) => {
 
 
     const el = <div>
-        {props.flagsettings != 4 && <Pagination number={number} pageNumber={pageNumber} ChangePage={ChangePage} setN={setN} end={end} />}
+        {props.flagsettings != 4 && <Pagination acturl={props.acturl} number={number} pageNumber={pageNumber} ChangePage={ChangePage} setN={setN} end={end} />}
         <div>
             {
                 element == 1 ? null
