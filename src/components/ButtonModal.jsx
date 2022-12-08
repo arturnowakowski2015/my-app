@@ -21,7 +21,7 @@ const ButtonModal = props => {
     arr = nodes.map((t, ii) => {
       if (t.children) makeColor(t.children, d, i)
       if (t.depth == d && t.id == i) t.bgcolor = "blue"
-      else t.bgcolor = "red"
+      else t.bgcolor = "white"
       return t;
     })
     return arr;
@@ -32,7 +32,7 @@ const ButtonModal = props => {
 
     return nodes.map((t, i) => {
       return <div ><label style={{ backgroundColor: t.bgcolor }}
-        onMouseOver={() => { makeColor(props.familyTree, d, i); setEl(makeEl(arr, 0)); setName(t.name) }}
+        onClick={() => { makeColor(props.familyTree, d, i); setEl(makeEl(arr, 0)); setName(t.name) }}
         for="recipient-name" class="col-form-label" key={i}>{t.name}</label>
         {t.children ? makeEl(t.children, d + 1) : null}</div>
 

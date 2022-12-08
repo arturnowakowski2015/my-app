@@ -40,6 +40,10 @@ function AppProvider(props) {
     if (all == 0)
       y = count.filter((t) => { return t && t.id })
 
+    if (all == 3) {
+      y = count.filter((t) => { return !t })
+      alert(y.length)
+    }
     let w = 0;
     all == 0 ? setCount((count) => [...y, e]) : setCount((count) => [...r])
     console.log("y               " + JSON.stringify(count))

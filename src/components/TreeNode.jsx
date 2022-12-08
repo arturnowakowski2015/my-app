@@ -82,16 +82,16 @@ const TreeNode = (props) => {
 
   }
 
-  const markIn = (e, nodes, depth, id) => {
+  const markIn = (e, es, nodes, depth, id) => {
 
     y = nodes && nodes.map((t) => {
 
-      if (t.depth == tdepth[0] && t.id == tid[0])
+      if (t.depth == tdepth[0] && t.id == tid[0] && es)
 
         t.bgcolor = "green";
       else t.bgcolor = "white"
 
-      markIn(e, t.children, depth, id)
+      markIn(e, es, t.children, depth, id)
       return t;
     })
 
@@ -101,16 +101,21 @@ const TreeNode = (props) => {
   }
 
 
+  const pcl = (cat) => {
+    let c = props.pc.filter((tt) => tt.cat == cat);
+    if (props.pc[0] && c.length)
+      return c[0].l;
+  }
   return <div style={{ paddingLeft: "10px", width: "50px" }} >
     {familyTree.map((t, i) => {
       console.log(props.pc[0] && props.pc[0].cat + ":::::" + props.ac.cat)
       return <div class="fw-bold text-nowrap" onMouseOut={() => { tdepth = []; tid = [] }}
         onClick={(e) => {
-          alert(t.name + "   LOK")
           props.changeintree(t.name, 0);
           e.stopPropagation();
           e.preventDefault();
-          markEl(e, props.familyTree, t.depth, t.id)
+
+          markIn(e, t.name == props.ac.cat, tree.children, t.depth, t.id)
         }}
         onMouseOver={(e) => { bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id) }}
         style={{ paddingLeft: "10px" }} >
@@ -119,7 +124,7 @@ const TreeNode = (props) => {
           class="p fw-bold"
           style={{ backgroundColor: t.bgcolor }}>{t.name}
           {t.name == props.ac.cat ? props.ac.l : ""} ...
-          {props.pc[0] && props.pc[0].cat == t.name ? props.pc[0].l : ""}
+          {pcl(t.name)}
 
         </p>
 
@@ -133,7 +138,7 @@ const TreeNode = (props) => {
 
     })
     }
-  </div>
+  </div >
 }
 
 export default TreeNode;

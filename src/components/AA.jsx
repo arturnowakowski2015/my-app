@@ -188,16 +188,18 @@ class AA extends React.Component {
     let obj2 = this.state.data[this.state.categories.actual[0].cat]
     let obj = null
     let el = 0;
-    console.log(this.state.categories.actual[0].cat + ":" + category)
+
     if (this.state.categories.actual[0].cat != category) {
       obj = this.state.categories.new.filter((t) => t.cat != category)
       if (obj.length == 0) {
         el = { cat: this.state.categories.actual[0].cat, l: this.state.data[this.state.categories.actual[0].cat].length };
         this.state.categories.new = [el]
+      } else {
+        el = { cat: this.state.categories.actual[0].cat, l: this.state.data[this.state.categories.actual[0].cat].length };
+        this.state.categories.new = [...obj, el]
       }
-      else
-        this.state.categories.new = [... this.state.categories.new, el]
       if (this.state.categories.new.filter((t) => t.cat == category).length == 0) {
+        alert(987)
         this.state.categories.actual[0].cat = category;
         this.state.categories.actual[0].l = this.state.data[category].length
       }
@@ -206,8 +208,10 @@ class AA extends React.Component {
       //   this.state.categories.actual[0].cat = category
       //  this.state.categories.actual[0].l = this.state.data[category].length;
     }
-
+    console.log(this.state.categories.actual[0].cat + ":" + category)
+    arr = 0;
     return this.setState({ actual: this.state.categories.actual });
+
     //, this.state.categories.new)
     /*
     console.log(str1 + "::::" + actstr)
@@ -261,6 +265,7 @@ class AA extends React.Component {
     let y2 = 0;
     let stop = 0;
     if (flag == 0 && this.state.data[category].length) {
+      alert("flag o")
 
 
       let l = this.state.data[category] ? this.state.data[category].length : 0;
@@ -278,9 +283,16 @@ class AA extends React.Component {
         alert("alert " + this.state.data[category])
         if (this.state.data[category] == undefined || this.state.data[category] == "")
           this.state.data[category] = this.state.data[this.state.categories.actual[0].cat]
-        alert("ale   rt " + this.state.data[category])
-        y = this.state.data[category].filter(f => arr.some(item => item.id === f.id))
-        y2 = this.state.data[category].filter(f => !arr.some(item => item.id === f.id))
+
+        let arr1 = arr.filter((t) => t != "")
+        if (arr1.length != this.state.data[category].length) {
+          y = this.state.data[category].filter(f => arr.some(item => item.id === f.id))
+          y2 = this.state.data[category].filter(f => !arr.some(item => item.id === f.id))
+        }
+        else {
+          y = this.state.data[category].filter(f => arr1.some(item => item.id === f.id && item.checked == true))
+          y2 = this.state.data[category].filter(f => arr1.some(item => item.id === f.id && item.checked == false))
+        }
         this.state.data[this.state.categories.actual[0].cat] = y2
         console.log("ll  actual  " + JSON.stringify(this.state.data[this.state.categories.actual[0].cat]))
         this.state.categories.actual[0].l = y2.length
@@ -354,16 +366,16 @@ class AA extends React.Component {
 
     }
 
-    arr = count;
+    //arr = count;
 
     return (
-      <div>{console.log("eeeeee  " + JSON.stringify(this.state.data[this.state.categories.actual[0].cat]))
+      <div>{console.log("eeeeee  " + count.length)
       }
         {this.state.settings == 0 && this.props.params.f == undefined &&
 
           <div class="LT">
             <div class="TreeNode">
-              <TreeNode changeintree={(category, flag) => this.changedata(category, flag)}
+              <TreeNode changeintree={(category, flag) => { this.changedata(category, flag); updateCount("", 0, 3) }}
 
 
                 familyTree={tree.children}
@@ -374,14 +386,18 @@ class AA extends React.Component {
             <div class="LTchild">
               <Link class="a2" to="/a/pagination/settings" onClick={() => this.setState({ settings: 1 })}>settings</Link>
 
-              {arr.length > 0 &&
+              {arr.length > 0 && arr[0].checked == true &&
                 <div>
                   <ButtonModal familyTree={tree.children} menu={1}
                     checkall={() => {
                       this.setState({ checkall: !this.state.checkall });
                       (this.state.checkall ? updateCount("", 0, 1, this.state.data[this.state.categories[0]]) : updateCount("", 0, 2, this.state.data[this.state.categories[0]]))
                     }}
-                    changecategory={(category, flag) => { this.changedata(category, flag) }
+                    changecategory={(category, flag) => {
+                      this.changedata(category, flag);
+                      arr = count.map((t) => t.checked = false)
+                      updateCount("", 0, 3)
+                    }
 
                     }
 
