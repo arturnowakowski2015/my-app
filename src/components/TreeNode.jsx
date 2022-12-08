@@ -103,23 +103,32 @@ const TreeNode = (props) => {
 
   return <div style={{ paddingLeft: "10px", width: "50px" }} >
     {familyTree.map((t, i) => {
+      console.log(props.pc[0] && props.pc[0].cat + ":::::" + props.ac.cat)
       return <div class="fw-bold text-nowrap" onMouseOut={() => { tdepth = []; tid = [] }}
         onClick={(e) => {
-          props.changeintree(t.name);
-          e.stopPropagation()
-          bck(e, props.familyTree, t.depth, t.id);
-          markIn(e, familyTree, t.depth, t.id)
+          alert(t.name + "   LOK")
+          props.changeintree(t.name, 0);
+          e.stopPropagation();
+          e.preventDefault();
+          markEl(e, props.familyTree, t.depth, t.id)
         }}
         onMouseOver={(e) => { bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id) }}
         style={{ paddingLeft: "10px" }} >
         <p
-          onMouseOut={(e) => { bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id) }} class="p fw-bold"
-          style={{ backgroundColor: t.bgcolor }}>{t.name} </p>
+          onMouseOut={(e) => { bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id) }}
+          class="p fw-bold"
+          style={{ backgroundColor: t.bgcolor }}>{t.name}
+          {t.name == props.ac.cat ? props.ac.l : ""} ...
+          {props.pc[0] && props.pc[0].cat == t.name ? props.pc[0].l : ""}
+
+        </p>
 
 
-        {t.children && <TreeNode familyTree={t.children}
-          prevCategory={props.prevCategory}
-          changeintree={props.changeintree} id={i} arr1={props.arr1} depth={props.depth + 1} />}</div>
+        {t.children && <TreeNode changeintree={props.changeintree}
+          familyTree={t.children}
+          menu={0}
+          ac={props.ac}
+          pc={props.pc} id={0} depth={0} />}</div>
 
 
     })

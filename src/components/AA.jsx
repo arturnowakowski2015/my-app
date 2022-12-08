@@ -35,7 +35,7 @@ class AA extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: { new: [], selected: [1], opened: [2], removed: [3], labels: [4] },
+      data: { new: [], selected: [], opened: [], removed: [], labels: [] },
       columns: [],
       strd: [],
       flagsettings: 0,
@@ -60,7 +60,7 @@ class AA extends React.Component {
       changes: [],
       changeall: false,
       checkall: true,
-      categories: ["new", ""]
+      categories: { actual: [{ cat: "new", l: 0 }], new: [], set: ["new", "selected", "postponed", "removed"] }
     };
     this.setRec = this.setRec.bind(this);
     this.df = this.df.bind(this)
@@ -84,9 +84,9 @@ class AA extends React.Component {
       .then((response) => response.json())
       .then((response) => {
         // set the state 
-        if (this.state.data[this.state.categories[0]].length == 0)
-          this.state.data[this.state.categories[0]] = response
-
+        if (this.state.data[this.state.categories.actual[0].cat].length == 0)
+          this.state.data[this.state.categories.actual[0].cat] = response
+        this.state.categories.actual[0].l = response.length
 
         this.setState({
           columns: Object.keys(response[0]).map((t) => {
@@ -184,8 +184,127 @@ class AA extends React.Component {
 
   };
 
+  setcategories(category, actstr) {
+    let obj2 = this.state.data[this.state.categories.actual[0].cat]
+    let obj = null
+    let el = 0;
+    console.log(this.state.categories.actual[0].cat + ":" + category)
+    if (this.state.categories.actual[0].cat != category) {
+      obj = this.state.categories.new.filter((t) => t.cat != category)
+      if (obj.length == 0) {
+        el = { cat: this.state.categories.actual[0].cat, l: this.state.data[this.state.categories.actual[0].cat].length };
+        this.state.categories.new = [el]
+      }
+      else
+        this.state.categories.new = [... this.state.categories.new, el]
+      if (this.state.categories.new.filter((t) => t.cat == category).length == 0) {
+        this.state.categories.actual[0].cat = category;
+        this.state.categories.actual[0].l = this.state.data[category].length
+      }
 
 
+      //   this.state.categories.actual[0].cat = category
+      //  this.state.categories.actual[0].l = this.state.data[category].length;
+    }
+
+    return this.setState({ actual: this.state.categories.actual });
+    //, this.state.categories.new)
+    /*
+    console.log(str1 + "::::" + actstr)
+    if (str1 == "new" && str && str.filter((t) => t.cat == "new").length == 0) {
+
+      obj2 = { cat: "new", l: this.state.data.new.length }
+      let c = str.filter((t) => t.cat != actstr)
+      console.log(obj2.cat + ":" + this.state.categories.actual[0].cat)
+      if (obj2.cat != this.state.categories.actual[0].cat)
+        if (c.length == 0) str = [obj2]
+        else str = [...c, obj2]
+    }
+    if (str1 == "selected" && str && str.filter((t) => t.cat == "selected").length == 0) {
+
+      obj2 = { cat: "selected", l: this.state.data.new.length }
+      let c = str.filter((t) => t.cat != actstr)
+      console.log(obj2.cat + ":" + this.state.categories.actual[0].cat)
+      if (obj2.cat != this.state.categories.actual[0].cat)
+        if (c.length == 0) str = [obj2]
+        else str = [...c, obj2]
+    } else {
+      obj2 = { cat: actstr, l: this.state.data[actstr].length }
+      let c = str.filter((t) => t.cat != actstr)
+      console.log(obj2.cat + ":1" + actstr)
+      if (obj2.cat != this.state.categories.actual[0].cat)
+        if (c.length == 0) str = [obj2]
+        else str = [...c, obj2]
+    }
+    if (str1 == "opened" && str.filter((t) => t.cat == "opened").length == 0) {
+      obj2 = { cat: "opened", l: this.state.data.opened.length }
+      let c = str.filter((t) => t.cat == "opened")
+      if (obj2.cat != this.state.categories.actual[0].cat)
+        str = [...c, obj2]
+    }
+    if (str1 == "removed" && str.filter((t) => t.cat == "removed").length == 0) {
+      obj2 = { cat: "removed", l: this.state.data.removed.length }
+      let c = str.filter((t) => t.cat == "removed")
+      if (obj2.cat != this.state.categories.actual[0].cat)
+        str = [...c, obj2]
+    }
+    if (str1 == "labels" && str.filter((t) => t.cat == "labels").length == 0) {
+      obj2 = { cat: "labels", l: this.state.data.labels.length }
+      let c = str.filter((t) => t.cat == "labels")
+      if (obj2.cat != this.state.categories.actual[0].cat)
+        str = [...c, obj2]
+    }
+    */
+    console.log(JSON.stringify(this.state.categories.actual[0]) + "po " + JSON.stringify(this.state.categories.new))
+  }
+  changedata(category, flag) {
+    let y2 = 0;
+    let stop = 0;
+    if (flag == 0 && this.state.data[category].length) {
+
+
+      let l = this.state.data[category] ? this.state.data[category].length : 0;
+
+      console.log(this.state.categories.actual[0].cat + "   ll  bbb  " + JSON.stringify(this.state.categories.new))
+      this.setcategories(category, this.state.categories.actual[0].cat)
+      stop = 1;
+
+
+    }
+    if (flag == 1) {
+      if (this.state.data[category] || this.state.categories.actual[0].cat != category) {
+
+
+        alert("alert " + this.state.data[category])
+        if (this.state.data[category] == undefined || this.state.data[category] == "")
+          this.state.data[category] = this.state.data[this.state.categories.actual[0].cat]
+        alert("ale   rt " + this.state.data[category])
+        y = this.state.data[category].filter(f => arr.some(item => item.id === f.id))
+        y2 = this.state.data[category].filter(f => !arr.some(item => item.id === f.id))
+        this.state.data[this.state.categories.actual[0].cat] = y2
+        console.log("ll  actual  " + JSON.stringify(this.state.data[this.state.categories.actual[0].cat]))
+        this.state.categories.actual[0].l = y2.length
+        this.state.categories.new = [...this.state.categories.new, { cat: category, l: y.length }]
+        this.state.data[category] = y
+        this.setcategories(category, this.state.categories.actual[0].cat)
+        // this.state.categories.actual[0].cat = category
+      }
+    } else if (flag == 0 && this.state.data[category].length && stop == 0) {
+      alert(9090)
+      console.log("9090  " + JSON.stringify(this.state.categories.new))
+      this.state.data[this.state.categories.actual[0].cat] = this.state.data[category]
+      this.state.categories.actual[0].l = this.state.data[category].length
+      this.state.categories.actual[0].cat = category;
+      this.setcategories(category, this.state.categories.actual[0].cat)
+
+    }
+    else alert("   no records !!");
+
+
+
+
+
+  }
 
 
 
@@ -234,45 +353,39 @@ class AA extends React.Component {
       this.state.data[this.state.categories[0]] = r
 
     }
-    arr = count; console.log("eeee    " + JSON.stringify(this.state.data[this.state.categories[0]]))
+
+    arr = count;
 
     return (
-      <div>{
+      <div>{console.log("eeeeee  " + JSON.stringify(this.state.data[this.state.categories.actual[0].cat]))
       }
         {this.state.settings == 0 && this.props.params.f == undefined &&
 
           <div class="LT">
             <div class="TreeNode">
-              <TreeNode changeintree={(category) => {
+              <TreeNode changeintree={(category, flag) => this.changedata(category, flag)}
 
 
-                if (this.state.categories) {
-                  this.state.categories[1] = this.state.categories[0];
-                  this.state.categories[0] = category
-                }
-              }} familyTree={tree.children} arr1={arr} count={count} prevCategory={this.state.categories[0]} id={0} depth={0} />
+                familyTree={tree.children}
+                menu={0}
+                ac={this.state.categories.actual[0]}
+                pc={this.state.categories.new} id={0} depth={0} />
             </div>
             <div class="LTchild">
               <Link class="a2" to="/a/pagination/settings" onClick={() => this.setState({ settings: 1 })}>settings</Link>
 
               {arr.length > 0 &&
                 <div>
-                  <ButtonModal familyTree={tree.children}
+                  <ButtonModal familyTree={tree.children} menu={1}
                     checkall={() => {
                       this.setState({ checkall: !this.state.checkall });
                       (this.state.checkall ? updateCount("", 0, 1, this.state.data[this.state.categories[0]]) : updateCount("", 0, 2, this.state.data[this.state.categories[0]]))
                     }}
-                    changecategory={(category, flag) => {
-                      this.setState({ flag: 1 })
-                      y = this.state.data[this.state.categories[0]].filter(f => arr.some(item => item.id === f.id))
+                    changecategory={(category, flag) => { this.changedata(category, flag) }
 
+                    }
 
-                      this.state.data[this.state.categories[0]] = y
-                      console.log("ll  2  " + JSON.stringify(this.state.data[this.state.categories[0]]))
-                      y = this.state.data[this.state.categories[0]].filter(f => !arr.some(item => item.id === f.id))
-                      this.state.data[this.state.categories[1]] = y
-                    }
-                    }
+                    ac={this.state.categories.actual[0]}
                     deleteel={() => {
                       let arr = count.filter((t) => t.checked == true)
 
@@ -285,7 +398,7 @@ class AA extends React.Component {
               }
 
 
-              <Table i={this.state.i} data={this.state.data[this.state.categories[0]]} setch={() => setch()} familyTree={tree.children}
+              <Table i={this.state.i} data={this.state.data[this.state.categories.actual[0].cat]} setch={() => setch()} familyTree={tree.children}
                 columns={this.state.columns.map((t, i) => {
                   if (i == this.state.icolumn && this.state.checked) t.col.disp = false;
                   else if (i == this.state.icolumn && this.state.checked == false) t.col.disp = true;
@@ -307,7 +420,13 @@ class AA extends React.Component {
           <div class="LT">
             <div class="TreeNode">aaaaa
               <Update i={this.state.i} furl={this.furl.bind(this)} />
-              <TreeNode familyTree={tree.children} arr1={arr} id={0} depth={0} />
+              <TreeNode changeintree={(category, flag) => this.changedata(category, flag)}
+
+
+                familyTree={tree.children}
+                menu={0}
+                ac={this.state.categories.actual[0]}
+                pc={this.state.categories.new} id={0} depth={0} />
             </div>
 
 
@@ -324,7 +443,13 @@ class AA extends React.Component {
 
             <div class="LT">
               <div class="TreeNode">
-                <TreeNode familyTree={tree.children} arr1={arr} id={0} depth={0} />
+                <TreeNode changeintree={(category, flag) => this.changedata(category, flag)}
+
+
+                  familyTree={tree.children}
+                  menu={0}
+                  ac={this.state.categories.actual[0]}
+                  pc={this.state.categories.new} id={0} depth={0} />
               </div>
               <div class="LTchild">
                 <Settings data={this.state.data} columns={this.state.columns} changePPP={this.changePPP.bind(this)}
@@ -336,7 +461,7 @@ class AA extends React.Component {
 
 
 
-                <Table i={this.state.i} data={this.state.data[this.state.categories[0]]} setch={() => setch()} familyTree={tree.children}
+                <Table i={this.state.i} data={this.state.data[this.state.categories.actual[0].cat]} setch={() => setch()} familyTree={tree.children}
                   columns={this.state.columns.map((t, i) => {
                     if (i == this.state.icolumn && this.state.checked) t.col.disp = false;
                     else if (i == this.state.icolumn && this.state.checked == false) t.col.disp = true;

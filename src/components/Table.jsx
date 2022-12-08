@@ -59,10 +59,10 @@ const Table = (props, columns) => {
     const arr = [];
     const lastPost = number * postPerPage;
     const firstPost = lastPost - postPerPage;
-    console.log("fg    " + JSON.stringify(data))
+    //  console.log("fg    " + JSON.stringify(data))
     let e = data.filter(f => count.filter(item => f.id === item.id))
     const currentPost = props.flag == 1 ? e.slice(firstPost, lastPost) : data.slice(firstPost, lastPost)
-    console.log("bbbbbbbbbbbbbbbbbb    " + JSON.stringify(data))
+    // console.log("bbbbbbbbbbbbbbbbbb    " + JSON.stringify(data))
     const pageNumber = [];
     let cell = { col: { name: "ddd", disp: true } };
     let col = [cell];
@@ -128,7 +128,7 @@ const Table = (props, columns) => {
     const buildRow = (row, i) => {
         let m = 0;
 
-
+        console.log("count    " + JSON.stringify(count))
 
         let tr = Object.keys(row).map((k, j) => {
             return typeof row[k] !== "object" && props.columns[j] && props.columns[j].col.disp == true && j != 2
@@ -159,7 +159,7 @@ const Table = (props, columns) => {
 
 
 
-        console.log("b1ba   " + JSON.stringify(e));
+        //   console.log("b1ba   " + JSON.stringify(e));
         return (<tr class="cell">{row.checkbox == true ? <input type="checkbox" id={row.id + "/"}
             checked={count[i].checked ? "" : ""} />
             : <input type="checkbox" id={row.id} checked={(count.filter((tt) => { return tt.id == row.id })[0] != undefined
