@@ -100,7 +100,7 @@ const Table = (props, columns) => {
         setFlagel(false)
     }
     const setch = (id, r) => {
-        alert(r.target.checked)
+
         navigate("/a/" + props.acturl + "/pagination/putin", { state: { id } })
         props.setch(id, { id: 90, checked: true })
         let t = count.filter((t) => { return t.id == id })

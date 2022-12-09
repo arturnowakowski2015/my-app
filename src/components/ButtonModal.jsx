@@ -10,7 +10,7 @@ const ButtonModal = props => {
   const markEl = (nodes, d, ii) => {
     let r = nodes.map((t, i) => {
       if (t.children) markEl(t.children, d, ii);
-      return t.depth == 2 ? alert(9) : alert(t.id + ":" + ii + ":" + t.depth + ":" + d)
+      return t.depth == 2 ? "" : ""
 
     })
 

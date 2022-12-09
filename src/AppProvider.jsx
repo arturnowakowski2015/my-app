@@ -42,7 +42,7 @@ function AppProvider(props) {
 
     if (all == 3) {
       y = count.filter((t) => { return !t })
-      alert(y.length)
+
     }
     let w = 0;
     all == 0 ? setCount((count) => [...y, e]) : setCount((count) => [...r])

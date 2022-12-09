@@ -76,7 +76,7 @@ class AA extends React.Component {
     this.df = this.df.bind(this)
   }
   df(i, el) {
-    alert(el[0].title)
+
   }
 
 
@@ -231,7 +231,7 @@ class AA extends React.Component {
           console.log("  wwwww  " + JSON.stringify(tt))
 
           tt.children && tt.children.map((o, j) => {
-            alert(o.name + "::ch")
+
 
             t.children.splice(l, 1, { name: o.name })
             kkj = j;
@@ -239,7 +239,7 @@ class AA extends React.Component {
           })
           // t.children.splice(l, 1, { name: tt.name })
         })
-        alert(kk + "::L" + kkj)
+
         if (kk != 2 && kkj == 0)
           t.children = []
 
@@ -276,7 +276,7 @@ class AA extends React.Component {
         this.state.categories.new = [...obj, el]
       }
       if (this.state.categories.new.filter((t) => t.cat == category).length == 0) {
-        alert(987)
+
         this.state.categories.actual[0].cat = category;
         this.state.categories.actual[0].l = this.state.data[category].length
       }
@@ -339,7 +339,7 @@ class AA extends React.Component {
     console.log(JSON.stringify(this.state.categories.actual[0]) + "po " + JSON.stringify(this.state.categories.new))
   }
   changedata(category, flag) {
-    alert(category + "cat")
+
     this.state.categories.new[0] = category;
     this.setState({ categories: this.state.categories })
     let y2 = 0;
@@ -360,7 +360,7 @@ class AA extends React.Component {
       if (this.state.data[category] || this.state.categories.actual[0].cat != category) {
 
 
-        alert("alert " + this.state.data[category])
+
         if (this.state.data[category] == undefined || this.state.data[category] == "")
           this.state.data[category] = this.state.data[this.state.categories.actual[0].cat]
 
@@ -382,7 +382,7 @@ class AA extends React.Component {
         // this.state.categories.actual[0].cat = category
       }
     } else if (flag == 0 && this.state.data[category].length && stop == 0) {
-      alert(9090)
+
       console.log("9090  " + JSON.stringify(this.state.categories.new))
       this.state.data[this.state.categories.actual[0].cat] = this.state.data[category]
       this.state.categories.actual[0].l = this.state.data[category].length

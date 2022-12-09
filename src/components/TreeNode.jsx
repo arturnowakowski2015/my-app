@@ -89,7 +89,7 @@ const TreeNode = (props) => {
   }
 
   const markIn = (e, es, nodes, depth, id) => {
-    alert(props.l + "    :props.ls")
+
     y = nodes && nodes.map((t) => {
 
       if (t.depth == tdepth[0] && t.id == tid[0] && es && props.l != 0) {
@@ -140,13 +140,13 @@ const TreeNode = (props) => {
           findgreen(tree.children)
           props.changeintree(t.name, 0);
           markIn(e, t.name == props.ac.cat, tree.children, t.depth, t.id)
-          alert("mareked  " + marked)
+
           if (marked == 0) markedformer(tree.children)
           navigate("/a/" + t.name + "/pagination")
         }}
         onDoubleClick={(e) => {
           if (e.ctrlKey) {
-            e.stopPropagation(); alert(9090); mode = 1;
+            e.stopPropagation(); mode = 1;
             modeset.depth = t.depth; modeset.id = t.id
           }
         }}

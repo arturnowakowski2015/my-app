@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import {
-  Route,
-  Link
+    Route,
+    Link
 } from "react-router-dom";
- 
- 
+
+
 
 const Add = (props) => {
     const [editfield, setEditfield] = useState("");
@@ -15,7 +15,7 @@ const Add = (props) => {
     }
     return (<div>
         <input type="text" value={editfield} onChange={(e) => change(e)} />
-        <button onClick={() => props.index !== props.todos.length - 1 ? (props.changeind(), alert("try now")) : props.add(editfield)}>add</button>
+        <button onClick={() => props.index !== props.todos.length - 1 ? (props.changeind()) : props.add(editfield)}>add</button>
     </div>)
 }
 
