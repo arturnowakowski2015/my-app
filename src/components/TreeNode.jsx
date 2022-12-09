@@ -36,7 +36,7 @@ const TreeNode = (props) => {
   let modeset = {}
   const navigate = useNavigate();
   const [familyTree, setFamilyTree] = useState(props.familyTree)
-  const [parent, setParent] = useState(props.ac)
+
   useEffect(() => {
     makeidlev(props.familyTree, 0, 0)
     for (let ii = 0; ii < 20; ii++) {
@@ -59,7 +59,7 @@ const TreeNode = (props) => {
     y = nodes && nodes.map((t) => {
 
       if (t.depth == tdepth[0] && t.id == tid[0] && t.bgcolor != "green") {
-        setParent(t.name)
+
         t.bgcolor = "blue";
       }
       else if (t.bgcolor != "green") t.bgcolor = "white"
@@ -132,13 +132,13 @@ const TreeNode = (props) => {
   }
   return <div style={{ paddingLeft: "10px", width: "50px" }} >
     {props.config == 0 && familyTree.map((t, i) => {
-      console.log(props.pc[0] && props.pc[0].cat + ":::::" + props.ac.cat)
+      console.log(":::111::" + props.parent)
       return <div class="fw-bold text-nowrap" onMouseOut={() => { tdepth = []; tid = [] }}
         onClick={(e) => {
-          props.changeintree(t.name, 0);
+
           e.stopPropagation()
           findgreen(tree.children)
-
+          props.changeintree(t.name, 0);
           markIn(e, t.name == props.ac.cat, tree.children, t.depth, t.id)
           alert("mareked  " + marked)
           if (marked == 0) markedformer(tree.children)
@@ -168,6 +168,9 @@ const TreeNode = (props) => {
 
 
         {t.children && <TreeNode config={props.config} changeintree={props.changeintree}
+          parent={props.parent}
+
+          changeparent={props.changeparent}
           familyTree={t.children}
           menu={0}
           ac={props.ac}
@@ -179,10 +182,13 @@ const TreeNode = (props) => {
 
 
     {props.config == 1 && familyTree.map((t, i) => {
-      console.log(props.pc[0] && props.pc[0].cat + ":::::" + props.ac.cat)
+      console.log(t.depth + " :::::" + props.parent)
       return <div class="fw-bold text-nowrap" onMouseOut={() => { tdepth = []; tid = [] }}
 
-        onClick={(e) => { bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id); props.changeintree(t.name, 0) }}
+        onClick={(e) => {
+          bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id);
+          e.stopPropagation(); props.changeparent(t.name)
+        }}
 
         onDoubleClick={() => { }}
 
@@ -190,7 +196,7 @@ const TreeNode = (props) => {
         style={{ paddingLeft: "10px" }} >
         {t.name == props.pc[0] &&
 
-          <input type="text" value={t.name + " under  " + parent} length="200" />
+          <input type="text" value={t.name + " under  " + props.parent} length="200" />
         }
 
         {t.name != props.pc[0] &&
@@ -206,6 +212,9 @@ const TreeNode = (props) => {
 
 
         {t.children && <TreeNode changeintree={props.changeintree} config={props.config}
+          parent={props.parent}
+
+          changeparent={props.changeparent}
           familyTree={t.children}
           menu={0}
           ac={props.ac}
