@@ -566,14 +566,15 @@ class AA extends React.Component {
 
             <div class="LT">
               <div class="TreeNode">
-                <TreeNode changeintree={(category, flag) => this.changedata(category, flag)}
-
-
+                <TreeNode changeintree={(category, flag) => { this.changedata(category, flag); updateCount("", 0, 3) }}
+                  changeparent={(name) => this.setState({ parent: name })}
+                  config={this.state.config}
                   familyTree={tree.children}
                   menu={0}
                   ac={this.state.categories.actual[0]}
                   pc={this.state.categories.new} id={0} depth={0}
-                  l={this.state.data[this.state.categories.actual[0].cat].length} parent={this.state.parent} />
+                  l={this.state.data[this.state.categories.actual[0].cat].length}
+                  parent={this.state.parent} />
 
               </div>
               <div class="LTchild">

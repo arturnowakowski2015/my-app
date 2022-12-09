@@ -26,14 +26,15 @@ const Select = (props) => {
     const back = () => {
 
         props.changeRecits(id, 0)
-        navigate("/a/" + props.acturl + "pagination/")
+        navigate("/a/" + props.acturl + "/pagination/")
     }
     return (<div>
         <select onChange={e => { url(e) }} value={vstr}>
             {strd}
         </select>
-        {b == 0 && <div><div class="btn2" >choose database</div>      </div>}
-        <button class="btn" onClick={() => back()}>deploy</button>
+        <div>
+            {b == 0 && <div class="btn2" >choose database</div>} </div>
+        {b == 1 && <button onClick={() => back()}>deploy</button>}
 
     </div>)
 }
