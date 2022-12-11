@@ -341,7 +341,7 @@ class AA extends React.Component {
     console.log(JSON.stringify(this.state.categories.actual[0]) + "po " + JSON.stringify(this.state.categories.new))
   }
   changedata(category, flag) {
-
+    alert(category + ":" + flag)
     this.state.categories.new[0] = category;
     this.setState({ categories: this.state.categories })
     let y2 = 0;
@@ -358,7 +358,7 @@ class AA extends React.Component {
 
 
     }
-    if (flag == 1) {
+    if (flag == 2) {
       if (this.state.data[category] || this.state.categories.actual[0].cat != category) {
 
 

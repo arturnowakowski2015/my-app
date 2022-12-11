@@ -106,7 +106,7 @@ const TreeNode = (props) => {
     return y;
     tdepth = []; tid = [];
   }
-  let el = { id: "", depth: "" }
+  let el = { id: null, depth: null }
   let marked = 0
   const findgreen = (nodes) => {
 
