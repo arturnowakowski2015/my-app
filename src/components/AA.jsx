@@ -254,6 +254,8 @@ class AA extends React.Component {
     nodes.map((t) => {
 
       if ((kk == 0 || kk == 2) && t.name == this.state.parent) {
+        if (t.children == null)
+          t.children = [];
         t.children.push(y)
         kk = 1;
       }
