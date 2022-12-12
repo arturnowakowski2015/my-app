@@ -138,8 +138,8 @@ const Table = (props, columns) => {
                     && j == 2 ?
 
 
-                    <td onMouseOver={() => { url = "/a/pagination/" + row[k] + "/" + row.id + "/" + row[k] + "/1/edit"; setId(row.id); }} >
-                        <div onMouseOver={() => { setId(row.id); }}
+                    <td onMouseOver={() => { url = "/a/" + props.acturl + "/pagination/" + row[k] + "/" + row.id + "/" + row[k] + "/1/edit"; setId(row.id); }} >
+                        <div style={{ cursor: "pointer", textDecoration: "underline" }} onMouseOver={() => { setId(row.id); }}
                             onClick={() => dv(url, row[k], row.id)} >edit</div>
 
 

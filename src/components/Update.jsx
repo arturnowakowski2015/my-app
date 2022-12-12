@@ -23,11 +23,11 @@ const Update = (props) => {
     const mm = () => {
 
         props.furl(0, state.idrec, 0, "c", str)
-        navigate("/a/" + props.acturl + "pagination")
+        navigate("/a/" + props.acturl + "/pagination")
     }
-    return <div> update<input type="text" value={str}
+    return <div><input type="text" value={str}
         onChange={(e) => m(e)} />
-        <div class="a4" onClick={() => mm()}>update</div>
+        <div style={{ cursor: "pointer", textDecoration: "underline" }} class="a4" onClick={() => mm()}>update</div>
 
     </div>
 }

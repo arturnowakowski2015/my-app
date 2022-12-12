@@ -12,7 +12,7 @@ import Table from "./Table";
 import Settings from "./Settings";
 import Select from "./Select"
 import B from "./B";
-import Delete from "./Delete";
+import Treesettings from "./Treesettings";
 import Update from "./Update";
 import CheckboxInput from "./CheckboxInput";
 import TreeNode from "./TreeNode";
@@ -111,7 +111,13 @@ class AA extends React.Component {
           )
         })
       });
+    this.state.data[this.state.categories.actual[0].cat].map((tt) => {
+      if (tt.id == idrec) tt.title = upstr;
+    })
+    this.setState({ data: this.state.data })
     this.setState({ changes: arr })
+
+
   }
   changeRecits(e, p) {
 
@@ -193,76 +199,7 @@ class AA extends React.Component {
     this.setState({ postPerPage: value })
 
   };
-  addel(nodes, w) {
 
-
-    nodes.map((t, i) => {
-      arr.push(t)
-      ++ii;
-      if (t.name == this.state.categories.new) {
-        y = { name: t.name }
-        act = arr[ii - 2].name
-        this.state.w = arr[ii - 2].children
-        this.setState({ w: this.state.w })
-
-      }
-      if (t.children)
-        this.addel(t.children, w)
-
-
-      return t
-
-    })
-
-    this.removeel(nodes)
-  }
-
-  removeel(nodes) {
-    let kkj = 0;
-
-    let l = []
-    let g = []
-    let y = nodes.filter((t, i) => {
-      if (t.children) this.removeel(t.children)
-      if (t.name == act) {
-
-        l = t.children.map((tt) => { if (tt.name == this.state.categories.new) l = i })
-        let ll = this.state.w.map((tt) => {
-          console.log("  wwwww  " + JSON.stringify(tt))
-
-          tt.children && tt.children.map((o, j) => {
-
-
-            t.children.splice(l, 1, { name: o.name })
-            kkj = j;
-            kk = 2
-          })
-          // t.children.splice(l, 1, { name: tt.name })
-        })
-
-        if (kk != 2 && kkj == 0)
-          t.children = []
-
-
-      }
-      return t;
-    })
-    this.setparent(nodes)
-  }
-  setparent(nodes) {
-
-    nodes.map((t) => {
-
-      if ((kk == 0 || kk == 2) && t.name == this.state.parent) {
-        if (t.children == null)
-          t.children = [];
-        t.children.push(y)
-        kk = 1;
-      }
-      console.log("y  " + JSON.stringify(nodes))
-    })
-    this.setState({ config: 0 })
-  }
   setcategories(category, actstr) {
     let obj2 = this.state.data[this.state.categories.actual[0].cat]
     let obj = null
@@ -348,7 +285,7 @@ class AA extends React.Component {
     let stop = 0;
     if (flag == 0 && this.state.data[category] ? this.state.data[category].length : "") {
 
-
+      alert(0)
 
       let l = this.state.data[category] ? this.state.data[category].length : 0;
 
@@ -383,7 +320,7 @@ class AA extends React.Component {
         this.setcategories(category, this.state.categories.actual[0].cat)
         // this.state.categories.actual[0].cat = category
       }
-    } else if (flag == 0 && this.state.data[category].length && stop == 0) {
+    } else if (flag == 0 && this.state.data[category] && this.state.data[category].length && stop == 0) {
 
       console.log("9090  " + JSON.stringify(this.state.categories.new))
       this.state.data[this.state.categories.actual[0].cat] = this.state.data[category]
@@ -460,32 +397,21 @@ class AA extends React.Component {
 
           <div class="LT">
             <div class="TreeNode">
-              {this.state.config == 0 && <div><TreeNode changeintree={(category, flag) => { this.changedata(category, flag); updateCount("", 0, 3) }}
+              <div><Treesettings changeintree={(category, flag) => { this.changedata(category, flag); updateCount("", 0, 3) }}
                 changeparent={(name) => this.setState({ parent: name })}
                 config={this.state.config}
                 familyTree={tree.children}
+                changeconfig={(i) => { this.setState({ config: i }) }}
                 menu={0}
                 ac={this.state.categories.actual[0]}
                 pc={this.state.categories.new} id={0} depth={0}
                 l={this.state.data[this.state.categories.actual[0].cat].length}
                 parent={this.state.parent} />
-                {this.state.parent == "" && <button onClick={(config) => { this.setState({ config: 1 }) }}>config {this.state.categories.new[0]}</button>}
 
 
               </div>
-              }
-              {this.state.config == 1 && <div><TreeNode changeintree={(category, flag) => { this.changedata(category, flag); updateCount("", 0, 3) }}
-                changeparent={(name) => this.setState({ parent: name })}
-                config={this.state.config}
-                familyTree={tree.children}
-                menu={0}
-                ac={this.state.categories.actual[0]}
-                pc={this.state.categories.new} id={0} depth={0}
-                l={this.state.data[this.state.categories.actual[0].cat].length}
-                parent={this.state.parent} />
-                <button onClick={() => this.addel(tree.children, w)}>set {this.state.categories.new[0]}</button>
-              </div>
-              }
+
+
 
             </div>
             <div class="LTchild">
@@ -541,16 +467,8 @@ class AA extends React.Component {
 
         {this.state.settings == 3 &&
           <div class="LT">
-            <div class="TreeNode">aaaaa
+            <div class="TreeNode">
               <Update i={this.state.i} furl={this.furl.bind(this)} acturl={this.state.categories.actual[0].cat} />
-              <TreeNode changeintree={(category, flag) => this.changedata(category, flag)}
-
-                changeparent={this.changeparent.bind(this)}
-                familyTree={tree.children}
-                menu={0}
-                ac={this.state.categories.actual[0]}
-                pc={this.state.categories.new} id={0} depth={0}
-                l={this.state.data[this.state.categories.actual[0].cat].length} parent={this.state.parent} />
 
             </div>
 

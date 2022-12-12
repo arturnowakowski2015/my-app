@@ -7,6 +7,7 @@ let c = 0;
 let p = [];
 let tdepth = [];
 let tid = [];
+let config = 0;
 const makeids = (nodes, i) => {
   nodes && nodes.map((t) => {
     {
@@ -46,7 +47,14 @@ const TreeNode = (props) => {
     }
   }, [])
 
+  useEffect(() => {
+    makeidlev(props.familyTree, 0, 0)
+    for (let ii = 0; ii < 20; ii++) {
+      c = 0;
+      makeids(props.familyTree, ii)
 
+    }
+  }, [props.addel])
 
   const clear = (e, nodes, depth, id) => {
     makeidlev(nodes, 0, 0);
@@ -133,24 +141,33 @@ const TreeNode = (props) => {
   return <div style={{ paddingLeft: "10px", width: "50px" }} >
     {props.config == 0 && familyTree.map((t, i) => {
       console.log(":::111::" + props.parent)
+
       return <div class="fw-bold text-nowrap" onMouseOut={() => { tdepth = []; tid = [] }}
         onClick={(e) => {
 
           e.stopPropagation()
           findgreen(tree.children)
-          props.changeintree(t.name, 0);
+
           markIn(e, t.name == props.ac.cat, tree.children, t.depth, t.id)
 
           if (marked == 0) markedformer(tree.children)
+
+
           navigate("/a/" + t.name + "/pagination")
         }}
         onDoubleClick={(e) => {
-          if (e.ctrlKey) {
-            e.stopPropagation(); mode = 1;
-            modeset.depth = t.depth; modeset.id = t.id
-          }
+          e.stopPropagation()
+          findgreen(tree.children)
+
+          markIn(e, t.name == props.ac.cat, tree.children, t.depth, t.id)
+
+          if (marked == 0) markedformer(tree.children)
+          markIn(e, t.name == props.ac.cat, tree.children, t.depth, t.id)
+          props.changeintree(t.name, 0);
+          props.changeparent(t.name)
         }}
-        onMouseOver={(e) => { bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id) }}
+        onMouseOver={(e) => { bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id); }
+        }
 
 
 
@@ -160,7 +177,7 @@ const TreeNode = (props) => {
         <p
           onMouseOut={(e) => { bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id) }}
           class="p fw-bold"
-          style={{ backgroundColor: t.bgcolor }}>{t.name}....
+          style={{ backgroundColor: t.bgcolor }}>{t.name != undefined && t.name + "   "}
           {t.name == props.ac.cat ? props.ac.l : ""}
           {pcl(t.name)}
 
@@ -174,56 +191,67 @@ const TreeNode = (props) => {
           familyTree={t.children}
           menu={0}
           ac={props.ac}
-          pc={props.pc} id={0} depth={0} />}</div>
+          pc={props.pc} id={0} depth={0} />}
+        {t.line == "line" && props.pc[0] && props.parent != undefined &&
+          < button onClick={() => { props.changeconfig(1); }}>ddd {props.parent}</button>
+        }</div>
 
 
     })
     }
 
 
-    {props.config == 1 && familyTree.map((t, i) => {
-      console.log(t.depth + " :::::" + props.parent)
-      return <div class="fw-bold text-nowrap" onMouseOut={() => { tdepth = []; tid = [] }}
+    {
+      props.config == 1 && familyTree.map((t, i) => {
+        console.log(t.depth + " :::::" + props.parent)
+        return <div class="fw-bold text-nowrap" onMouseOut={() => { tdepth = []; tid = [] }}
 
-        onClick={(e) => {
-          bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id);
-          e.stopPropagation(); props.changeparent(t.name)
-        }}
+          onClick={(e) => {
+            bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id);
+            e.stopPropagation(); props.changeparent(t.name); alert(t.name)
+          }}
 
-        onDoubleClick={() => { }}
-
-
-        style={{ paddingLeft: "10px" }} >
-        {t.name == props.pc[0] &&
-
-          <input type="text" value={t.name + " under  " + props.parent} length="200" />
-        }
-
-        {t.name != props.pc[0] &&
-          <p
-
-            class="p fw-bold"
-            style={{ backgroundColor: t.bgcolor }}>{t.name}....
-            {t.name == props.ac.cat ? props.ac.l : ""}
-            {pcl(t.name)}
-
-          </p>
-        }
+          onDoubleClick={(e) => {
+            config = 1;
+          }}
 
 
-        {t.children && <TreeNode changeintree={props.changeintree} config={props.config}
-          parent={props.parent}
+          style={{ paddingLeft: "10px" }} >
+          {t.name == props.pc[0] &&
 
-          changeparent={props.changeparent}
-          familyTree={t.children}
-          menu={0}
-          ac={props.ac}
-          pc={props.pc} id={0} depth={0} />}</div>
+            <input type="text" value={t.name + " under  " + props.parent} length="200" />
+          }
+
+          {t.name != props.pc[0] &&
+            <p
+
+              class="p fw-bold"
+              style={{ backgroundColor: t.bgcolor }}>{t.name}
+              {t.name == props.ac.cat ? props.ac.l : ""}
+              {pcl(t.name)}
+
+            </p>
+          }
 
 
-    })}
+          {t.children && <TreeNode changeintree={props.changeintree} config={props.config}
+            parent={props.parent}
+
+            changeparent={props.changeparent}
+            familyTree={t.children}
+            menu={0}
+            ac={props.ac}
+            pc={props.pc} id={0} depth={0} />}
+          {t.line == "line" && props.parent && <button onClick={() => {
+            props.addel();
+
+            navigate("/a/" + props.parent + "/pagination");
+          }}>add to {props.parent}</button>}
+        </div>
 
 
+      })
+    }
 
 
   </div >
