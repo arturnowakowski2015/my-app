@@ -45,8 +45,7 @@ const ButtonModal = props => {
     <div>
       <div class="deleteset">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-          Launch static backdrop modal
-        </button>
+          move ckecked to choosen folder         </button>
         <button type="button" class="btn btn-primary" onClick={() => props.checkall()} onMouseOut={() => navigate("/a/" + props.ac[0].cat + "/pagination")}>
           check/uncheck
         </button>

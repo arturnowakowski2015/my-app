@@ -8,8 +8,8 @@ import {
   useParams
 } from "react-router-dom";
 import S from "./components/S";
-import UserContext from './User';
-import AppProvider from "./AppProvider";
+import UserContext from './ctx/User';
+import AppProvider from "./ctx/AppProvider";
 import AA from "./components/AA";
 import Update from "./components/Update";
 import ButtonModal from "./components/ButtonModal";

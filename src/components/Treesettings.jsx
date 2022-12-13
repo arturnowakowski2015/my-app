@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TreeNode from "./TreeNode";
 import { tree } from "../data/dummy"
 const Treesettings = (props) => {
@@ -8,9 +8,42 @@ const Treesettings = (props) => {
     let y = [];
     let kk = 0;
     let wparent = []
-    let pname = "";
     let wchild = [];
+    let pname = "";
+    let c = 0;
     let stop = 0;
+    const [ftree, setFtree] = useState(props.ftree)
+
+    useEffect(() => {
+        makeidlev(props.tree, 0, 0)
+        for (let ii = 0; ii < 20; ii++) {
+            c = 0;
+            makeids(props.tree, ii)
+
+        }
+
+    }, [])
+
+    const makeids = (nodes, i) => {
+        nodes && nodes.map((t) => {
+            {
+                if (t.depth == i)
+                    t.id = c++;
+                t.bgcolor = "white"
+            }
+            if (t.children) { makeids(t.children, i); }
+        })
+    };
+    const makeidlev = (nodes, i, tt) => {
+        return nodes && nodes.forEach((t) => {
+            t.depth = tt;
+            t.bgcolor = "white";
+
+            if (t.children) { makeidlev(t.children, 0, ++tt); --tt }
+        });
+
+    };
+
     const addel = (nodes) => {
 
 
@@ -110,21 +143,84 @@ const Treesettings = (props) => {
         removeel(nodes)
 
     }
+    let tdepth = [];
 
-    return (<div><TreeNode changeintree={props.changeintree}
-        changeparent={props.changeparent}
-        config={props.config}
-        familyTree={tree.children}
-        changeconfig={props.changeconfig}
-        menu={0}
-        ac={props.ac}
-        pc={props.pc} id={0} depth={0}
-        l={props.l}
-        parent={props.parent}
-        addel={() => addel(tree.children)} />
+    let tid = []
 
-    </div>
+
+
+
+    const bck = (e, nodes, depth, id) => {
+        tdepth.push(depth);
+        tid.push(id);
+        let f = 0;
+        let y = nodes.map((t) => {
+
+            if (t.children) { bck(e, t.children, depth, id); }
+            return t;
+        })
+        setFtree(y)
+        //setFamilyTree(tree.children) 
+
+
+    }
+
+
+
+
+
+
+
+    const chooseel = (nodes, d, id) => {
+
+        let u = nodes.map((tt) => {
+
+
+            alert(tt.name)
+            tt.bgcolor = "red";
+            if (tt.children) chooseel(tt.children, d, id)
+            return tt;
+        })
+
+            ; console.log(JSON.stringify(ftree))
+    }
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaa" + JSON.stringify(props.tree))
+    return (<div style={{ paddingLeft: "10px" }}>
+        {ftree && ftree.map((t, i) => {
+            return t && < div onClick={(e) => {
+
+                bck(e, props.ftree, t.depth, t.id); chooseel(props.ftree, t.depth, t.id);
+
+            }}>
+                <p style={{ backgroundColor: t.bgcolor, width: "20px" }} > {t.name}</p> {t.children && < Treesettings ftree={t.children} depth={props.depth + 1} id={i} />}</div>
+
+        })
+        }
+    </div >
     )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 export default Treesettings;

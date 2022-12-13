@@ -4,10 +4,21 @@ import { useNavigate } from 'react-router-dom';
 import { recits, tree } from '../data/dummy';
 import "../index.css"
 let c = 0;
-let p = [];
+let p = 0
 let tdepth = [];
 let tid = [];
-let config = 0;
+let node = "";
+let mode = 0;
+let mdepth = [];
+let mid = []
+let parentnode = {};
+let l = []
+let o = -1;
+let stop = 0;
+let stop2 = 0;
+let stop3 = 0;
+let child = null
+let childname = [];
 const makeids = (nodes, i) => {
   nodes && nodes.map((t) => {
     {
@@ -47,14 +58,7 @@ const TreeNode = (props) => {
     }
   }, [])
 
-  useEffect(() => {
-    makeidlev(props.familyTree, 0, 0)
-    for (let ii = 0; ii < 20; ii++) {
-      c = 0;
-      makeids(props.familyTree, ii)
 
-    }
-  }, [props.addel])
 
   const clear = (e, nodes, depth, id) => {
     makeidlev(nodes, 0, 0);
@@ -81,20 +85,6 @@ const TreeNode = (props) => {
     tdepth = []; tid = [];
   }
 
-  const bck = (e, nodes, depth, id) => {
-    tdepth.push(depth);
-    tid.push(id);
-    let f = 0;
-    let y = nodes.map((t) => {
-
-      if (t.children) { bck(e, t.children, depth, id); }
-      return t;
-    })
-    setFamilyTree(y)
-    //setFamilyTree(tree.children) 
-
-
-  }
 
   const markIn = (e, es, nodes, depth, id) => {
 
@@ -138,36 +128,245 @@ const TreeNode = (props) => {
     if (props.pc[0] && c.length)
       return c[0].l;
   }
+  const markel1 = (nodes, depth, id) => {
+    nodes.map((t) => {
+      if (t.children) markel1(t.children, depth, id)
+      if (t.depth == depth && t.id == id) { alert(8); t.bgcolor = "green"; }
+      t.bgcolor = "red";
+      return t;
+
+    })
+  }
+
+  const bck = (e, nodes, depth, id) => {
+    if (node == "" || node == undefined) {
+      tdepth.push(depth);
+      tid.push(id);
+    }
+    else {
+      mdepth.push(depth);
+      mid.push(id)
+    }
+
+    let f = 0;
+    let y = nodes.map((t) => {
+
+      if (t.children) { bck(e, t.children, depth, id); }
+      return t;
+    });
+    setFamilyTree(y)
+
+    //setFamilyTree(tree.children) 
+  }
+
+  const markleaf = (e, nodes, depth, id) => {
+
+    y = nodes && nodes.map((t) => {
+
+      if (t.depth == tdepth[0] && t.id == tid[0]) {
+        node = t.name
+        t.bgcolor = "green";
+      }
+      else if (t.bgcolor != "red") t.bgcolor = "white"
+
+      markleaf(e, t.children, depth, id)
+      return t;
+    })
+
+
+    return y;
+    tdepth = []; tid = [];
+  }
+
+
+  const markparent = (e, nodes, depth, id) => {
+
+    y = nodes && nodes.map((t) => {
+
+      if (t.depth == depth && t.id == id) {
+        parentnode.name = t.name;
+        parentnode.depth = t.depth;
+        parentnode.id = t.id
+        t.bgcolor = "red";
+      }
+      else if (t.bgcolor != "green") t.bgcolor = "white"
+
+      markparent(e, t.children, depth, id)
+
+      return t;
+    })
+
+    p = 1
+    return y;
+    tdepth = []; tid = [];
+  }
+  const reset = (nodes) => {
+    let y = nodes.map((t) => {
+      if (t.children) reset(t.children);
+      return t;
+    })
+    setFamilyTree(y);
+  }
+
+  let arr = [];
+  let ii = 0;
+  let wparent = [];
+  let wchild = ""
+
+  let kk = 0
+  const addel = (nodes) => {
+
+
+    nodes.map((t, i) => {
+      arr.push(t)
+
+      ++ii;
+      if (t.name == node) {
+        alert(t.depth + "P" + parentnode.depth)
+        if (t.depth > parentnode.depth)
+          mode = 1;
+
+        y = { name: t.name }
+        childname.push(t.children)
+        wparent = arr[ii - 2]
+
+        wchild = arr[ii - 1]
+
+        removeel(tree.children)
+
+      }
+      if (t.children)
+        addel(t.children)
+
+
+      return t
+
+    })
+
+
+  }
+  let el1 = {}
+  const removeel = (nodes) => {
+    ii = 0;
+    let y = []
+    if (mode == 1)
+      y = nodes.map((yy) => {
+
+
+        if (yy.children) removeel(yy.children)
+
+
+        if (yy.name == parentnode.name && stop3 == 0) {
+
+          wparent.children && wparent.children.map((t2) => {
+            if (yy.children == null)
+              yy.children = []
+            if (t2.name == node) {
+
+              if (t2.children) {
+
+                el1 = { name: t2.name }
+                yy.children.push(el1)
+              }
+              else {
+
+                yy.children.push(t2)
+
+              } alert(stop3 + "  stop3")
+              stop3 = 1;
+            }
+          })
+        }
+        return yy;
+
+      })
+    console.log("yy1  " + JSON.stringify(y))
+    deleteel(nodes);
+
+  }
+
+  const deleteel = (nodes) => {
+    if (mode == 1)
+      nodes.forEach((t) => {
+        if (t.children) deleteel(t.children)
+
+        if (t.name == wchild)
+          t.children.map((tt, i) => {
+            alert(tt.name + ":" + wchild)
+            tt.children && tt.children.map((y, p) => {
+              alert(y.name + "lok" + node)
+              if (y.name == node) {
+                child = y;
+                alert(child.name + "  child")
+              }
+            })
+          })
+
+      })
+    setparent(nodes)
+
+  }
+  let j = 0;
+  const setparent = (nodes) => {
+    if (mode == 1) {
+      let y =
+        nodes.map((t) => {
+          if (t.children) setparent(t.children)
+          if (t.name == wparent.name && stop2 == 0) {
+            alert(t.name + " stop")
+
+            childname.map((u, i) => {
+              if (u) {
+                let r = { name: u[i].name }
+                alert(t.name + "mm")
+
+                t.children.push(r)
+              }
+            })
+
+            t.children.map((tt, i) => {
+              if (tt.name == node) j = i;
+            })
+
+            let u = t.children.filter((t) => { return t.name != node })
+            t.children = u
+
+
+            stop2 = 1;
+          }
+          console.log("POP ccccccccccccccccccccccc" + JSON.stringify(wchild))
+          if (t.name == parentnode.name) {
+            delete wchild.children
+            if (stop3 == 0)
+              t.children.push(wchild)
+          }
+
+        })
+      setFamilyTree(y)
+    }
+  }
+
   return <div style={{ paddingLeft: "10px", width: "50px" }} >
     {props.config == 0 && familyTree.map((t, i) => {
       console.log(":::111::" + props.parent)
-
       return <div class="fw-bold text-nowrap" onMouseOut={() => { tdepth = []; tid = [] }}
         onClick={(e) => {
 
           e.stopPropagation()
           findgreen(tree.children)
-
+          props.changeintree(t.name, 0);
           markIn(e, t.name == props.ac.cat, tree.children, t.depth, t.id)
 
           if (marked == 0) markedformer(tree.children)
-
-
           navigate("/a/" + t.name + "/pagination")
         }}
         onDoubleClick={(e) => {
-          e.stopPropagation()
-          findgreen(tree.children)
-
-          markIn(e, t.name == props.ac.cat, tree.children, t.depth, t.id)
-
-          if (marked == 0) markedformer(tree.children)
-          markIn(e, t.name == props.ac.cat, tree.children, t.depth, t.id)
-          props.changeintree(t.name, 0);
-          props.changeparent(t.name)
+          alert(0)
         }}
-        onMouseOver={(e) => { bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id); }
-        }
+        onMouseOver={(e) => {
+          bck(e, props.familyTree, t.depth, t.id);
+          markEl(e, familyTree, t.depth, t.id)
+        }}
 
 
 
@@ -177,7 +376,7 @@ const TreeNode = (props) => {
         <p
           onMouseOut={(e) => { bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id) }}
           class="p fw-bold"
-          style={{ backgroundColor: t.bgcolor }}>{t.name != undefined && t.name + "   "}
+          style={{ backgroundColor: t.bgcolor }}>{t.name}....
           {t.name == props.ac.cat ? props.ac.l : ""}
           {pcl(t.name)}
 
@@ -189,69 +388,88 @@ const TreeNode = (props) => {
 
           changeparent={props.changeparent}
           familyTree={t.children}
-          menu={0}
+          settings={props.settings}
           ac={props.ac}
-          pc={props.pc} id={0} depth={0} />}
-        {t.line == "line" && props.pc[0] && props.parent != undefined &&
-          < button onClick={() => { props.changeconfig(1); }}>ddd {props.parent}</button>
-        }</div>
+          pc={props.pc} id={0} depth={0} />}</div>
 
 
     })
     }
 
 
-    {
-      props.config == 1 && familyTree.map((t, i) => {
-        console.log(t.depth + " :::::" + props.parent)
-        return <div class="fw-bold text-nowrap" onMouseOut={() => { tdepth = []; tid = [] }}
-
-          onClick={(e) => {
-            bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id);
-            e.stopPropagation(); props.changeparent(t.name); alert(t.name)
-          }}
-
-          onDoubleClick={(e) => {
-            config = 1;
-          }}
+    {props.config == 1 && familyTree.map((t, i) => {
+      console.log(t.depth + " :::::" + props.parent)
+      return <div class="fw-bold text-nowrap" onMouseOut={() => { tdepth = []; tid = [] }}
 
 
-          style={{ paddingLeft: "10px" }} >
-          {t.name == props.pc[0] &&
 
-            <input type="text" value={t.name + " under  " + props.parent} length="200" />
-          }
+        onClick={(e) => {
+          bck(e, familyTree, t.depth, t.id);
 
-          {t.name != props.pc[0] &&
-            <p
+          if (node == "")
+            markleaf(e, familyTree, 0, 0)
+          if (tid.length == 0)
+            l.push({ d: t.depth, i: t.id })
 
-              class="p fw-bold"
-              style={{ backgroundColor: t.bgcolor }}>{t.name}
-              {t.name == props.ac.cat ? props.ac.l : ""}
-              {pcl(t.name)}
+          markparent(e, familyTree, l[0].d, l[0].i)
+          parentnode.name = t.name;
+          parentnode.depth = l[0].d;
+          parentnode.id = l[0].i
+        }
 
-            </p>
-          }
-
-
-          {t.children && <TreeNode changeintree={props.changeintree} config={props.config}
-            parent={props.parent}
-
-            changeparent={props.changeparent}
-            familyTree={t.children}
-            menu={0}
-            ac={props.ac}
-            pc={props.pc} id={0} depth={0} />}
-          {t.line == "line" && props.parent && <button onClick={() => {
-            props.addel();
-
-            navigate("/a/" + props.parent + "/pagination");
-          }}>add to {props.parent}</button>}
-        </div>
+        }
 
 
-      })
-    }
+        style={{ paddingLeft: "10px" }} >
+
+
+        {t.name != props.pc[0] &&
+          <p
+
+            class="p fw-bold"
+            style={{ backgroundColor: t.bgcolor }}>{t.name}....
+            {t.name == props.ac.cat ? props.ac.l : ""}
+            {pcl(t.name)}
+
+          </p>
+        }
+        {t.name == props.pc[0] &&
+          <div style={{ width: "200px", borderTop: "black solid 5px" }}>click on nodes
+            <div style={{ paddingTop: "20px", width: "200px", display: "flex", flexDirection: "row" }}>
+              <div style={{ height: "20px", width: "20px", backgroundColor: "red" }} >node</div>
+              <div style={{ padding: "20px" }}>under</div>
+              <div style={{ height: "20px", width: "20px", backgroundColor: "green", marginTop: "40px" }}>main</div>
+            </div>{p == 1 && <button onClick={(e) => {
+              addel(props.familyTree); props.changeconfig(0);
+              makeidlev(familyTree, 0, 0)
+              for (let ii = 0; ii < 20; ii++) {
+                c = 0;
+                makeids(familyTree, ii)
+
+              }; node = "";
+            }}>hhh</button>}
+          </div>
+        }
+
+        {t.children && <TreeNode changeintree={props.changeintree} config={props.config}
+          parent={props.parent}
+
+          changeparent={props.changeparent}
+          familyTree={t.children}
+          settings={props.settings}
+          ac={props.ac}
+          pc={props.pc} id={0} depth={0} />}</div>
+
+
+    })}
+
+
+
+
+
+
+
+
 
 
   </div >

@@ -9,7 +9,7 @@ import {
 import Pagination from "./Pagination"
 import Update from "./Update";
 import "../index.css"
-import UserContext from "../User";
+import UserContext from "../ctx/User";
 
 
 

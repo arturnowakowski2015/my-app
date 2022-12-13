@@ -11,15 +11,14 @@ import {
 import Table from "./Table";
 import Settings from "./Settings";
 import Select from "./Select"
-import B from "./B";
-import Treesettings from "./Treesettings";
-import Update from "./Update";
-import CheckboxInput from "./CheckboxInput";
+
 import TreeNode from "./TreeNode";
+import Update from "./Update";
+
 import ButtonModal from "./ButtonModal";
 import { tree } from '../data/dummy';
 import '../index.css';
-import UserContext from "../User";
+import UserContext from "../ctx/User";
 
 function withParams(Component) {
   return (props) => <Component {...props} params={useParams()} />;
@@ -277,10 +276,13 @@ class AA extends React.Component {
     */
     console.log(JSON.stringify(this.state.categories.actual[0]) + "po " + JSON.stringify(this.state.categories.new))
   }
-  changedata(category, flag) {
-    alert(category + ":" + flag)
-    this.state.categories.new[0] = category;
-    this.setState({ categories: this.state.categories })
+  changedata(category, flag, flag1) {
+    alert(category + ":" + flag1)
+    if (flag1 == 1) {
+      alert(category)
+      this.state.categories.new[0] = category;
+      this.setState({ categories: this.state.categories })
+    }
     let y2 = 0;
     let stop = 0;
     if (flag == 0 && this.state.data[category] ? this.state.data[category].length : "") {
@@ -389,7 +391,7 @@ class AA extends React.Component {
     }
 
     //arr = count;
-
+    console.log(":::vvvv::" + this.state.config)
     return (
       <div>            {console.log("2222      " + JSON.stringify(config))
       }
@@ -397,12 +399,12 @@ class AA extends React.Component {
 
           <div class="LT">
             <div class="TreeNode">
-              <div><Treesettings changeintree={(category, flag) => { this.changedata(category, flag); updateCount("", 0, 3) }}
+              <div><TreeNode changeintree={(category, flag, flag1) => { this.changedata(category, flag, flag1); updateCount("", 0, 3) }}
                 changeparent={(name) => this.setState({ parent: name })}
                 config={this.state.config}
                 familyTree={tree.children}
                 changeconfig={(i) => { this.setState({ config: i }) }}
-                menu={0}
+                settings={this.state.settings}
                 ac={this.state.categories.actual[0]}
                 pc={this.state.categories.new} id={0} depth={0}
                 l={this.state.data[this.state.categories.actual[0].cat].length}
@@ -415,7 +417,10 @@ class AA extends React.Component {
 
             </div>
             <div class="LTchild">
-              <Link class="a2" to={"/a/" + this.state.categories.actual[0].cat + "/pagination/settings"} onClick={() => this.setState({ settings: 1 })}>settings</Link>
+              <Link class="a2" to={"/a/" + this.state.categories.actual[0].cat + "/pagination/settings"} onClick={() => {
+                this.setState({ config: 1 });
+                this.setState({ settings: 1 })
+              }}>settings</Link>
 
               {arr.length > 0 &&
                 <div>
@@ -425,8 +430,8 @@ class AA extends React.Component {
                       (this.state.checkall ? updateCount("", 0, 1, this.state.data[this.state.categories.actual[0].cat])
                         : updateCount("", 0, 2, this.state.data[this.state.categories.actual[0].cat]))
                     }}
-                    changecategory={(category, flag) => {
-                      this.changedata(category, flag);
+                    changecategory={(category, flag, flag1) => {
+                      this.changedata(category, flag, flag1);
                       arr = count.map((t) => t.checked = false)
                       updateCount("", 0, 3)
                     }
@@ -486,11 +491,12 @@ class AA extends React.Component {
 
             <div class="LT">
               <div class="TreeNode">
-                <TreeNode changeintree={(category, flag) => { this.changedata(category, flag); updateCount("", 0, 3) }}
+                <TreeNode changeintree={(category, flag, flag1) => { this.changedata(category, flag, flag1); updateCount("", 0, 3) }}
                   changeparent={(name) => this.setState({ parent: name })}
                   config={this.state.config}
                   familyTree={tree.children}
-                  menu={0}
+                  changeconfig={(i) => { this.setState({ config: i }) }}
+                  settings={this.state.settings}
                   ac={this.state.categories.actual[0]}
                   pc={this.state.categories.new} id={0} depth={0}
                   l={this.state.data[this.state.categories.actual[0].cat].length}
@@ -501,7 +507,9 @@ class AA extends React.Component {
                 <Settings data={this.state.data} columns={this.state.columns} changePPP={this.changePPP.bind(this)}
                   checkedCol={this.checkedCol.bind(this)}
 
-                  flagsettings={this.state.flagsettings} postPerPage={this.state.postPerPage} />
+                  flagsettings={this.state.flagsettings} postPerPage={this.state.postPerPage}
+
+                />
                 <Link class="a2" to={"/a/" + this.state.categories.actual[0].cat + "/pagination"} onClick={() => this.setState({ settings: 0 })}>back to main</Link>
                 <Link class="a2" to={"/a/" + this.state.categories.actual[0].cat + "/pagination/url"} onClick={() => this.setState({ settings: 2 })}>change database</Link>
 
