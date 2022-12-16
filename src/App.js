@@ -7,8 +7,8 @@ import {
   Link,
   useParams
 } from "react-router-dom";
-import S from "./components/S";
-import UserContext from './ctx/User';
+import Settings from "./components/Settings";
+import Select from './components/Select';
 import AppProvider from "./ctx/AppProvider";
 import AA from "./components/AA";
 import Update from "./components/Update";
@@ -33,15 +33,12 @@ function App() {
 
 
             <Route exact path="/a/:elem/pagination" element={<AA />} >
-              <Route exact path="settings" element={<AA />} />
-              <Route path="url" element={<AA />} />
-              <Route path="putin" />
-              <Route path=":id"   >
-                <Route path="update" />
-                <Route path=":text/:f/edit" />
-              </Route>
+              <Route exact path="settings" element={<Settings />} />
+              <Route path="url" element={<Select />} />
+              <Route path="putin" element={<ButtonModal />} />
+              <Route path=":str/:id/:title/:f/edit" element={<Update />} />
             </Route>
-            <Route path="/a/:elem/pagination/:str/:id/:title/:f/edit" element={<AA />} />
+
 
 
 

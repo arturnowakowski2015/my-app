@@ -53,7 +53,6 @@ class AA extends React.Component {
         "https://jsonplaceholder.typicode.com/albums",
         "https://jsonplaceholder.typicode.com/photos",
         "https://jsonplaceholder.typicode.com/todos",
-        "https://jsonplaceholder.typicode.com/users"
       ],
       i: 0,
       checked: true,
@@ -95,6 +94,10 @@ class AA extends React.Component {
         // set the state 
         if (this.state.data[this.state.categories.actual[0].cat].length == 0)
           this.state.data[this.state.categories.actual[0].cat] = response
+        this.setState({ data: this.state.data })
+
+
+
         this.state.categories.actual[0].l = response.length
 
         this.setState({
@@ -113,7 +116,7 @@ class AA extends React.Component {
     this.state.data[this.state.categories.actual[0].cat].map((tt) => {
       if (tt.id == idrec) tt.title = upstr;
     })
-    this.setState({ data: this.state.data })
+
     this.setState({ changes: arr })
 
 
@@ -391,7 +394,7 @@ class AA extends React.Component {
     }
 
     //arr = count;
-    console.log(":::vvvv::" + this.state.config)
+    console.log("tttttrrrreeee  " + JSON.stringify(tree))
     return (
       <div>            {console.log("2222      " + JSON.stringify(config))
       }
@@ -417,11 +420,11 @@ class AA extends React.Component {
 
             </div>
             <div class="LTchild">
-              <Link class="a2" to={"/a/" + this.state.categories.actual[0].cat + "/pagination/settings"} onClick={() => {
+              {arr.length == 0 && <Link class="a2" to={"/a/" + this.state.categories.actual[0].cat + "/pagination/settings"} onClick={() => {
                 this.setState({ config: 1 });
                 this.setState({ settings: 1 })
               }}>settings</Link>
-
+              }
               {arr.length > 0 &&
                 <div>
                   <ButtonModal familyTree={tree.children} menu={1}
@@ -537,7 +540,12 @@ class AA extends React.Component {
         }
 
         {this.state.settings == 2 &&
-          <Select acturl={this.state.categories.actual[0].cat} changeRecits={this.changeRecits.bind(this)} strd={this.state.strd}
+          <Select acturl={this.state.categories.actual[0].cat} changeconfig={(i) => { this.setState({ config: i }) }}
+            changecategory={(category, flag, flag1) => {
+              this.changedata(category, flag, flag1);
+              arr = count.map((t) => t.checked = false)
+              updateCount("", 0, 3)
+            }} changeRecits={this.changeRecits.bind(this)} strd={this.state.strd}
 
           />
         } </div>)

@@ -26,6 +26,8 @@ const Select = (props) => {
     const back = () => {
 
         props.changeRecits(id, 0)
+        props.changeconfig(0);
+        props.changecategory("new", 2);
         navigate("/a/" + props.acturl + "/pagination/")
     }
     return (<div>

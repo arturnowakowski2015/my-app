@@ -50,10 +50,10 @@ const TreeNode = (props) => {
   const [familyTree, setFamilyTree] = useState(props.familyTree)
 
   useEffect(() => {
-    makeidlev(props.familyTree, 0, 0)
+    makeidlev(tree.children, 0, 0)
     for (let ii = 0; ii < 20; ii++) {
       c = 0;
-      makeids(props.familyTree, ii)
+      makeids(tree.children, ii)
 
     }
   }, [])
@@ -212,7 +212,7 @@ const TreeNode = (props) => {
   let ii = 0;
   let wparent = [];
   let wchild = ""
-
+  let parentnode1 = {};
   let kk = 0
   const addel = (nodes) => {
 
@@ -222,16 +222,18 @@ const TreeNode = (props) => {
 
       ++ii;
       if (t.name == node) {
-        alert(t.depth + "P" + parentnode.depth)
+        alert(t.name + "P" + parentnode.name)
         if (t.depth > parentnode.depth)
           mode = 1;
 
         y = { name: t.name }
         childname.push(t.children)
-        wparent = arr[ii - 2]
-
+        if (t.depth != 0)
+          wparent = arr[ii - 2]
+        else wparent = { name: "zero" }
         wchild = arr[ii - 1]
-
+        parentnode1 = t;
+        console.log(wparent.name + "   POP ccccccccc         /// " + parentnode1.name + " //  cccccccccccccc" + JSON.stringify(wchild))
         removeel(tree.children)
 
       }
@@ -280,7 +282,40 @@ const TreeNode = (props) => {
         return yy;
 
       })
-    console.log("yy1  " + JSON.stringify(y))
+    else {
+      y = nodes.map((yy) => {
+
+
+        if (yy.children) removeel(yy.children)
+
+
+        if (yy.name == parentnode1.name && stop3 == 0) {
+          alert(yy.name)
+
+          wparent.children && wparent.children.map((t2) => {
+            if (yy.children == null)
+              yy.children = []
+            if (t2.name == node) {
+
+              if (t2.children) {
+
+                el1 = { name: t2.name }
+                yy.children.push(el1)
+              }
+              else {
+
+                yy.children.push(t2)
+
+              }
+              stop3 = 1;
+            }
+          })
+        }
+        return yy;
+
+      })
+    }
+
     deleteel(nodes);
 
   }
@@ -334,7 +369,7 @@ const TreeNode = (props) => {
 
             stop2 = 1;
           }
-          console.log("POP ccccccccccccccccccccccc" + JSON.stringify(wchild))
+
           if (t.name == parentnode.name) {
             delete wchild.children
             if (stop3 == 0)
@@ -364,7 +399,7 @@ const TreeNode = (props) => {
           alert(0)
         }}
         onMouseOver={(e) => {
-          bck(e, props.familyTree, t.depth, t.id);
+          bck(e, familyTree, t.depth, t.id);
           markEl(e, familyTree, t.depth, t.id)
         }}
 
@@ -440,13 +475,15 @@ const TreeNode = (props) => {
               <div style={{ padding: "20px" }}>under</div>
               <div style={{ height: "20px", width: "20px", backgroundColor: "green", marginTop: "40px" }}>main</div>
             </div>{p == 1 && <button onClick={(e) => {
-              addel(props.familyTree); props.changeconfig(0);
+              addel(tree);
+              c = 0;
               makeidlev(familyTree, 0, 0)
               for (let ii = 0; ii < 20; ii++) {
                 c = 0;
                 makeids(familyTree, ii)
 
-              }; node = "";
+              }; node = ""; props.changeconfig(0);
+              setFamilyTree(familyTree)
             }}>hhh</button>}
           </div>
         }
