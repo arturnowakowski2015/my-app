@@ -119,7 +119,7 @@ const Settings = props => {
     }
 
     return (
-        <div>
+        <div >
             {
                 props.columns.map((t, i) => {
                     return <CheckboxInput label={t.col.name} name={t.col.name} checked={t.col.disp}
@@ -127,9 +127,9 @@ const Settings = props => {
                 })
             }
 
-            <input type="range" id="cowbell" name="cowbell" min="1" max={props.data.length} value={postPerPage} step="1"
-                onChange={(e) => { setPostPerPage(e.target.value); console.log(postPerPage); props.changePPP(postPerPage) }} />
-            <label for="cowbell">pagination's page per site  </label>
+            <input type="range" id="cowbell" name="cowbell" min="1" max={props.length} value={postPerPage} step="1"
+                onChange={(e) => { setPostPerPage(e.target.value); props.changePPP(postPerPage) }} />
+            <label for="cowbell">pagination's page per site  .{props.length}.</label>
 
         </div>
     )

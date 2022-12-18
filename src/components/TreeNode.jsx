@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { recits, tree } from '../data/dummy';
-import "../index.css"
+
+import "./TreeNode.css"
 let c = 0;
 let p = 0
 let tdepth = [];
@@ -381,10 +382,10 @@ const TreeNode = (props) => {
     }
   }
 
-  return <div style={{ paddingLeft: "10px", width: "50px" }} >
+  return <div className="nodeel">
     {props.config == 0 && familyTree.map((t, i) => {
       console.log(":::111::" + props.parent)
-      return <div class="fw-bold text-nowrap" onMouseOut={() => { tdepth = []; tid = [] }}
+      return <div onMouseOut={() => { tdepth = []; tid = [] }}
         onClick={(e) => {
 
           e.stopPropagation()
@@ -406,13 +407,13 @@ const TreeNode = (props) => {
 
 
 
-        style={{ paddingLeft: "10px" }} >
+        className="nodeel">
 
         <p
           onMouseOut={(e) => { bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id) }}
-          class="p fw-bold"
-          style={{ backgroundColor: t.bgcolor }}>{t.name}....
-          {t.name == props.ac.cat ? props.ac.l : ""}
+          className="pnode"
+          style={{ backgroundColor: t.bgcolor }}>{t.name}
+          <span>{t.name == props.ac.cat ? props.ac.l : ""}</span>
           {pcl(t.name)}
 
         </p>
@@ -434,7 +435,7 @@ const TreeNode = (props) => {
 
     {props.config == 1 && familyTree.map((t, i) => {
       console.log(t.depth + " :::::" + props.parent)
-      return <div class="fw-bold text-nowrap" onMouseOut={() => { tdepth = []; tid = [] }}
+      return <div onMouseOut={() => { tdepth = []; tid = [] }}
 
 
 

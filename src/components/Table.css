@@ -1,0 +1,20 @@
+ table {
+      border: black solid 1px
+ }
+ .th{
+    border: black solid 1px
+ }
+ .tr { 
+    border-right: black solid 1px;
+    text-align: center;
+ }
+ .div1{ 
+    width:150px;
+        height: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+        white-space: nowrap;
+        padding-left:15px;
+        border-left: black solid 1px
+ }

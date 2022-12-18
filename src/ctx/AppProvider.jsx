@@ -9,13 +9,14 @@ function AppProvider(props) {
   function updateCount(e, id, all, data, data2) {
     setChangeAll(all);
     let r = [];
-    if (all == 0) {
-      r = count.map((t) => {
+    if (all == 0 && data2 == "false") {
+      r = count.filter((t) => {
 
-        if (t.id == id) { t.checked = !t.checked; }
-        return t
+
+        return t.id != id;
       })
     }
+    alert(r.length + "   :rr:")
     let rdata = []
     if (all == 1) {
 
@@ -45,7 +46,7 @@ function AppProvider(props) {
 
     }
     let w = 0;
-    all == 0 ? setCount((count) => [...y, e]) : setCount((count) => [...r])
+    all == 0 && typeof e == "object" ? setCount((count) => [...y, e]) : setCount((count) => [...r])
     console.log("y               " + JSON.stringify(count))
 
 

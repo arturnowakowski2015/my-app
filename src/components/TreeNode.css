@@ -1,0 +1,20 @@
+.node{
+    width: 100%;
+    background-color: black;
+  }
+  .treeNode {
+    width: 200px;
+    border-radius: 5px;
+    background-color: #F2F8FD;
+    height: 300px
+  }
+
+  .pnode {
+    width: 100%;
+    background-color: red;
+  }
+  span{
+    padding-left: 30px;
+  }
+  .nodeel{ padding-left: 10px;
+padding-top: 5px }

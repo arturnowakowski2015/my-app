@@ -55,6 +55,7 @@ class AA extends React.Component {
         "https://jsonplaceholder.typicode.com/todos",
       ],
       i: 0,
+      number1: 0,
       checked: true,
       icolumn: -1,
       settings: 0,
@@ -99,9 +100,9 @@ class AA extends React.Component {
 
 
         this.state.categories.actual[0].l = response.length
-
+        this.setState({ categories: this.state.categories })
         this.setState({
-          columns: Object.keys(response[0]).map((t) => {
+          columns: Object.keys(response[0]).map((t, i) => {
 
             let d = { col: { name: "", disp: true } };
             d.col.name = null;
@@ -112,7 +113,13 @@ class AA extends React.Component {
 
           )
         })
+
+
+
+
+
       });
+
     this.state.data[this.state.categories.actual[0].cat].map((tt) => {
       if (tt.id == idrec) tt.title = upstr;
     })
@@ -182,7 +189,7 @@ class AA extends React.Component {
     if (stop == 0) {
       const r = this.props.params.id && this.props.params.f == undefined ? this.props.params.id : this.state.i;
 
-      this.furl(this.state.settings, null, 0, "u", "dd d");
+      this.furl(this.state.settings, null, 1, "u", "dd d");
       console.log("  compunt       " + JSON.stringify(arr))
       this.setState({
         strd: this.state.urls.map((t, i) => (
@@ -350,6 +357,9 @@ class AA extends React.Component {
 
   render() {
 
+
+
+
     let change = false;
     const [count, updateCount] = this.context;
     arr = count.map((t) => t)
@@ -401,28 +411,12 @@ class AA extends React.Component {
         {this.state.settings == 0 && this.props.params.f == undefined &&
 
           <div class="LT">
-            <div class="TreeNode">
-              <div><TreeNode changeintree={(category, flag, flag1) => { this.changedata(category, flag, flag1); updateCount("", 0, 3) }}
-                changeparent={(name) => this.setState({ parent: name })}
-                config={this.state.config}
-                familyTree={tree.children}
-                changeconfig={(i) => { this.setState({ config: i }) }}
-                settings={this.state.settings}
-                ac={this.state.categories.actual[0]}
-                pc={this.state.categories.new} id={0} depth={0}
-                l={this.state.data[this.state.categories.actual[0].cat].length}
-                parent={this.state.parent} />
 
-
-              </div>
-
-
-
-            </div>
             <div class="LTchild">
               {arr.length == 0 && <Link class="a2" to={"/a/" + this.state.categories.actual[0].cat + "/pagination/settings"} onClick={() => {
                 this.setState({ config: 1 });
                 this.setState({ settings: 1 })
+                this.setState({ number1: 1 })
               }}>settings</Link>
               }
               {arr.length > 0 &&
@@ -454,18 +448,7 @@ class AA extends React.Component {
               }
 
 
-              <Table i={this.state.i} data={this.state.data[this.state.categories.actual[0].cat]} setch={() => setch()} familyTree={tree.children}
-                columns={this.state.columns.map((t, i) => {
-                  if (i == this.state.icolumn && this.state.checked) t.col.disp = false;
-                  else if (i == this.state.icolumn && this.state.checked == false) t.col.disp = true;
 
-                  return t;
-                })}
-                flagsettings={this.state.flagsettings} postPerPage={this.state.postPerPage}
-                dff={this.state.dff} str={this.props.params.str}
-                items={items} furl={this.furl.bind(this)} id={this.state.i} flag={this.state.flag} settingsid={this.state.settings}
-                acturl={this.state.categories.actual[0].cat}
-              />
             </div>
 
           </div>
@@ -490,65 +473,74 @@ class AA extends React.Component {
 
 
         {
-          this.state.settings == 1 && <div >
+          this.state.settings == 1 &&
 
-            <div class="LT">
-              <div class="TreeNode">
-                <TreeNode changeintree={(category, flag, flag1) => { this.changedata(category, flag, flag1); updateCount("", 0, 3) }}
-                  changeparent={(name) => this.setState({ parent: name })}
-                  config={this.state.config}
-                  familyTree={tree.children}
-                  changeconfig={(i) => { this.setState({ config: i }) }}
-                  settings={this.state.settings}
-                  ac={this.state.categories.actual[0]}
-                  pc={this.state.categories.new} id={0} depth={0}
-                  l={this.state.data[this.state.categories.actual[0].cat].length}
-                  parent={this.state.parent} />
-
-              </div>
-              <div class="LTchild">
-                <Settings data={this.state.data} columns={this.state.columns} changePPP={this.changePPP.bind(this)}
-                  checkedCol={this.checkedCol.bind(this)}
-
-                  flagsettings={this.state.flagsettings} postPerPage={this.state.postPerPage}
-
-                />
-                <Link class="a2" to={"/a/" + this.state.categories.actual[0].cat + "/pagination"} onClick={() => this.setState({ settings: 0 })}>back to main</Link>
-                <Link class="a2" to={"/a/" + this.state.categories.actual[0].cat + "/pagination/url"} onClick={() => this.setState({ settings: 2 })}>change database</Link>
+          <div class="LT select">
 
 
+            <Settings data={this.state.data} columns={this.state.columns} changePPP={this.changePPP.bind(this)}
+              checkedCol={this.checkedCol.bind(this)}
+              length={this.state.data[this.state.categories.actual[0].cat].length}
+              flagsettings={this.state.flagsettings} postPerPage={this.state.postPerPage}
+              number2={(o) => this.setState({ number1: o })}
+            />
+            <Link class="a2" to={"/a/" + this.state.categories.actual[0].cat + "/pagination"} onClick={() => {
+              this.setState({ settings: 0 });
+              this.setState({ config: 0 })
+            }}>back to main</Link>
+            <Link class="a2 select" to={"/a/" + this.state.categories.actual[0].cat + "/pagination/url"} onClick={() => this.setState({ settings: 2 })}>change database</Link>
 
-                <Table i={this.state.i} data={this.state.data[this.state.categories.actual[0].cat]} setch={() => setch()} familyTree={tree.children}
-                  columns={this.state.columns.map((t, i) => {
-                    if (i == this.state.icolumn && this.state.checked) t.col.disp = false;
-                    else if (i == this.state.icolumn && this.state.checked == false) t.col.disp = true;
-
-                    return t;
-                  })}
-                  flagsettings={this.state.flagsettings} postPerPage={this.state.postPerPage}
-                  dff={this.state.dff} str={this.props.params.str}
-                  items={items} furl={this.furl.bind(this)} id={this.state.i} settingsid={this.state.settings}
-                  acturl={this.state.categories.actual[0].cat}
-                />
+            <div className="border"></div>
 
 
 
 
-              </div>
-            </div>
+
           </div>
+
         }
 
         {this.state.settings == 2 &&
-          <Select acturl={this.state.categories.actual[0].cat} changeconfig={(i) => { this.setState({ config: i }) }}
-            changecategory={(category, flag, flag1) => {
-              this.changedata(category, flag, flag1);
-              arr = count.map((t) => t.checked = false)
-              updateCount("", 0, 3)
-            }} changeRecits={this.changeRecits.bind(this)} strd={this.state.strd}
+          <div className="select">
+            <Select acturl={this.state.categories.actual[0].cat} changeconfig={(i) => { this.setState({ config: i }) }}
+              changecategory={(category, flag, flag1) => {
+                this.changedata(category, flag, flag1);
+                arr = count.map((t) => t.checked = false)
+                updateCount("", 0, 3)
+              }} changeRecits={this.changeRecits.bind(this)} strd={this.state.strd}
 
+            />
+          </div>
+        }
+        <div class="LTchild">
+          <div className="treeNode">
+            <TreeNode changeintree={(category, flag, flag1) => { this.changedata(category, flag, flag1); updateCount("", 0, 3) }}
+              changeparent={(name) => this.setState({ parent: name })}
+              config={this.state.config}
+              familyTree={tree.children}
+              changeconfig={(i) => { this.setState({ config: i }) }}
+              settings={this.state.settings}
+              ac={this.state.categories.actual[0]}
+              pc={this.state.categories.new} id={0} depth={0}
+
+              parent={this.state.parent} />
+          </div>
+          <Table i={this.state.i} data={this.state.data[this.state.categories.actual[0].cat]} setch={() => setch()} familyTree={tree.children}
+            columns={this.state.columns.map((t, i) => {
+              if (i == this.state.icolumn && this.state.checked) t.col.disp = false;
+              else if (i == this.state.icolumn && this.state.checked == false) t.col.disp = true;
+
+              return t;
+            })}
+            flagsettings={this.state.flagsettings} postPerPage={this.state.postPerPage}
+            dff={this.state.dff} str={this.props.params.str}
+            items={items} furl={this.furl.bind(this)} id={this.state.i} flag={this.state.flag} settingsid={this.state.settings}
+            acturl={this.state.categories.actual[0].cat}
+            number1={this.state.number1}
           />
-        } </div>)
+
+        </div>
+      </div>)
   }
 }
 

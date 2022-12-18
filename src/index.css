@@ -45,27 +45,35 @@ a:focus {
    border-radius: 10px 10px 10px 10px;
    cursor: pointer
 }
-.pagbtn div {
-  margin: 5px;
+.select {
+ padding-left: 250px;
+ padding-bottom:50px
 }
-
+.border{
+  height:20px;
+  width:1150px;
+  background-color:grey;
+}
 #container, .LT {
 
   border-rigth: solid black 2px;
  
  }
+ .LT {
+  margin-top: 50px;
+ }
 .LTchild{ 
-  position:absolute;
-  top:90px;
-  left:300px;
+  display: flex;
+  flex-direction:row;
 }
 .TreeNode {
   position:absolute;
   top:250px; 
+} 
+.treeNode{
+  margin-top:100px;
+  margin-right: 30px;
 }
-.table{  
-  border: gray solid;
- }
  
 .col { 
   white-space: nowrap; }
@@ -127,9 +135,7 @@ nav {
 .col{
   cursor:pointer;
 }
-nav div {
-  padding: 10px;
-}
+ 
 
 .view {
   position: relative;
