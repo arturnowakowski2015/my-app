@@ -55,7 +55,6 @@ const Treesettings = (props) => {
                 y = { name: t.name }
                 pname = arr[ii - 2].name
                 wparent = arr[ii - 2]
-                console.log("wparent" + JSON.stringify(wparent))
                 wchild = arr[ii - 2].children
                 removeel(tree.children)
 
@@ -111,7 +110,6 @@ const Treesettings = (props) => {
         let o = 0;
         nodes.forEach((t) => {
             if (t.children) deleteel(t.children)
-            console.log(act + ":" + props.pc + ":" + props.parent)
             if (t.name == pname)
                 o = t.children.map((tt, i) => {
                     if (tt.name == props.pc) {
@@ -123,7 +121,6 @@ const Treesettings = (props) => {
 
         })
         props.changeconfig(0)
-        console.log("yy  " + JSON.stringify(nodes))
     }
     const setparent = (nodes) => {
 
@@ -175,16 +172,13 @@ const Treesettings = (props) => {
 
         let u = nodes.map((tt) => {
 
-
-            alert(tt.name)
             tt.bgcolor = "red";
             if (tt.children) chooseel(tt.children, d, id)
             return tt;
         })
 
-            ; console.log(JSON.stringify(ftree))
+            ;
     }
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaa" + JSON.stringify(props.tree))
     return (<div style={{ paddingLeft: "10px" }}>
         {ftree && ftree.map((t, i) => {
             return t && < div onClick={(e) => {

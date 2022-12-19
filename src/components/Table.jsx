@@ -74,10 +74,19 @@ const Table = (props, columns) => {
 
         }
     }
+    if (firstPost < 0) {
+        firstPost = 0;
+
+    }
+
     let e = data.filter(f => count.filter(item => f.id === item.id))
+    if (lastPost == 0)
+        lastPost = postPerPage
     const currentPost = props.flag == 1 ? e.slice(firstPost, lastPost) : data.slice(firstPost, lastPost)
-    // console.log("bbbbbbbbbbbbbbbbbb    " + JSON.stringify(data))
+
     const pageNumber = [];
+
+
     let cell = { col: { name: "ddd", disp: true } };
     let col = [cell];
 
@@ -87,6 +96,7 @@ const Table = (props, columns) => {
     ];
 
     let fp = border[biw] ? border[biw] / postPerPage + 1 : 1;
+
     if (firstPost > border[biw]) {
 
 
@@ -112,9 +122,9 @@ const Table = (props, columns) => {
         data.map((t, i) => {
             let ii = 0; for (let f of Object.values(t)) { if (typeof f == "object") arr.push(ii); ii++ }
         })
-        header.map((k, i) => { return arr.indexOf(i) == -1 ? (cell = { col: { name: "", disp: true } }, cell.col.name = k, col.push(cell)) : null })
+        header.map((k, i) => { return arr.indexOf(i) == -1 ? (cell = { col: { name: "", disp: true } }, cell.col.zzzzzzzzzzzzz = k, col.push(cell)) : null })
         let h = header.map((k, ii) => {
-            return (arr.indexOf(ii) == -1 && props.columns[i]
+            return (arr.indexOf(ii) == -1 && props.columns[ii]
                 && props.columns[ii].col.disp == true)
                 ? (<th className="tr" onClick={() => { sortarr(k, i); setChevron(!chevron); }}>
                     <div onMouseOver={() => setI(ii)} >
@@ -155,9 +165,9 @@ const Table = (props, columns) => {
 
     }
 
-    const dv = (url, str, i) => {
+    const dv = (url, str, upstr, i) => {
 
-        props.furl(3, i, props.i, "u", "");
+        props.furl(3, i, props.i, "u", str, upstr);
         navigate(url, {
             state: {
                 id: props.id,
@@ -172,14 +182,14 @@ const Table = (props, columns) => {
 
 
         let tr = Object.keys(row).map((k, j) => {
-            return typeof row[k] !== "object" && props.columns[j] && props.columns[j].col.disp == true && j != 2
+            return typeof row[k] !== "object" && props.columns[j] && props.columns[j].col.disp == true
                 ?
                 <td onMouseOver={() => { url = "/" + row.id + "/edit"; setId(row.id); }} ><div className="div1">{row[k]}</div></td >
                 : typeof row[k] !== "object" && props.columns[j] && props.columns[j].col.disp == true
                     && j == 2 ?
 
 
-                    <td onMouseOver={() => { url = "/a/" + props.acturl + "/pagination/" + row[k] + "/" + row.id + "/" + row[k] + "/1/edit"; setId(row.id); }} >
+                    <td onMouseOver={() => { url = "/a/" + props.acturl + "/pagination/" + row[k] + "/" + row.id + "/lll" + "/1/edit"; setId(row.id); }} >
                         <div className="div1">{row[k]}</div>
                     </td >
 
@@ -197,10 +207,14 @@ const Table = (props, columns) => {
                 ? count.filter((tt) => { return tt.id == row.id })[0].checked
                 : "")}
                 onChange={(e) => { setch(row.id, e.target.checked) }} />}<div style={{ cursor: "pointer", textDecoration: "underline" }}
-                    onMouseOver={() => { url = "/a/" + props.acturl + "/pagination/" + row.title + "/" + row.id + "/" + row.title + "/1/edit"; setId(row.id); }}
-                    onClick={(e) => dv(url, row.title, row.id)} >edit</div>{tr}</tr>);
+                    onMouseOver={() => { url = "/a/" + props.acturl + "/pagination/" + row.name + "/" + row.id + "/" + row.name + "/1/edit"; setId(row.id); }}
+                    onClick={(e) => {
+                        dv(url, row[Object.keys(row).filter((t, i) => { return i == 2 && t })],
+                            Object.keys(row).filter((t, i) => { return i == 2 && t }), row.id)
+                    }} >edit</div>{tr}</tr>);
 
     }
+
 
 
 
@@ -224,13 +238,12 @@ const Table = (props, columns) => {
 
     const ChangePage = (pageNumber) => {
         setNumber(pageNumber);
-        console.log(pageNumber + "              mbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
     };
 
     const setN = number => {
         r = "p"
         setNumber(number)
-        console.log(pageNumber + "              m2")
+
         setBiw(props.number1 == 0 ? Math.floor((number - 1) / 10) : Math.floor((number) / 10))
 
     }
@@ -240,7 +253,7 @@ const Table = (props, columns) => {
     }
 
 
-    const el = <div>{firstPost + "-" + (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + pageNumber}
+    const el = <div>{firstPost + "-" + (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}
         {props.flagsettings != 4 && <Pagination acturl={props.acturl} fp={fp} span={span} postPerPage={postPerPage} number={number} pageNumber={pageNumber}
             ChangePage={ChangePage} setN={setN} length={data.length} firstPost={firstPost} />}
         <div >

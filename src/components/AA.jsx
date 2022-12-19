@@ -66,6 +66,7 @@ class AA extends React.Component {
       config: 0,
       categories: { actual: [{ cat: "new", l: 0 }], new: [], set: ["new", "selected", "postponed", "removed"] },
       parent: "",
+      strcol: "",
       w: []
 
 
@@ -79,8 +80,8 @@ class AA extends React.Component {
   }
 
 
-  furl(settingsid, idrec, bazaid, tryb, upstr) {
-
+  furl(settingsid, idrec, bazaid, tryb, upstr, str) {
+    this.setState({ strcol: str })
     this.setState({ i: bazaid })
 
 
@@ -104,8 +105,8 @@ class AA extends React.Component {
         this.setState({
           columns: Object.keys(response[0]).map((t, i) => {
 
-            let d = { col: { name: "", disp: true } };
-            d.col.name = null;
+            let d = { col: { title: "", disp: true } };
+            d.col.title = null;
 
             return d;
 
@@ -121,7 +122,8 @@ class AA extends React.Component {
       });
 
     this.state.data[this.state.categories.actual[0].cat].map((tt) => {
-      if (tt.id == idrec) tt.title = upstr;
+
+      if (tt.id == idrec) tt[str] = upstr;
     })
 
     this.setState({ changes: arr })
@@ -185,12 +187,12 @@ class AA extends React.Component {
 
   componentDidMount() {
 
-    console.log("count   " + this.props.params.count)
+
     if (stop == 0) {
       const r = this.props.params.id && this.props.params.f == undefined ? this.props.params.id : this.state.i;
 
       this.furl(this.state.settings, null, 1, "u", "dd d");
-      console.log("  compunt       " + JSON.stringify(arr))
+
       this.setState({
         strd: this.state.urls.map((t, i) => (
 
@@ -233,75 +235,34 @@ class AA extends React.Component {
       //   this.state.categories.actual[0].cat = category
       //  this.state.categories.actual[0].l = this.state.data[category].length;
     }
-    console.log(this.state.parent + ":" + category)
+
     arr = 0;
     return this.setState({ actual: this.state.categories.actual });
 
-    //, this.state.categories.new)
-    /*
-    console.log(str1 + "::::" + actstr)
-    if (str1 == "new" && str && str.filter((t) => t.cat == "new").length == 0) {
 
-      obj2 = { cat: "new", l: this.state.data.new.length }
-      let c = str.filter((t) => t.cat != actstr)
-      console.log(obj2.cat + ":" + this.state.categories.actual[0].cat)
-      if (obj2.cat != this.state.categories.actual[0].cat)
-        if (c.length == 0) str = [obj2]
-        else str = [...c, obj2]
-    }
-    if (str1 == "selected" && str && str.filter((t) => t.cat == "selected").length == 0) {
-
-      obj2 = { cat: "selected", l: this.state.data.new.length }
-      let c = str.filter((t) => t.cat != actstr)
-      console.log(obj2.cat + ":" + this.state.categories.actual[0].cat)
-      if (obj2.cat != this.state.categories.actual[0].cat)
-        if (c.length == 0) str = [obj2]
-        else str = [...c, obj2]
-    } else {
-      obj2 = { cat: actstr, l: this.state.data[actstr].length }
-      let c = str.filter((t) => t.cat != actstr)
-      console.log(obj2.cat + ":1" + actstr)
-      if (obj2.cat != this.state.categories.actual[0].cat)
-        if (c.length == 0) str = [obj2]
-        else str = [...c, obj2]
-    }
-    if (str1 == "opened" && str.filter((t) => t.cat == "opened").length == 0) {
-      obj2 = { cat: "opened", l: this.state.data.opened.length }
-      let c = str.filter((t) => t.cat == "opened")
-      if (obj2.cat != this.state.categories.actual[0].cat)
-        str = [...c, obj2]
-    }
-    if (str1 == "removed" && str.filter((t) => t.cat == "removed").length == 0) {
-      obj2 = { cat: "removed", l: this.state.data.removed.length }
-      let c = str.filter((t) => t.cat == "removed")
-      if (obj2.cat != this.state.categories.actual[0].cat)
-        str = [...c, obj2]
-    }
-    if (str1 == "labels" && str.filter((t) => t.cat == "labels").length == 0) {
-      obj2 = { cat: "labels", l: this.state.data.labels.length }
-      let c = str.filter((t) => t.cat == "labels")
-      if (obj2.cat != this.state.categories.actual[0].cat)
-        str = [...c, obj2]
-    }
-    */
-    console.log(JSON.stringify(this.state.categories.actual[0]) + "po " + JSON.stringify(this.state.categories.new))
   }
+  reset() {
+
+    Object.keys(this.state.data).map((t) => { this.state.data[t] = []; this.setState({ data: this.state.data }) })
+    this.state.categories.new = [];
+    this.setState({ categories: this.state.categories })
+
+  }
+
   changedata(category, flag, flag1) {
-    alert(category + ":" + flag1)
-    if (flag1 == 1) {
-      alert(category)
+    if (flag1 == 1 || flag1 == 2) {
+
       this.state.categories.new[0] = category;
       this.setState({ categories: this.state.categories })
     }
+
     let y2 = 0;
     let stop = 0;
     if (flag == 0 && this.state.data[category] ? this.state.data[category].length : "") {
 
-      alert(0)
 
       let l = this.state.data[category] ? this.state.data[category].length : 0;
 
-      console.log(this.state.categories.actual[0].cat + "   ll  bbb  " + JSON.stringify(this.state.categories.new))
       this.setcategories(category, this.state.categories.actual[0].cat)
       stop = 1;
 
@@ -325,7 +286,6 @@ class AA extends React.Component {
           y2 = this.state.data[category].filter(f => arr1.some(item => item.id === f.id && item.checked == false))
         }
         this.state.data[this.state.categories.actual[0].cat] = y2
-        console.log("ll  actual  " + JSON.stringify(this.state.data[this.state.categories.actual[0].cat]))
         this.state.categories.actual[0].l = y2.length
         this.state.categories.new = [...this.state.categories.new, { cat: category, l: y.length }]
         this.state.data[category] = y
@@ -334,7 +294,6 @@ class AA extends React.Component {
       }
     } else if (flag == 0 && this.state.data[category] && this.state.data[category].length && stop == 0) {
 
-      console.log("9090  " + JSON.stringify(this.state.categories.new))
       this.state.data[this.state.categories.actual[0].cat] = this.state.data[category]
       this.state.categories.actual[0].l = this.state.data[category].length
       this.state.categories.actual[0].cat = category;
@@ -403,11 +362,10 @@ class AA extends React.Component {
 
     }
 
-    //arr = count;
-    console.log("tttttrrrreeee  " + JSON.stringify(tree))
+    //arr = count; 
     return (
-      <div>            {console.log("2222      " + JSON.stringify(config))
-      }
+      <div>
+
         {this.state.settings == 0 && this.props.params.f == undefined &&
 
           <div class="LT">
@@ -434,7 +392,7 @@ class AA extends React.Component {
                     }
 
                     }
-
+                    changeintree={(category, flag, flag1) => { this.changedata(category, flag, flag1); updateCount("", 0, 3) }}
                     ac={this.state.categories.actual[0]}
                     deleteel={() => {
                       let arr = count.filter((t) => t.checked == true)
@@ -443,6 +401,7 @@ class AA extends React.Component {
                         data: [this.state.categories[0]] = this.state.data[this.state.categories[0]].filter(f => !arr.some(item => item.id === f.id))
                       })
                     }}
+                    actcat={this.state.categories.actual[0].cat}
                   />
                 </div>
               }
@@ -459,7 +418,8 @@ class AA extends React.Component {
         {this.state.settings == 3 &&
           <div class="LT">
             <div class="TreeNode">
-              <Update i={this.state.i} furl={this.furl.bind(this)} acturl={this.state.categories.actual[0].cat} />
+              <Update i={this.state.i} furl={this.furl.bind(this)} acturl={this.state.categories.actual[0].cat}
+                strcol={this.state.strcol} />
 
             </div>
 
@@ -508,6 +468,7 @@ class AA extends React.Component {
                 arr = count.map((t) => t.checked = false)
                 updateCount("", 0, 3)
               }} changeRecits={this.changeRecits.bind(this)} strd={this.state.strd}
+              reset={this.reset.bind(this)}
 
             />
           </div>
@@ -520,8 +481,8 @@ class AA extends React.Component {
               familyTree={tree.children}
               changeconfig={(i) => { this.setState({ config: i }) }}
               settings={this.state.settings}
-              ac={this.state.categories.actual[0]}
-              pc={this.state.categories.new} id={0} depth={0}
+              ac={this.state.categories.set}
+              pc={this.state.data} id={0} depth={0}
 
               parent={this.state.parent} />
           </div>

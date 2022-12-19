@@ -69,7 +69,7 @@ const ButtonModal = props => {
               </form>
             </div>
             <div class="modal-footer">
-              <button type="button" onClick={() => { props.changecategory(name, 2); navigate("/a/" + props.ac.cat + "/pagination") }} class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" onClick={() => { props.changeintree(name, 0, 2); props.changecategory(name, 2, 1); navigate("/a/" + props.ac.cat + "/pagination") }} class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
             </div>
           </div>

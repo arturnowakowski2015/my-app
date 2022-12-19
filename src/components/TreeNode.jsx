@@ -125,14 +125,17 @@ const TreeNode = (props) => {
     })
   }
   const pcl = (cat) => {
-    let c = props.pc.filter((tt) => tt.cat == cat);
-    if (props.pc[0] && c.length)
-      return c[0].l;
+    console.log("ffffff              " + JSON.stringify(props.pc))
+    let c = 0;
+    Object.keys(props.pc).filter((tt) => {
+      c = props.pc[cat] ? props.pc[cat] : ""
+    });
+    return c.length
   }
   const markel1 = (nodes, depth, id) => {
     nodes.map((t) => {
       if (t.children) markel1(t.children, depth, id)
-      if (t.depth == depth && t.id == id) { alert(8); t.bgcolor = "green"; }
+      if (t.depth == depth && t.id == id) { t.bgcolor = "green"; }
       t.bgcolor = "red";
       return t;
 
@@ -223,7 +226,7 @@ const TreeNode = (props) => {
 
       ++ii;
       if (t.name == node) {
-        alert(t.name + "P" + parentnode.name)
+
         if (t.depth > parentnode.depth)
           mode = 1;
 
@@ -234,7 +237,6 @@ const TreeNode = (props) => {
         else wparent = { name: "zero" }
         wchild = arr[ii - 1]
         parentnode1 = t;
-        console.log(wparent.name + "   POP ccccccccc         /// " + parentnode1.name + " //  cccccccccccccc" + JSON.stringify(wchild))
         removeel(tree.children)
 
       }
@@ -275,7 +277,7 @@ const TreeNode = (props) => {
 
                 yy.children.push(t2)
 
-              } alert(stop3 + "  stop3")
+              }
               stop3 = 1;
             }
           })
@@ -291,7 +293,7 @@ const TreeNode = (props) => {
 
 
         if (yy.name == parentnode1.name && stop3 == 0) {
-          alert(yy.name)
+
 
           wparent.children && wparent.children.map((t2) => {
             if (yy.children == null)
@@ -328,12 +330,12 @@ const TreeNode = (props) => {
 
         if (t.name == wchild)
           t.children.map((tt, i) => {
-            alert(tt.name + ":" + wchild)
+
             tt.children && tt.children.map((y, p) => {
-              alert(y.name + "lok" + node)
+
               if (y.name == node) {
                 child = y;
-                alert(child.name + "  child")
+
               }
             })
           })
@@ -349,12 +351,12 @@ const TreeNode = (props) => {
         nodes.map((t) => {
           if (t.children) setparent(t.children)
           if (t.name == wparent.name && stop2 == 0) {
-            alert(t.name + " stop")
+
 
             childname.map((u, i) => {
               if (u) {
                 let r = { name: u[i].name }
-                alert(t.name + "mm")
+
 
                 t.children.push(r)
               }
@@ -384,21 +386,18 @@ const TreeNode = (props) => {
 
   return <div className="nodeel">
     {props.config == 0 && familyTree.map((t, i) => {
-      console.log(":::111::" + props.parent)
       return <div onMouseOut={() => { tdepth = []; tid = [] }}
         onClick={(e) => {
 
           e.stopPropagation()
           findgreen(tree.children)
-          props.changeintree(t.name, 0);
+          props.changeintree(t.name, 0, 1);
           markIn(e, t.name == props.ac.cat, tree.children, t.depth, t.id)
 
           if (marked == 0) markedformer(tree.children)
           navigate("/a/" + t.name + "/pagination")
         }}
-        onDoubleClick={(e) => {
-          alert(0)
-        }}
+
         onMouseOver={(e) => {
           bck(e, familyTree, t.depth, t.id);
           markEl(e, familyTree, t.depth, t.id)
@@ -414,7 +413,7 @@ const TreeNode = (props) => {
           className="pnode"
           style={{ backgroundColor: t.bgcolor }}>{t.name}
           <span>{t.name == props.ac.cat ? props.ac.l : ""}</span>
-          {pcl(t.name)}
+          {pcl(t.name) != 0 ? pcl(t.name) : ""}
 
         </p>
 
@@ -434,7 +433,6 @@ const TreeNode = (props) => {
 
 
     {props.config == 1 && familyTree.map((t, i) => {
-      console.log(t.depth + " :::::" + props.parent)
       return <div onMouseOut={() => { tdepth = []; tid = [] }}
 
 
@@ -464,8 +462,7 @@ const TreeNode = (props) => {
 
             class="p fw-bold"
             style={{ backgroundColor: t.bgcolor }}>{t.name}....
-            {t.name == props.ac.cat ? props.ac.l : ""}
-            {pcl(t.name)}
+            {pcl(t.name) != 0 ? pcl(t.name) : ""}
 
           </p>
         }

@@ -22,7 +22,7 @@ const Update = (props) => {
 
     const mm = () => {
 
-        props.furl(0, state.idrec, 0, "c", str)
+        props.furl(0, state.idrec, 0, "c", str, props.strcol)
         navigate("/a/" + props.acturl + "/pagination")
     }
     return <div><input type="text" value={str}

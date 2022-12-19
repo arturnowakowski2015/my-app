@@ -16,7 +16,7 @@ function AppProvider(props) {
         return t.id != id;
       })
     }
-    alert(r.length + "   :rr:")
+
     let rdata = []
     if (all == 1) {
 
@@ -47,7 +47,7 @@ function AppProvider(props) {
     }
     let w = 0;
     all == 0 && typeof e == "object" ? setCount((count) => [...y, e]) : setCount((count) => [...r])
-    console.log("y               " + JSON.stringify(count))
+
 
 
   }

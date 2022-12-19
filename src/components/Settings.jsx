@@ -29,7 +29,7 @@ const Settings = props => {
                 y = { name: t.name }
                 pname = arr[ii - 2].name
                 wparent = arr[ii - 2]
-                console.log("wparent" + JSON.stringify(wparent))
+
                 wchild = arr[ii - 2].children
                 removeel(tree.children)
 
@@ -85,7 +85,7 @@ const Settings = props => {
         let o = 0;
         nodes.forEach((t) => {
             if (t.children) deleteel(t.children)
-            console.log(act + ":" + props.pc + ":" + props.parent)
+
             if (t.name == pname)
                 o = t.children.map((tt, i) => {
                     if (tt.name == props.pc) {
@@ -97,7 +97,7 @@ const Settings = props => {
 
         })
         props.changeconfig(0)
-        console.log("yy  " + JSON.stringify(nodes))
+
     }
     const setparent = (nodes) => {
 
