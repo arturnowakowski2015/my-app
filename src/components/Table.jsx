@@ -65,12 +65,15 @@ const Table = (props, columns) => {
         lastPost = number * postPerPage;
         firstPost = lastPost - postPerPage;
     } else {
-        console.log(number + "pppp")
 
-        lastPost = 1 * postPerPage;
+        lastPost = number * postPerPage;
         firstPost = lastPost - postPerPage;
+        if (firstPost > data.length) {
+            firstPost = 0;
+            setNumber(Math.floor(data.length / postPerPage))
+
+        }
     }
-    console.log(firstPost + " fg    " + postPerPage + "::" + Math.floor(data.length / postPerPage))
     let e = data.filter(f => count.filter(item => f.id === item.id))
     const currentPost = props.flag == 1 ? e.slice(firstPost, lastPost) : data.slice(firstPost, lastPost)
     // console.log("bbbbbbbbbbbbbbbbbb    " + JSON.stringify(data))
@@ -95,12 +98,14 @@ const Table = (props, columns) => {
     }
 
     let span = 0
-    Math.floor(data.length / postPerPage) >= 10 ? span = 10 : span = Math.floor(data.length / postPerPage)
-    console.log(span + ":: " + firstPost + "::" + data.length)
+    Math.floor(data.length / postPerPage) >= 10 ? span = 10 : span = Math.floor(data.length / postPerPage) + 1
 
     for (let i = (fp); i <= border[biw] / postPerPage + span; i++) {
-        console.log(i + ":111::" + data.length)
-        pageNumber.push(i);
+
+        if (Math.floor(data.length / postPerPage) < 10 + 1)
+            pageNumber.push(i - border[biw] / postPerPage);
+        else
+            pageNumber.push(i);
     }
 
     const buildHeader = (header, columns) => {
@@ -165,7 +170,6 @@ const Table = (props, columns) => {
     const buildRow = (row, i) => {
         let m = 0;
 
-        console.log("count    " + JSON.stringify(count))
 
         let tr = Object.keys(row).map((k, j) => {
             return typeof row[k] !== "object" && props.columns[j] && props.columns[j].col.disp == true && j != 2
@@ -220,14 +224,14 @@ const Table = (props, columns) => {
 
     const ChangePage = (pageNumber) => {
         setNumber(pageNumber);
-
+        console.log(pageNumber + "              mbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
     };
 
     const setN = number => {
         r = "p"
         setNumber(number)
-
-        setBiw(props.number1 == 0 ? Math.floor((number - 1) / 10) : 0)
+        console.log(pageNumber + "              m2")
+        setBiw(props.number1 == 0 ? Math.floor((number - 1) / 10) : Math.floor((number) / 10))
 
     }
 
@@ -236,9 +240,9 @@ const Table = (props, columns) => {
     }
 
 
-    const el = <div>{firstPost + "-" + number + " from " + pageNumber}
-        {props.flagsettings != 4 && <Pagination acturl={props.acturl} fp={fp} firstPost={firstPost} number={number} pageNumber={pageNumber}
-            ChangePage={ChangePage} setN={setN} length={data.length} />}
+    const el = <div>{firstPost + "-" + (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + pageNumber}
+        {props.flagsettings != 4 && <Pagination acturl={props.acturl} fp={fp} span={span} postPerPage={postPerPage} number={number} pageNumber={pageNumber}
+            ChangePage={ChangePage} setN={setN} length={data.length} firstPost={firstPost} />}
         <div >
             {
                 element == 1 ? null

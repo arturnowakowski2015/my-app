@@ -20,16 +20,27 @@ const Pagination = props => {
 
 
     }
-    const setN = (v) => {
-        alert(v * 10 - 10 + ":" + props.length)
-        if (0 < v && v * 10 - 10 < props.length)
+    const setN = (str, v) => {
+
+        let t = 0;
+        props.number >= 10 && props.firstPost < props.length ? t = props.number + props.postPerPage : t = props.postPerPage
+        /*       if (  props.firstPost < props.length - props.postPerPage && str=="Next")
+                  props.setN(v)
+               if (  props.firstPost < props.length - props.postPerPage && str=="Previous")
+                  props.setN(v-1)
+                  */
+        if (v > 0 && str == "Previous")
+            props.setN(v)
+        if (v <= 0 && str == "Next")
+            props.setN(v + 1)
+        if (v > 0 && str == "Next" && props.firstPost < props.length - props.postPerPage)
             props.setN(v)
     }
     return (
         <div className="my-3 text-center" >
             <button
                 className="px-3 py-1 m-1 text-center btn-primary"
-                onClick={() => setN(props.number - 1)}
+                onClick={(e) => setN(e.target.innerHTML, props.number - 1)}
             >
                 Previous
             </button>
@@ -61,7 +72,7 @@ const Pagination = props => {
             }
             <button
                 className="px-3 py-1 m-1 text-center btn-primary"
-                onClick={() => setN(props.number + 1)}
+                onClick={(e) => setN(e.target.innerHTML, props.number + 1)}
             >
                 Next
             </button>
