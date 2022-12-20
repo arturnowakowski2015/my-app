@@ -462,7 +462,7 @@ const TreeNode = (props) => {
   return <div className="nodeel">
     {props.config == 0 && familyTree.map((t, i) => {
 
-      return t && <div onMouseOut={() => { tdepth = []; tid = [] }}
+      return t && <div key={i} onMouseOut={() => { tdepth = []; tid = [] }}
         onClick={(e) => {
 
           e.stopPropagation()
@@ -518,7 +518,7 @@ const TreeNode = (props) => {
 
 
     {props.config == 1 && familyTree.map((t, i) => {
-      return <div onMouseOut={() => { tdepth = []; tid = [] }}
+      return <div key={i} onMouseOut={() => { tdepth = []; tid = [] }}
 
 
 
@@ -529,11 +529,12 @@ const TreeNode = (props) => {
             markleaf(e, familyTree, 0, 0)
           if (tid.length == 0)
             l.push({ d: t.depth, i: t.id })
-
-          markparent(e, familyTree, l[0].d, l[0].i)
-          parentnode.name = t.name;
-          parentnode.depth = l[0].d;
-          parentnode.id = l[0].i
+          if (l[0]) {
+            markparent(e, familyTree, l[0].d, l[0].i)
+            parentnode.name = t.name;
+            parentnode.depth = l[0].d;
+            parentnode.id = l[0].i
+          }
         }
 
         }
@@ -545,7 +546,7 @@ const TreeNode = (props) => {
         {t.name != props.pc[0] &&
           <p
 
-            class="p fw-bold"
+            className="p fw-bold"
             style={{ backgroundColor: t.bgcolor }}>{t.name}....
             {pcl(t.name) != 0 ? pcl(t.name) : ""}
 

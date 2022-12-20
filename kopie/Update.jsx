@@ -32,7 +32,7 @@ const Update = (props) => {
     }
     return <div> update<input type="text" value={str}
         onChange={(e) => m(e)} />
-        <Link class="a4" to={"/a/pagination"} onClick={() => mm(str)}>upd     te</Link>
+        <Link className="a4" to={"/a/pagination"} onClick={() => mm(str)}>upd     te</Link>
     </div>
 }
 

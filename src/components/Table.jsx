@@ -23,8 +23,6 @@ import UserContext from "../ctx/User";
 const Table = (props, columns) => {
     const [count, updateCount] = React.useContext(UserContext);
     const navigate = useNavigate();
-
-
     const [flagel, setFlagel] = useState(true)
     const [biw, setBiw] = useState(0)
     const [sort, setSort] = useState(true)
@@ -126,18 +124,18 @@ const Table = (props, columns) => {
         let h = header.map((k, ii) => {
             return (arr.indexOf(ii) == -1 && props.columns[ii]
                 && props.columns[ii].col.disp == true)
-                ? (<th className="tr" onClick={() => { sortarr(k, i); setChevron(!chevron); }}>
+                ? (<th key={ii} className="tr" onClick={() => { sortarr(k, i); setChevron(!chevron); }}>
                     <div onMouseOver={() => setI(ii)} >
                         {
-                            chevron && ii == i ? <i class="fa fa-chevron-up"></i> : chevron == false && ii == i ?
-                                <i class="fa fa-chevron-down"></i> : ""
+                            chevron && ii == i ? <i className="fa fa-chevron-up"></i> : chevron == false && ii == i ?
+                                <i className="fa fa-chevron-down"></i> : null
                         }
-                        c{k}</div></th >) : null
+                        c{k}</div></th>) : null
         })
 
         col.shift();
 
-        return (<tr ><th className="tr"> selected </th> {h}</tr>)
+        return (<tr ><th className="tr">selected</th>{h}</tr>)
     }
     const df = (i, o) => {
         props.df(i, o)
@@ -184,12 +182,12 @@ const Table = (props, columns) => {
         let tr = Object.keys(row).map((k, j) => {
             return typeof row[k] !== "object" && props.columns[j] && props.columns[j].col.disp == true
                 ?
-                <td onMouseOver={() => { url = "/" + row.id + "/edit"; setId(row.id); }} ><div className="div1">{row[k]}</div></td >
+                <td key={j} onMouseOver={() => { url = "/" + row.id + "/edit"; setId(row.id); }} ><div className="div1">{row[k]}</div></td >
                 : typeof row[k] !== "object" && props.columns[j] && props.columns[j].col.disp == true
                     && j == 2 ?
 
 
-                    <td onMouseOver={() => { url = "/a/" + props.acturl + "/pagination/" + row[k] + "/" + row.id + "/lll" + "/1/edit"; setId(row.id); }} >
+                    <td key={j} onMouseOver={() => { url = "/a/" + props.acturl + "/pagination/" + row[k] + "/" + row.id + "/lll" + "/1/edit"; setId(row.id); }} >
                         <div className="div1">{row[k]}</div>
                     </td >
 
@@ -201,17 +199,17 @@ const Table = (props, columns) => {
         });
 
 
-        return (<tr   >{row.checkbox == true ? <input type="checkbox" id={row.id + "/"}
-            checked={count[i].checked ? "" : ""} />
+        return (<tr key={i} ><td>{row.checkbox == true ? <input type="checkbox" id={row.id + "/"}
+            checked={count[i].checked ? null : null} />
             : <input style={{ position: "relative", top: "10px", float: "left" }} type="checkbox" id={row.id} checked={(count.filter((tt) => { return tt.id == row.id })[0] != undefined
                 ? count.filter((tt) => { return tt.id == row.id })[0].checked
-                : "")}
+                : null)}
                 onChange={(e) => { setch(row.id, e.target.checked) }} />}<div style={{ cursor: "pointer", textDecoration: "underline" }}
                     onMouseOver={() => { url = "/a/" + props.acturl + "/pagination/" + row.name + "/" + row.id + "/" + row.name + "/1/edit"; setId(row.id); }}
                     onClick={(e) => {
                         dv(url, row[Object.keys(row).filter((t, i) => { return i == 2 && t })],
                             Object.keys(row).filter((t, i) => { return i == 2 && t }), row.id)
-                    }} >edit</div>{tr}</tr>);
+                    }} >edit</div></td>{tr}</tr>);
 
     }
 
@@ -254,35 +252,24 @@ const Table = (props, columns) => {
 
 
     const el = <div>{firstPost + "-" + (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}
-        {props.flagsettings != 4 && <Pagination acturl={props.acturl} fp={fp} span={span} postPerPage={postPerPage} number={number} pageNumber={pageNumber}
-            ChangePage={ChangePage} setN={setN} length={data.length} firstPost={firstPost} />}
+        {props.flagsettings != 4 ? <Pagination acturl={props.acturl} fp={fp} span={span} postPerPage={postPerPage} number={number} pageNumber={pageNumber}
+            ChangePage={ChangePage} setN={setN} length={data.length} firstPost={firstPost} />
+            : null}
         <div >
             {
                 element == 1 ? null
                     :
 
-                    <div className="table"> <table>
-
+                    <div className="table"><table>
                         <thead className="th">
                             {data[0] ? buildHeader(Object.keys(data[0]), data.columns) : null}
                         </thead>
-                        <tbody>
-
-                            {
-                                view == 1 ?
-                                    currentPost.length >= 0 ? currentPost.map(buildRow) : <div>vvvv</div>
-                                    :
-                                    <tr><td>dddddddddddd</td></tr>
-
-                            }
-
-
-
-
-
-
-
-                        </tbody>
+                        <tbody>{
+                            view == 1 ?
+                                currentPost.length >= 0 ? currentPost.map(buildRow) : <tr>vvvv</tr>
+                                :
+                                <tr><td>dddddddddddd</td></tr>
+                        }</tbody>
                     </table>
                     </div>
 
@@ -294,11 +281,11 @@ const Table = (props, columns) => {
 
 
 
-        <div>
+        <>
             {flagel == true ?
-                el : ""
+                el : null
             }
-        </div>
+        </>
 
     )
 }

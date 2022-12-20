@@ -36,7 +36,7 @@ const Select = (props) => {
             {strd}
         </select>
         <div>
-            {b == 0 && <div class="btn2" >choose database</div>} </div>
+            {b == 0 && <div className="btn2" >choose database</div>} </div>
         {b == 1 && <button onClick={() => back()}>deploy</button>}
 
     </div>)

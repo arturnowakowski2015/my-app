@@ -33,7 +33,7 @@ const ButtonModal = props => {
     return nodes.map((t, i) => {
       return <div style={{ paddingLeft: "5px" }}><label style={{ backgroundColor: t.bgcolor }}
         onClick={() => { makeColor(props.familyTree, d, i); setEl(makeEl(arr, 0)); setName(t.name) }}
-        for="recipient-name" class="col-form-label" key={i}>{t.name}</label>
+        className="col-form-label" key={i}>{t.name}</label>
         {t.children ? makeEl(t.children, d + 1) : null}</div>
 
     })
@@ -43,33 +43,33 @@ const ButtonModal = props => {
 
   return (
     <div>
-      <div class="deleteset">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+      <div className="deleteset">
+        <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
           move ckecked to choosen folder         </button>
-        <button type="button" class="btn btn-primary" onClick={() => props.checkall()} onMouseOut={() => navigate("/a/" + props.ac[0].cat + "/pagination")}>
+        <button type="button" className="btn btn-primary" onClick={() => props.checkall()} onMouseOut={() => navigate("/a/" + props.ac[0].cat + "/pagination")}>
           check/uncheck
         </button>
-        <button type="button" class="btn btn-primary" onClick={() => props.deleteel()} >
+        <button type="button" className="btn btn-primary" onClick={() => props.deleteel()} >
           delete
         </button></div>
 
-      <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Closea"></button>
+      <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">Modal title</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Closea"></button>
             </div>
-            <div class="modal-body">
+            <div className="modal-body">
               <form>
-                <div class="mb-3">
+                <div className="mb-3">
                   .{el}
 
                 </div>
               </form>
             </div>
-            <div class="modal-footer">
-              <button type="button" onClick={() => { props.changeintree(name, 0, 2); props.changecategory(name, 2, 1); navigate("/a/" + props.ac.cat + "/pagination") }} class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <div className="modal-footer">
+              <button type="button" onClick={() => { props.changeintree(name, 0, 2); props.changecategory(name, 2, 1); navigate("/a/" + props.ac.cat + "/pagination") }} className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 
             </div>
           </div>

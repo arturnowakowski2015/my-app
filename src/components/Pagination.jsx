@@ -47,7 +47,7 @@ const Pagination = props => {
 
             {props.pageNumber.map((Elem, i) => {
                 return (
-                    <div class="pagbtn" >
+                    <div className="pagbtn" key={i}>
                         {
                             props.number == i + props.fp ?
                                 <div><Link to={"/a/" + props.acturl + "pagination/" + Elem} onClick={(event) => funk(event, Elem)}

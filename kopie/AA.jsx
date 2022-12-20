@@ -214,12 +214,12 @@ class AA extends React.Component {
       <div>
         {this.state.settings == 0 && this.props.params.f == undefined &&
 
-          <div class="LT">
-            <div class="TreeNode">
+          <div className="LT">
+            <div className="TreeNode">
               <TreeNode familyTree={tree.children} id={0} depth={0} />
             </div>
-            <div class="LTchild">
-              <Link class="a2" to="/a/pagination/settings" onClick={() => this.setState({ settings: 1 })}>settings</Link>
+            <div className="LTchild">
+              <Link className="a2" to="/a/pagination/settings" onClick={() => this.setState({ settings: 1 })}>settings</Link>
 
 
 
@@ -248,8 +248,8 @@ class AA extends React.Component {
 
 
         {this.state.settings == 0 && this.props.params.f == 1 &&
-          <div class="LT">
-            <div class="TreeNode">
+          <div className="LT">
+            <div className="TreeNode">
               <TreeNode familyTree={tree.children} id={0} depth={0} />
             </div>
 
@@ -265,17 +265,17 @@ class AA extends React.Component {
         {
           this.state.settings == 1 && <div >
 
-            <div class="LT">
-              <div class="TreeNode">
+            <div className="LT">
+              <div className="TreeNode">
                 <TreeNode familyTree={tree.children} id={0} depth={0} />
               </div>
-              <div class="LTchild">
+              <div className="LTchild">
                 <Settings data={this.state.data} columns={this.state.columns} changePPP={this.changePPP.bind(this)}
                   checkedCol={this.checkedCol.bind(this)}
 
                   flagsettings={this.state.flagsettings} postPerPage={this.state.postPerPage} />
-                <Link class="a2" to="/a/pagination" onClick={() => this.setState({ settings: 0 })}>back to main</Link>
-                <Link class="a2" to="/a/pagination/url" onClick={() => this.setState({ settings: 2 })}>change database</Link>
+                <Link className="a2" to="/a/pagination" onClick={() => this.setState({ settings: 0 })}>back to main</Link>
+                <Link className="a2" to="/a/pagination/url" onClick={() => this.setState({ settings: 2 })}>change database</Link>
                 <Table i={this.state.i} data={this.state.data} setch={this.setch.bind(this)}
                   columns={this.state.columns.map((t, i) => {
                     if (i == this.state.icolumn && this.state.checked) t.col.disp = false;

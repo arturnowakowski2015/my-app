@@ -15,8 +15,8 @@ export const NormalMode = (props) => {
     return (
         <div >
 
-            <div class="LT">
-                <div class="TreeNode">
+            <div className="LT">
+                <div className="TreeNode">
                     <TreeNode changeintree={props.changeintree}
                         changeparent={props.changeparent}
                         config={props.config}
@@ -29,15 +29,15 @@ export const NormalMode = (props) => {
                         parent={props.parent} />
 
                 </div>
-                <div class="LTchild">
+                <div className="LTchild">
                     <Settings data={props.data} columns={props.columns} changePPP={props.changePPP}
                         checkedCol={props.checkedCol}
 
                         flagsettings={props.flagsettings} postPerPage={props.postPerPage}
 
                     />
-                    <Link class="a2" to={"/a/" + props.categories.actual[0].cat + "/pagination"} onClick={() => this.setState({ settings: 0 })}>back to main</Link>
-                    <Link class="a2" to={"/a/" + props.categories.actual[0].cat + "/pagination/url"} onClick={() => this.setState({ settings: 2 })}>change database</Link>
+                    <Link className="a2" to={"/a/" + props.categories.actual[0].cat + "/pagination"} onClick={() => this.setState({ settings: 0 })}>back to main</Link>
+                    <Link className="a2" to={"/a/" + props.categories.actual[0].cat + "/pagination/url"} onClick={() => this.setState({ settings: 2 })}>change database</Link>
 
 
 

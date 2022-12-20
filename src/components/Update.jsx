@@ -27,7 +27,7 @@ const Update = (props) => {
     }
     return <div><input type="text" value={str}
         onChange={(e) => m(e)} />
-        <div style={{ cursor: "pointer", textDecoration: "underline" }} class="a4" onClick={() => mm()}>update</div>
+        <div style={{ cursor: "pointer", textDecoration: "underline" }} className="a4" onClick={() => mm()}>update</div>
 
     </div>
 }

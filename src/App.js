@@ -25,7 +25,7 @@ function App() {
 
 
         <Router>
-          <Link class="a1" to="/a/new/pagination/">start</Link>
+          <Link className="a1" to="/a/new/pagination/">start</Link>
 
           <Routes>
 

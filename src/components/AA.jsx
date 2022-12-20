@@ -158,7 +158,6 @@ class AA extends React.Component {
 
 
     this.setState((state) => {
-      // Important: read `state` instead of `this.state` when updating.
       return {
         icolumn: index,
         checked: checked
@@ -197,7 +196,7 @@ class AA extends React.Component {
         strd: this.state.urls.map((t, i) => (
 
 
-          (<option value={i}>{t.slice(t.lastIndexOf("/"))}</option>)
+          (<option key={i} value={i}>{t.slice(t.lastIndexOf("/"))}</option>)
 
         )),
         str: this.props.params.str
@@ -231,9 +230,6 @@ class AA extends React.Component {
         this.state.categories.actual[0].l = this.state.data[category].length
       }
 
-
-      //   this.state.categories.actual[0].cat = category
-      //  this.state.categories.actual[0].l = this.state.data[category].length;
     }
 
     arr = 0;
@@ -352,8 +348,6 @@ class AA extends React.Component {
         data: [this.state.categories[0]] = this.state.data[this.state.categories[0]].filter(f => !arr.some(item => item.id === f.id))
       })
 
-      //this.setState({ changes: this.state.changes.map((t) => { return   t.checked=false  })})
-      //window.location.href = "/a/pagination"
 
 
     }
@@ -362,16 +356,15 @@ class AA extends React.Component {
 
     }
 
-    //arr = count; 
     return (
       <div>
 
         {this.state.settings == 0 && this.props.params.f == undefined &&
 
-          <div class="LT">
+          <div className="LT">
 
-            <div class="LTchild">
-              {arr.length == 0 && <Link class="a2" to={"/a/" + this.state.categories.actual[0].cat + "/pagination/settings"} onClick={() => {
+            <div className="LTchild">
+              {arr.length == 0 && <Link className="a2" to={"/a/" + this.state.categories.actual[0].cat + "/pagination/settings"} onClick={() => {
                 this.setState({ config: 1 });
                 this.setState({ settings: 1 })
                 this.setState({ number1: 1 })
@@ -416,8 +409,8 @@ class AA extends React.Component {
 
 
         {this.state.settings == 3 &&
-          <div class="LT">
-            <div class="TreeNode">
+          <div className="LT">
+            <div className="TreeNode">
               <Update i={this.state.i} furl={this.furl.bind(this)} acturl={this.state.categories.actual[0].cat}
                 strcol={this.state.strcol} />
 
@@ -435,7 +428,7 @@ class AA extends React.Component {
         {
           this.state.settings == 1 &&
 
-          <div class="LT select">
+          <div className="LT select">
 
 
             <Settings data={this.state.data} columns={this.state.columns} changePPP={this.changePPP.bind(this)}
@@ -444,11 +437,11 @@ class AA extends React.Component {
               flagsettings={this.state.flagsettings} postPerPage={this.state.postPerPage}
               number2={(o) => this.setState({ number1: o })}
             />
-            <Link class="a2" to={"/a/" + this.state.categories.actual[0].cat + "/pagination"} onClick={() => {
+            <Link className="a2" to={"/a/" + this.state.categories.actual[0].cat + "/pagination"} onClick={() => {
               this.setState({ settings: 0 });
               this.setState({ config: 0 })
             }}>back to main</Link>
-            <Link class="a2 select" to={"/a/" + this.state.categories.actual[0].cat + "/pagination/url"} onClick={() => this.setState({ settings: 2 })}>change database</Link>
+            <Link className="a2 select" to={"/a/" + this.state.categories.actual[0].cat + "/pagination/url"} onClick={() => this.setState({ settings: 2 })}>change database</Link>
 
             <div className="border"></div>
 
@@ -473,7 +466,7 @@ class AA extends React.Component {
             />
           </div>
         }
-        <div class="LTchild">
+        <div className="LTchild">
           <div className="treeNode">
             <TreeNode changeintree={(category, flag, flag1) => { this.changedata(category, flag, flag1); updateCount("", 0, 3) }}
               changeparent={(name) => this.setState({ parent: name })}

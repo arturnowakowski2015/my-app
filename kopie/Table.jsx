@@ -61,7 +61,7 @@ const Table = (props, columns) => {
         let h = header.map((k, i) => {
             return (arr.indexOf(i) == -1 && props.columns[i]
                 && props.columns[i].col.disp == true)
-                ? (<th class="col" onClick={() => sortarr(k, i)}> {k} {k == "title" || k != "body" ? "^" : ""}</th>) : null
+                ? (<th className="col" onClick={() => sortarr(k, i)}> {k} {k == "title" || k != "body" ? "^" : ""}</th>) : null
         })
 
         col.shift();
@@ -116,7 +116,7 @@ const Table = (props, columns) => {
     : col[j].col.disp = false
 
         })
-return (<tr class="cell">{row.checkbox == true ? <input type="checkbox" id={row.id + "/"}
+return (<tr className="cell">{row.checkbox == true ? <input type="checkbox" id={row.id + "/"}
     checked={props.changes[i].checked ? "" : ""} />
     : <input type="checkbox" id={row.id} checked={props.changes[i].checked}
         onChange={(r) => setch(row.id)} />}{tr}</tr>);
