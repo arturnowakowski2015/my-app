@@ -31,7 +31,7 @@ const ButtonModal = props => {
   const makeEl = (nodes, d) => {
 
     return nodes.map((t, i) => {
-      return <div ><label style={{ backgroundColor: t.bgcolor }}
+      return <div style={{ paddingLeft: "5px" }}><label style={{ backgroundColor: t.bgcolor }}
         onClick={() => { makeColor(props.familyTree, d, i); setEl(makeEl(arr, 0)); setName(t.name) }}
         for="recipient-name" class="col-form-label" key={i}>{t.name}</label>
         {t.children ? makeEl(t.children, d + 1) : null}</div>

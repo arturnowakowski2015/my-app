@@ -20,6 +20,7 @@ let stop2 = 0;
 let stop3 = 0;
 let child = null
 let childname = [];
+let wwparent = [];
 const makeids = (nodes, i) => {
   nodes && nodes.map((t) => {
     {
@@ -32,6 +33,9 @@ const makeids = (nodes, i) => {
 
 const makeidlev = (nodes, i, tt) => {
   return nodes && nodes.forEach((t) => {
+    console.log(JSON.stringify(nodes) + "::::" + JSON.stringify(t.depth))
+
+
     t.depth = tt;
     t.bgcolor = "white";
 
@@ -125,7 +129,6 @@ const TreeNode = (props) => {
     })
   }
   const pcl = (cat) => {
-    console.log("ffffff              " + JSON.stringify(props.pc))
     let c = 0;
     Object.keys(props.pc).filter((tt) => {
       c = props.pc[cat] ? props.pc[cat] : ""
@@ -155,7 +158,7 @@ const TreeNode = (props) => {
     let f = 0;
     let y = nodes.map((t) => {
 
-      if (t.children) { bck(e, t.children, depth, id); }
+      if (t != undefined && t.children) { bck(e, t.children, depth, id); }
       return t;
     });
     setFamilyTree(y)
@@ -237,8 +240,11 @@ const TreeNode = (props) => {
         else wparent = { name: "zero" }
         wchild = arr[ii - 1]
         parentnode1 = t;
-        removeel(tree.children)
-
+        if (mode == 0) {
+          arr = [];
+          removeel(tree)
+        }
+        else removeel(tree.children)
       }
       if (t.children)
         addel(t.children)
@@ -286,43 +292,50 @@ const TreeNode = (props) => {
 
       })
     else {
-      y = nodes.map((yy) => {
+      alert("9  " + nodes.id)
+      if (nodes.depth == undefined && nodes.name == "John") {
+        y = [];
+        ii = 0;
 
+        arr.push({ depth: "undefined", id: "undefined", children: nodes.children })
+        ++ii;
+      }
+      y = nodes.children && nodes.children.map((yy) => {
+        arr.push(yy)
 
         if (yy.children) removeel(yy.children)
 
 
-        if (yy.name == parentnode1.name && stop3 == 0) {
+
+        if (yy.name == node) {
+
+          childname = yy.children
+
+          wwparent = arr[ii]
+          if (arr[ii])
+            console.log(JSON.stringify(wwparent) + ":bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb:")
+          parentnode1 = yy;
+          ++ii
 
 
-          wparent.children && wparent.children.map((t2) => {
-            if (yy.children == null)
-              yy.children = []
-            if (t2.name == node) {
 
-              if (t2.children) {
-
-                el1 = { name: t2.name }
-                yy.children.push(el1)
-              }
-              else {
-
-                yy.children.push(t2)
-
-              }
-              stop3 = 1;
-            }
-          })
         }
+        ++ii;
+
+
+
+
+
         return yy;
 
       })
     }
+    console.log("remel::::" + JSON.stringify(nodes))
 
     deleteel(nodes);
 
   }
-
+  let v = 0
   const deleteel = (nodes) => {
     if (mode == 1)
       nodes.forEach((t) => {
@@ -341,11 +354,52 @@ const TreeNode = (props) => {
           })
 
       })
-    setparent(nodes)
+    else {
+      if (tree.children && stop == 0) {
+        tree.children.splice(1, 1, { name: "pop", depth: 9, id: 0 })
+        stop = 1;
+      }
 
+
+
+
+
+
+      nodes.children && nodes.children.map((t) => {
+
+        if (t.name == parentnode.name) {
+
+          wwparent.children.map((y, i) => { if (y.name == t.name) v = i })
+
+          wwparent.children.splice(v, 1, childname)
+        }
+
+        if (t.bgcolor == "red") {
+
+          t.children = [...t.children, { name: node, id: 0, depth: 0 }]
+        }
+        if (t.children) deleteel(t)
+        if (t.depth == childname.depth && t.children) { alert(t.name + "pop"); wwparent.children.splice(0, 1, { name: "pop1111", depth: 9, id: 0 }) }
+      }
+
+      )
+
+
+    }
+    setFamilyTree(tree.children)
+
+    makeidlev(familyTree.children, 0, 0)
+    for (let ii = 0; ii < 20; ii++) {
+      c = 0;
+      makeids(familyTree.children, ii)
+
+    }
+    setparent(nodes)
   }
+
   let j = 0;
   const setparent = (nodes) => {
+
     if (mode == 1) {
       let y =
         nodes.map((t) => {
@@ -380,20 +434,51 @@ const TreeNode = (props) => {
           }
 
         })
-      setFamilyTree(y)
-    }
-  }
 
+    }
+
+
+
+
+
+
+  }
+  const zrob = (e) => {
+    e.stopPropagation()
+    addel(tree.children);
+
+    c = 0;
+    makeidlev(tree.children, 0, 0);
+    for (let ii = 0; ii < 20; ii++) {
+      c = 0;
+      makeids(tree.children, ii)
+
+    }; alert(7890); node = ""; props.changeconfig(0);
+    console.log("delel::::" + JSON.stringify(wwparent.children))
+  }
+  const deletenode = (nodes) => {
+    return nodes = wwparent;
+  }
   return <div className="nodeel">
     {props.config == 0 && familyTree.map((t, i) => {
-      return <div onMouseOut={() => { tdepth = []; tid = [] }}
+
+      return t && <div onMouseOut={() => { tdepth = []; tid = [] }}
         onClick={(e) => {
 
           e.stopPropagation()
           findgreen(tree.children)
           props.changeintree(t.name, 0, 1);
-          markIn(e, t.name == props.ac.cat, tree.children, t.depth, t.id)
 
+
+          let c = 0;
+          Object.keys(props.pc).filter((tt) => {
+            c = props.pc[t.name] ? props.pc[t.name].length : 0
+          });
+
+
+
+
+          markIn(e, c, tree.children, t.depth, t.id)
           if (marked == 0) markedformer(tree.children)
           navigate("/a/" + t.name + "/pagination")
         }}
@@ -473,15 +558,8 @@ const TreeNode = (props) => {
               <div style={{ padding: "20px" }}>under</div>
               <div style={{ height: "20px", width: "20px", backgroundColor: "green", marginTop: "40px" }}>main</div>
             </div>{p == 1 && <button onClick={(e) => {
-              addel(tree);
-              c = 0;
-              makeidlev(familyTree, 0, 0)
-              for (let ii = 0; ii < 20; ii++) {
-                c = 0;
-                makeids(familyTree, ii)
+              zrob(e)
 
-              }; node = ""; props.changeconfig(0);
-              setFamilyTree(familyTree)
             }}>hhh</button>}
           </div>
         }
@@ -497,8 +575,6 @@ const TreeNode = (props) => {
 
 
     })}
-
-
 
 
 
