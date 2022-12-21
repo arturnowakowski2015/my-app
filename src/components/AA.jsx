@@ -494,7 +494,7 @@ class AA extends React.Component {
           />
 
         </div>
-      </div>)
+      </div >)
   }
 }
 
