@@ -31,7 +31,7 @@ export const tree = {
       ],
     },
     {
-      name: "etykiety",
+      name: "labels",
       age: 55,
     }, { line: "line" }
   ],

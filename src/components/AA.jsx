@@ -475,7 +475,7 @@ class AA extends React.Component {
               changeconfig={(i) => { this.setState({ config: i }) }}
               settings={this.state.settings}
               ac={this.state.categories.set}
-              pc={this.state.data} id={0} depth={0}
+              pc={this.state.data} id={0} depth={0} p={0} pdepth={-1} pid={0}
 
               parent={this.state.parent} />
           </div>

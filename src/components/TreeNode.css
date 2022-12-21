@@ -3,7 +3,7 @@
     background-color: black;
   }
   .treeNode {
-    width: 200px;
+    width: 240px;
     border-radius: 5px;
     background-color: #F2F8FD;
     height: 300px
@@ -18,3 +18,20 @@
   }
   .nodeel{ padding-left: 10px;
 padding-top: 5px }
+
+.uns{
+  user-select: none;
+}
+.x{
+ 
+  background-color:red;
+  cursor: move;
+
+}
+p {
+  border-radius: 5px 0px  0px 5px;
+ 
+}
+i{
+  padding-right:5px; padding-left: 10px
+}

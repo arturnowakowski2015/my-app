@@ -13,14 +13,12 @@ let mode = 0;
 let mdepth = [];
 let mid = []
 let parentnode = {};
-let l = []
-let o = -1;
-let stop = 0;
-let stop2 = 0;
-let stop3 = 0;
-let child = null
-let childname = [];
+let modesplice = 0;
 let wwparent = [];
+let elmenu = {
+  mode: 0,
+  parent: { name: "", depth: null, id: null }, child: { name: "", depth: null, id: null }, parentold: { name: "", depth: null, id: null }
+}
 const makeids = (nodes, i) => {
   nodes && nodes.map((t) => {
     {
@@ -33,7 +31,6 @@ const makeids = (nodes, i) => {
 
 const makeidlev = (nodes, i, tt) => {
   return nodes && nodes.forEach((t) => {
-    console.log(JSON.stringify(nodes) + "::::" + JSON.stringify(t.depth))
 
 
     t.depth = tt;
@@ -49,7 +46,17 @@ let disp = true;
 let y = [];
 
 const TreeNode = (props) => {
-  let mode = 0;
+  const icons = {
+    "root": <i class="fa fa-bolt" ></i>,
+    "new": <i class="fa fa-bell"></i>,
+    "postponed": <i class="fa fa-star"></i>,
+    "removed": <i class="fa fa-envelope"></i>,
+    "selected": <i class="fa fa-paper-plane"></i>,
+    "labels": <i class="fa fa-file-o"></i>
+  };
+
+
+
   let modeset = {}
   const navigate = useNavigate();
   const [familyTree, setFamilyTree] = useState(props.familyTree)
@@ -225,26 +232,12 @@ const TreeNode = (props) => {
 
 
     nodes.map((t, i) => {
-      arr.push(t)
-
-      ++ii;
-      if (t.name == node) {
-
-        if (t.depth > parentnode.depth)
-          mode = 1;
-
-        y = { name: t.name }
-        childname.push(t.children)
-        if (t.depth != 0)
-          wparent = arr[ii - 2]
-        else wparent = { name: "zero" }
-        wchild = arr[ii - 1]
-        parentnode1 = t;
-        if (mode == 0) {
-          arr = [];
-          removeel(tree)
-        }
-        else removeel(tree.children)
+      if (t.name == elmenu.parent.name && mode == 0 && elmenu.child.name != t.name) {
+        if (t.children == null)
+          t.children = []
+        if (t.children.filter((tt) => tt.name == elmenu.child.name).length == 0)
+          t.children.unshift({ name: elmenu.child.name, depth: 0, id: 0, bgcolor: "orange" })
+        mode = 1;
       }
       if (t.children)
         addel(t.children)
@@ -257,209 +250,84 @@ const TreeNode = (props) => {
 
   }
   let el1 = {}
-  const removeel = (nodes) => {
-    ii = 0;
-    let y = []
-    if (mode == 1)
-      y = nodes.map((yy) => {
 
-
-        if (yy.children) removeel(yy.children)
-
-
-        if (yy.name == parentnode.name && stop3 == 0) {
-
-          wparent.children && wparent.children.map((t2) => {
-            if (yy.children == null)
-              yy.children = []
-            if (t2.name == node) {
-
-              if (t2.children) {
-
-                el1 = { name: t2.name }
-                yy.children.push(el1)
-              }
-              else {
-
-                yy.children.push(t2)
-
-              }
-              stop3 = 1;
-            }
-          })
-        }
-        return yy;
-
-      })
-    else {
-      alert("9  " + nodes.id)
-      if (nodes.depth == undefined && nodes.name == "John") {
-        y = [];
-        ii = 0;
-
-        arr.push({ depth: "undefined", id: "undefined", children: nodes.children })
-        ++ii;
-      }
-      y = nodes.children && nodes.children.map((yy) => {
-        arr.push(yy)
-
-        if (yy.children) removeel(yy.children)
-
-
-
-        if (yy.name == node) {
-
-          childname = yy.children
-
-          wwparent = arr[ii]
-          if (arr[ii])
-            console.log(JSON.stringify(wwparent) + ":bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb:")
-          parentnode1 = yy;
-          ++ii
-
-
-
-        }
-        ++ii;
-
-
-
-
-
-        return yy;
-
-      })
-    }
-    console.log("remel::::" + JSON.stringify(nodes))
-
-    deleteel(nodes);
-
-  }
   let v = 0
-  const deleteel = (nodes) => {
-    if (mode == 1)
-      nodes.forEach((t) => {
-        if (t.children) deleteel(t.children)
 
-        if (t.name == wchild)
-          t.children.map((tt, i) => {
-
-            tt.children && tt.children.map((y, p) => {
-
-              if (y.name == node) {
-                child = y;
-
-              }
-            })
-          })
-
-      })
-    else {
-      if (tree.children && stop == 0) {
-        tree.children.splice(1, 1, { name: "pop", depth: 9, id: 0 })
-        stop = 1;
-      }
-
-
-
-
-
-
-      nodes.children && nodes.children.map((t) => {
-
-        if (t.name == parentnode.name) {
-
-          wwparent.children.map((y, i) => { if (y.name == t.name) v = i })
-
-          wwparent.children.splice(v, 1, childname)
-        }
-
-        if (t.bgcolor == "red") {
-
-          t.children = [...t.children, { name: node, id: 0, depth: 0 }]
-        }
-        if (t.children) deleteel(t)
-        if (t.depth == childname.depth && t.children) { alert(t.name + "pop"); wwparent.children.splice(0, 1, { name: "pop1111", depth: 9, id: 0 }) }
-      }
-
-      )
-
-
-    }
-    setFamilyTree(tree.children)
-
-    makeidlev(familyTree.children, 0, 0)
-    for (let ii = 0; ii < 20; ii++) {
-      c = 0;
-      makeids(familyTree.children, ii)
-
-    }
-    setparent(nodes)
-  }
 
   let j = 0;
-  const setparent = (nodes) => {
-
-    if (mode == 1) {
-      let y =
-        nodes.map((t) => {
-          if (t.children) setparent(t.children)
-          if (t.name == wparent.name && stop2 == 0) {
 
 
-            childname.map((u, i) => {
-              if (u) {
-                let r = { name: u[i].name }
+  const zrobopacity = (e, str, d, id) => {
+    e.stopPropagation();
 
-
-                t.children.push(r)
-              }
-            })
-
-            t.children.map((tt, i) => {
-              if (tt.name == node) j = i;
-            })
-
-            let u = t.children.filter((t) => { return t.name != node })
-            t.children = u
-
-
-            stop2 = 1;
-          }
-
-          if (t.name == parentnode.name) {
-            delete wchild.children
-            if (stop3 == 0)
-              t.children.push(wchild)
-          }
-
-        })
-
-    }
-
-
-
-
+    makeopacity(tree.children, str, d, id)
 
 
   }
+  const makeopacity = (nodes, str, d, id) => {
+
+    nodes.map((t) => {
+      if (t.name == str) {
+
+        elmenu.child.name = str; t.opacity = 0.4;
+        elmenu.child.depth = d;
+        elmenu.child.id = id;
+        setFamilyTree(familyTree);
+      }
+      if (t.depth == d && t.id == id) {
+        elmenu.parentold.name = t.name
+        elmenu.parentold.depth = d;
+        elmenu.parentold.id = id;
+        t.bgcolor = "yellow"
+      }
+      if (t.children) { makeopacity(t.children, str, d, id); }
+
+    })
+
+  }
+
+  const onDragOver1 = (nodes, str, d, id) => {
+    nodes.map((t) => {
+
+      if (t.children) { onDragOver1(t.children, str, d, id); }
+      if (t.name == str && t.bgcolor != "yellow") {
+        t.bgcolor = "blue";
+        elmenu.parent.name = t.name;
+        elmenu.parent.depth = d;
+        elmenu.parent.id = t.id;
+      }
+      else if (t.bgcolor != "yellow") t.bgcolor = "white"
+      if (t.name != elmenu.child.name)
+        t.opacity = 1;
+
+    })
+
+  }
+
+
   const zrob = (e) => {
     e.stopPropagation()
+
     addel(tree.children);
-
-    c = 0;
-    makeidlev(tree.children, 0, 0);
-    for (let ii = 0; ii < 20; ii++) {
-      c = 0;
-      makeids(tree.children, ii)
-
-    }; alert(7890); node = ""; props.changeconfig(0);
-    console.log("delel::::" + JSON.stringify(wwparent.children))
+    setFamilyTree(props.familyTree)
+    props.changeconfig(1)
   }
-  const deletenode = (nodes) => {
-    return nodes = wwparent;
+  const removeprobe = (nodes) => {
+    nodes.map((t) => {
+      if (t.bgcolor == "blue" && t.name != elmenu.child.name && t.children.length > 1) {
+        console.log("probe    " + t.name)
+        t.children.shift()
+      }
+      if (t.bgcolor == "blue" && t.name != elmenu.child.name && t.children.length == 1) {
+        if (t.children.filter((tt) => { return tt.name == elmenu.child.name }).length)
+          t.children = []
+      }
+      if (t.children) removeprobe(t.children)
+    })
+
   }
-  return <div className="nodeel">
+
+  return <div className="nodeel" >
     {props.config == 0 && familyTree.map((t, i) => {
 
       return t && <div key={i} onMouseOut={() => { tdepth = []; tid = [] }}
@@ -488,16 +356,14 @@ const TreeNode = (props) => {
           markEl(e, familyTree, t.depth, t.id)
         }}
 
+      >
 
-
-
-        className="nodeel">
 
         <p
           onMouseOut={(e) => { bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id) }}
           className="pnode"
-          style={{ backgroundColor: t.bgcolor }}>{t.name}
-          <span>{t.name == props.ac.cat ? props.ac.l : ""}</span>
+          style={{ backgroundColor: t.bgcolor }}>        {icons[t.name]}{t.name}
+          <span style={{ align: "right" }}>{t.name == props.ac.cat ? props.ac.l : ""}</span>
           {pcl(t.name) != 0 ? pcl(t.name) : ""}
 
         </p>
@@ -510,7 +376,7 @@ const TreeNode = (props) => {
           familyTree={t.children}
           settings={props.settings}
           ac={props.ac}
-          pc={props.pc} id={0} depth={0} />}</div>
+          pc={props.pc} id={i} depth={props.depth + 1} />}</div>
 
 
     })
@@ -518,39 +384,78 @@ const TreeNode = (props) => {
 
 
     {props.config == 1 && familyTree.map((t, i) => {
-      return <div key={i} onMouseOut={() => { tdepth = []; tid = [] }}
+      return <div key={i}
 
-
-
-        onClick={(e) => {
-          bck(e, familyTree, t.depth, t.id);
-
-          if (node == "")
-            markleaf(e, familyTree, 0, 0)
-          if (tid.length == 0)
-            l.push({ d: t.depth, i: t.id })
-          if (l[0]) {
-            markparent(e, familyTree, l[0].d, l[0].i)
-            parentnode.name = t.name;
-            parentnode.depth = l[0].d;
-            parentnode.id = l[0].i
-          }
-        }
-
-        }
-
-
+        /*
+        
+                onClick={(e) => {
+                  bck(e, familyTree, t.depth, t.id);
+        
+                  if (node == "")
+                    markleaf(e, familyTree, 0, 0)
+                  if (tid.length == 0)
+                    l.push({ d: t.depth, i: t.id })
+                  if (l[0]) {
+                    markparent(e, familyTree, l[0].d, l[0].i)
+                    parentnode.name = t.name;
+                    parentnode.depth = l[0].d;
+                    parentnode.id = l[0].i
+                  }
+                }
+        
+                }
+        
+        */
         style={{ paddingLeft: "10px" }} >
 
 
-        {t.name != props.pc[0] &&
+        {t.name != props.pc[0] && <div className="x" style={{ opacity: t.opacity }} draggable="true" onMouseDown={(e) => {
+          elmenu.child.name = t.name;
+          zrobopacity(e, t.name, props.depth - 1, props.id)
+
+
+        }}
+
+          onDragOver={(e) => {
+            removeprobe(tree.children);
+            if (mode == 0) {
+              onDragOver1(tree.children, t.name, props.depth - 1, props.id);
+              if (elmenu.parent.depth > elmenu.child.depth)
+                elmenu.mode = 1;
+              else
+                elmenu.mode = 0;
+              zrob(e);
+              props.changeconfig(1)
+
+            }
+          }}
+
+          onDragLeave={() => mode = 0}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        >aadrag'n'drop
           <p
+
 
             className="p fw-bold"
             style={{ backgroundColor: t.bgcolor }}>{t.name}....
             {pcl(t.name) != 0 ? pcl(t.name) : ""}
 
           </p>
+        </div>
         }
         {t.name == props.pc[0] &&
           <div style={{ width: "200px", borderTop: "black solid 5px" }}>click on nodes
@@ -558,24 +463,142 @@ const TreeNode = (props) => {
               <div style={{ height: "20px", width: "20px", backgroundColor: "red" }} >node</div>
               <div style={{ padding: "20px" }}>under</div>
               <div style={{ height: "20px", width: "20px", backgroundColor: "green", marginTop: "40px" }}>main</div>
-            </div>{p == 1 && <button onClick={(e) => {
-              zrob(e)
-
-            }}>hhh</button>}
+            </div>
           </div>
         }
 
         {t.children && <TreeNode changeintree={props.changeintree} config={props.config}
           parent={props.parent}
+          changeconfig={props.changeconfig}
 
           changeparent={props.changeparent}
           familyTree={t.children}
           settings={props.settings}
           ac={props.ac}
-          pc={props.pc} id={0} depth={0} />}</div>
+          pc={props.pc} id={i} depth={props.depth + 1} />}</div>
 
 
     })}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {props.config == 2 && familyTree.map((t, i) => {
+      return <div key={i} onMouseOut={() => { tdepth = []; tid = [] }}
+
+        /*
+        
+                onClick={(e) => {
+                  bck(e, familyTree, t.depth, t.id);
+        
+                  if (node == "")
+                    markleaf(e, familyTree, 0, 0)
+                  if (tid.length == 0)
+                    l.push({ d: t.depth, i: t.id })
+                  if (l[0]) {
+                    markparent(e, familyTree, l[0].d, l[0].i)
+                    parentnode.name = t.name;
+                    parentnode.depth = l[0].d;
+                    parentnode.id = l[0].i
+                  }
+                }
+        
+                }
+        
+        */
+        style={{ paddingLeft: "10px" }} >
+
+
+        {t.name != props.pc[0] && <div className="x" style={{ opacity: t.opacity }} draggable="true" onDragStart={(e) => {
+          if (node == "")
+            markleaf(e, familyTree, 0, 0)
+          zrobopacity(e)
+
+
+
+
+
+
+
+
+
+        }}
+
+          onDragOver={(e) => {
+            removeprobe(tree.children);
+            if (mode == 0) {
+              onDragOver1(tree.children, t.name, props.depth - 1, props.id);
+              if (elmenu.parent.depth > elmenu.child.depth)
+                elmenu.mode = 1;
+              else
+                elmenu.mode = 0;
+              zrob(e);
+              props.changeconfig(1)
+
+            }
+          }}
+          onDragEnd={(e) => { markparent(e, familyTree, t.depth, t.id); zrob(); }}
+        >drag'n'drop
+          <p
+
+
+            className="p fw-bold"
+            style={{ backgroundColor: t.bgcolor }}>{t.name}....
+            {pcl(t.name) != 0 ? pcl(t.name) : ""}
+
+          </p>
+        </div>
+        }
+        {
+          t.name == props.pc[0] &&
+          <div style={{ width: "200px", borderTop: "black solid 5px" }}>click on nodes
+            <div style={{ paddingTop: "20px", width: "200px", display: "flex", flexDirection: "row" }}>
+              <div style={{ height: "20px", width: "20px", backgroundColor: "red" }} >node</div>
+              <div style={{ padding: "20px" }}>under</div>
+              <div style={{ height: "20px", width: "20px", backgroundColor: "green", marginTop: "40px" }}>main</div>
+            </div>
+          </div>
+        }
+
+        {
+          t.children && <TreeNode changeintree={props.changeintree} config={props.config}
+            parent={props.parent}
+            changeconfig={props.changeconfig}
+            changeparent={props.changeparent}
+            familyTree={t.children}
+            settings={props.settings}
+            ac={props.ac}
+            pc={props.pc} id={0} depth={0} />
+        }</div>
+
+
+    })}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
