@@ -305,7 +305,6 @@ const TreeNode = (props) => {
   }
 
   const onDragOver1 = (nodes, str, d, id) => {
-
     nodes.map((t) => {
 
       if (t.children) { onDragOver1(t.children, str, d, id); }
@@ -340,34 +339,49 @@ const TreeNode = (props) => {
     })
     setFamilyTree(props.familyTree)
   }
-
-
-  const zrob = (e) => {
-
-    e.stopPropagation()
-    if (e.target.id == "ff") {
-      addroot(e, tree)
-      removefromroot(tree);
-    }
+  let y = -1;
+  const removefromroot = (tr, str) => {
+    if (str == "parent")
+      tr.children.map((t, i) => {
+        t.children.map((t) => { if (t.name == elmenu.parent.name) y = i })
+        t.children.splice(y, 1)
+      })
     else {
+      tr.children.map((t, i) => {
+        if (t.name == elmenu.child.name) y = i;
+      })
+      tr.children.splice(y, 1)
+    }
+  }
+  const zrob = (e, level) => {
+    console.log(e.target.id + "  level           " + level + "::" + elmenu.child.depth)
+    e.stopPropagation()
+    if (e.target.id == "ff" && level >= 0) {
+      addroot(e, tree)
+      removefromroot(tree, "parent")
+    }
+    else if (level >= 0 && e.target.id == "f" && tree.children.filter((t) => { return t.name == elmenu.child.name && t.opacity != 0.4 }).length != -1) {
+      addroot(e, tree)
+      removefromroot(tree, "child")
+    } else {
+
       addel(tree.children);
       removeprobe(tree.children, 1, 1)
     }
     setFamilyTree(props.familyTree)
     props.changeconfig(1)
   }
-  let y = 0;
   const removeprobe = (nodes, r, remchild) => {
-    nodes.map((t, i) => {
-      if (t.name == elmenu.child.name) y = i
-    })
-    if (r == 0 && mode == 0 && y > -1) {
-
-
+    if (r == 0 && mode == 0) {
+      let y = 0;
+      nodes.map((t, i) => {
+        if (t.name == elmenu.child.name) y = i
+      })
       if (y > -1)
         nodes.splice(y, 1)
       mode = 1
     }
+
 
     nodes.map((t) => {
 
@@ -396,24 +410,13 @@ const TreeNode = (props) => {
     })
 
   }
-
-  const removefromroot = (tr) => {
-    tr.children.map((t) => {
-      if (t.name == elmenu.parent.name) {
-        t.children.map((tt, i) => {
-          if (tt.name == elmenu.child.name) y = i;
-        })
-        t.children.splice(y, 1)
-      }
-    })
-  }
   const addroot = (e, tt) => {
 
     e.stopPropagation();
     if (tt.children.filter((t) => {
       return t.name == elmenu.child.name && t;
     }).length == 0)
-      tt.children.splice(0, 0, { name: elmenu.child.name })
+      tt.children.splice(1, 0, { name: elmenu.child.name })
     makeidlev(tree.children, 0, 0)
     for (let ii = 0; ii < 20; ii++) {
       c = 0;
@@ -525,21 +528,20 @@ const TreeNode = (props) => {
         }}
 
           onDragOver={(e) => {
-            console.log(mode + ":" + y + "::::" + t.name + "   {   " + elmenu.child.name)
+
             e.preventDefault();
             if (e.dataTransfer)
               e.dataTransfer.getData("text");
 
             if (e.target.id == "ff")
               t.opacity = 0.1
-
+            console.log(t.name + "mmm" + elmenu.child.name)
             if (t.name != elmenu.child.name) {
               removeprobe(tree.children, 1, 0);
-
-              if (mode == 0 || y == 0) {
+              if (mode == 0) {
 
                 onDragOver1(tree.children, t.name, props.depth, props.id);
-                zrob(e);
+                zrob(e, t.depth);
                 props.changeconfig(1)
               }
             }
@@ -605,12 +607,9 @@ const TreeNode = (props) => {
 
           console.log("mode           " + mode)
           removeprobe(tree.children, root, 0);
-
-          if (mode == 0 || y == 0) {
-
+          if (mode == 1) {
             onDragOver1(tree.children, t.name, props.depth - 1, props.id);
-
-            zrob(e);
+            zrob(e, t.depth);
             props.changeconfig(1)
           }
 
@@ -694,7 +693,7 @@ const TreeNode = (props) => {
                 elmenu.mode = 1;
               else
                 elmenu.mode = 0;
-              zrob(e);
+              zrob(e, t.depth);
               props.changeconfig(1)
               mode = 1
             }
