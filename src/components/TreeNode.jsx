@@ -75,10 +75,10 @@ const TreeNode = (props) => {
 
 
 
-  const clear = (e, nodes, depth, id) => {
-    makeidlev(nodes, 0, 0);
+  const clear = () => {
+    makeidlev(tree.children, 0, 0);
 
-    markEl(e, nodes, depth, id);
+    markEl(null, tree.children, 0, 0);
 
   }
   const markEl = (e, nodes, depth, id) => {
@@ -359,10 +359,6 @@ const TreeNode = (props) => {
     if (e.target.id == "ff" && level >= 0) {
       addroot(e, tree)
       removefromroot(tree, "parent")
-    }
-    else if (level >= 0 && e.target.id == "f" && tree.children.filter((t) => { return t.name == elmenu.child.name && t.opacity != 0.4 }).length != -1) {
-      addroot(e, tree)
-      removefromroot(tree, "child")
     } else {
 
       addel(tree.children);
@@ -370,6 +366,47 @@ const TreeNode = (props) => {
     }
     setFamilyTree(props.familyTree)
     props.changeconfig(1)
+  }
+
+  const removeopacity = (tr) => {
+
+    if (tr.children != undefined && mode == 0) {
+      tr.children.map((t, i) => {
+        if (t.name == elmenu.child.name)
+          y = i;
+      })
+      alert(y)
+      if (elmenu.child.children)
+        tr.children.splice(y, 1, elmenu.child.children[0])
+      else tr.children.splice(y, 1)
+
+      console.log(JSON.stringify(tree))
+
+
+    }
+    else {
+      tr.map((t) => {
+        if (t.name == elmenu.parentold.name) {
+          t.children.map((tt, i) => {
+            if (tt.name == elmenu.child.name) y = i;
+          })
+          if (elmenu.child.children)
+            t.children.splice(y, 1, elmenu.child.children[0])
+          else t.children.splice(y, 1)
+        }
+        if (t.children) removeopacity(t.children)
+      })
+
+    }
+    makeidlev(tree.children, 0, 0)
+    for (let ii = 0; ii < 20; ii++) {
+      c = 0;
+      makeids(tree.children, ii)
+
+    }
+    setFamilyTree(props.familyTree)
+    props.changeconfig(props.config == 1 ? 2 : 1)
+    mode = 1
   }
   const removeprobe = (nodes, r, remchild) => {
     if (r == 0 && mode == 0) {
@@ -556,7 +593,13 @@ const TreeNode = (props) => {
           }
 
 
-
+          onDrop={(e) => {
+            mode = 0; e.stopPropagation();
+            if (elmenu.child.depth == -1)
+              removeopacity(tree)
+            else if (elmenu.child.depth >= 0)
+              removeopacity(tree.children)
+          }}
 
 
 
@@ -571,137 +614,6 @@ const TreeNode = (props) => {
         >aadrag'n'drop
 
           <p id="text"
-
-
-            className="p fw-bold"
-            style={{ backgroundColor: t.bgcolor }}>{t.name}....
-            {pcl(t.name) != 0 ? pcl(t.name) : ""}
-
-          </p>
-        </div>
-        }
-        {t.name == props.pc[0] &&
-          <div style={{ width: "200px", borderTop: "black solid 5px" }}>click on nodes
-            <div style={{ paddingTop: "20px", width: "200px", display: "flex", flexDirection: "row" }}>
-              <div style={{ height: "20px", width: "20px", backgroundColor: "red" }} >node</div>
-              <div style={{ padding: "20px" }}>under</div>
-              <div style={{ height: "20px", width: "20px", backgroundColor: "green", marginTop: "40px" }}>main</div>
-            </div>
-          </div>
-        }
-
-        {t.children && <TreeNode changeintree={props.changeintree} config={props.config}
-          parent={props.parent}
-          changeconfig={props.changeconfig}
-
-          changeparent={props.changeparent}
-          familyTree={t.children}
-          settings={props.settings}
-          ac={props.ac}
-          pc={props.pc} id={i} depth={props.depth + 1} />}
-
-        {t.line && root == 0 && <div id="ff" draggable={true} onDragOver={(e) => {
-
-          e.preventDefault();
-          e.dataTransfer.getData("text");
-
-          console.log("mode           " + mode)
-          removeprobe(tree.children, root, 0);
-          if (mode == 1) {
-            onDragOver1(tree.children, t.name, props.depth - 1, props.id);
-            zrob(e, t.depth);
-            props.changeconfig(1)
-          }
-
-
-
-
-
-
-
-        }}
-          onDragLeave={() => {
-            removeprobe(tree.children, root, 1);
-
-          }}
-          style={{ marginTop: "-30px", height: "50px", width: "100%", backgroundColor: "red" }} >##  ROOT</div>}</div>
-
-
-    })}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    {props.config == 2 && familyTree.map((t, i) => {
-      return <div key={i} onMouseOut={() => { tdepth = []; tid = [] }}
-
-        /*
-        
-                onClick={(e) => {
-                  bck(e, familyTree, t.depth, t.id);
-        
-                  if (node == "")
-                    markleaf(e, familyTree, 0, 0)
-                  if (tid.length == 0)
-                    l.push({ d: t.depth, i: t.id })
-                  if (l[0]) {
-                    markparent(e, familyTree, l[0].d, l[0].i)
-                    parentnode.name = t.name;
-                    parentnode.depth = l[0].d;
-                    parentnode.id = l[0].i
-                  }
-                }
-        
-                }
-        
-        */
-        style={{ paddingLeft: "10px" }} >
-
-
-        {t.name != props.pc[0] && <div className="x" style={{ opacity: t.opacity, cursor: t.cursor }} draggable="true" onDragStart={(e) => {
-          if (node == "")
-            markleaf(e, familyTree, 0, 0)
-          zrobopacity(e)
-
-
-
-
-
-
-
-
-
-        }}
-
-          onDragOver={(e) => {
-            removeprobe(tree.children, root, 0);
-            if (mode == 0) {
-              onDragOver1(tree.children, t.name, props.depth - 1, props.id);
-              if (elmenu.parent.depth > elmenu.child.depth)
-                elmenu.mode = 1;
-              else
-                elmenu.mode = 0;
-              zrob(e, t.depth);
-              props.changeconfig(1)
-              mode = 1
-            }
-          }}
-          onDragLeave={() => mode = 0}
-          onDragEnd={(e) => { markparent(e, familyTree, t.depth, t.id); zrob(); }}
-        >drag'n'drop
-          <p
 
 
             className="p fw-bold"
@@ -726,11 +638,202 @@ const TreeNode = (props) => {
           t.children && <TreeNode changeintree={props.changeintree} config={props.config}
             parent={props.parent}
             changeconfig={props.changeconfig}
+
             changeparent={props.changeparent}
             familyTree={t.children}
             settings={props.settings}
             ac={props.ac}
-            pc={props.pc} id={0} depth={0} />
+            pc={props.pc} id={i} depth={props.depth + 1} />
+        }
+
+        {
+          t.line && root == 0 && <div id="ff" draggable={true} onDragOver={(e) => {
+
+            e.preventDefault();
+            e.dataTransfer.getData("text");
+
+            console.log("mode           " + mode)
+            removeprobe(tree.children, root, 0);
+            if (mode == 1) {
+              onDragOver1(tree.children, t.name, props.depth - 1, props.id);
+              zrob(e, t.depth);
+              props.changeconfig(1)
+            }
+
+
+
+
+
+
+
+          }}
+            onDragLeave={() => {
+              removeprobe(tree.children, root, 1);
+
+            }}
+            style={{ marginTop: "-30px", height: "50px", width: "100%", backgroundColor: "red" }} >##  ROOT</div>
+        }</div>
+
+
+    })}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {props.config == 2 && familyTree.map((t, i) => {
+
+
+      return <div key={i}
+
+
+        /*
+        
+                onClick={(e) => {
+                  bck(e, familyTree, t.depth, t.id);
+        
+                  if (node == "")
+                    markleaf(e, familyTree, 0, 0)
+                  if (tid.length == 0)
+                    l.push({ d: t.depth, i: t.id })
+                  if (l[0]) {
+                    markparent(e, familyTree, l[0].d, l[0].i)
+                    parentnode.name = t.name;
+                    parentnode.depth = l[0].d;
+                    parentnode.id = l[0].i
+                  }
+                }
+        
+                }
+        
+        */
+        style={{ paddingLeft: "10px", paddingTop: "5px" }} >
+
+
+        {t.name != props.pc[0] && <div className="x" id="f" style={{ opacity: t.opacity, cursor: t.cursor }} draggable="true" onMouseDown={(e) => {
+
+          zrobopacity(e, t.name, props.depth - 1, props.id)
+          if (e.dataTransfer)
+            e.dataTransfer.setData("text", e.target.id)
+
+
+          beam = 1;
+
+        }}
+
+          onDragOver={(e) => {
+
+            e.preventDefault();
+            if (e.dataTransfer)
+              e.dataTransfer.getData("text");
+
+            if (e.target.id == "ff")
+              t.opacity = 0.1
+            console.log(t.name + "mmm" + elmenu.child.name)
+            if (t.name != elmenu.child.name) {
+              removeprobe(tree.children, 1, 0);
+              if (mode == 0) {
+
+                onDragOver1(tree.children, t.name, props.depth, props.id);
+                zrob(e, t.depth);
+                props.changeconfig(1)
+              }
+            }
+          }}
+
+
+          onDragLeave={() => {
+
+            mode = 0;
+
+          }
+          }
+
+
+          onDrop={(e) => { mode = 0; e.stopPropagation(); removeopacity(tree) }}
+
+
+
+
+
+
+
+
+
+
+
+        >aadrag'n'drop
+
+          <p id="text"
+
+
+            className="p fw-bold"
+            style={{ backgroundColor: t.bgcolor }}>{t.name}....
+            {pcl(t.name) != 0 ? pcl(t.name) : ""}
+
+          </p>
+        </div>
+        }
+        {
+          t.name == props.pc[0] &&
+          <div style={{ width: "200px", borderTop: "black solid 5px" }}>click on nodes
+            <div style={{ paddingTop: "20px", width: "200px", display: "flex", flexDirection: "row" }}>
+              <div style={{ height: "20px", width: "20px", backgroundColor: "red" }} >node</div>
+              <div style={{ padding: "20px" }}>under</div>
+              <div style={{ height: "20px", width: "20px", backgroundColor: "green", marginTop: "40px" }}>main</div>
+            </div>
+          </div>
+        }
+
+        {
+          t.children && <TreeNode changeintree={props.changeintree} config={props.config}
+            parent={props.parent}
+            changeconfig={props.changeconfig}
+
+            changeparent={props.changeparent}
+            familyTree={t.children}
+            settings={props.settings}
+            ac={props.ac}
+            pc={props.pc} id={i} depth={props.depth + 1} />
+        }
+
+        {
+          t.line && root == 0 && <div id="ff" draggable={true} onDragOver={(e) => {
+
+            e.preventDefault();
+            e.dataTransfer.getData("text");
+
+            console.log("mode           " + mode)
+            removeprobe(tree.children, root, 0);
+            if (mode == 1) {
+              onDragOver1(tree.children, t.name, props.depth - 1, props.id);
+              zrob(e, t.depth);
+              props.changeconfig(1)
+            }
+
+
+
+
+
+
+
+          }}
+            onDragLeave={() => {
+              removeprobe(tree.children, root, 1);
+
+            }}
+            style={{ marginTop: "-30px", height: "50px", width: "100%", backgroundColor: "red" }} >##  ROOT</div>
         }</div>
 
 
@@ -755,14 +858,8 @@ const TreeNode = (props) => {
 
 
 
-
-
   </div >
 }
 
 export default TreeNode;
-
-
-
-
 
