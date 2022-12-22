@@ -11,20 +11,19 @@
 
   .pnode {
     width: 100%;
-    background-color: red;
+ 
   }
   span{
     padding-left: 30px;
   }
   .nodeel{ padding-left: 10px;
-padding-top: 5px }
+padding-top: 5px; }
 
 .uns{
   user-select: none;
 }
 .x{
  
-  background-color:red;
   cursor: move;
 
 }
