@@ -383,37 +383,35 @@ const TreeNode = (props) => {
     setFamilyTree(props.familyTree)
     props.changeconfig(2)
   }
-
+  let is= 0;
+  const findchild = (nodes ) =>{
+    nodes.map((t) => {
+      if(t.name==elmenu.child.name) is=1;
+    })
+  }
   const removeopacity = (tr) => {
-
-    if (tr.children != undefined && mode == 0) {
-      tr.children.map((t, i) => {
-        if (t.name == elmenu.child.name)
-          y = i;
-      })
-      alert(y)
-      if (elmenu.child.children)
-        tr.children.splice(y, 1, elmenu.child.children[0])
-      else tr.children.splice(y, 1)
-
-      console.log(JSON.stringify(tree))
-
-
-    }
-    else {
+ 
       tr.map((t) => {
+        if(t.bgcolor=="yellow")
+        t.bgcolor="white";
         if (t.name == elmenu.parentold.name) {
-          t.children.map((tt, i) => {
+         
+          t.children.map((tt, i) => {  
             if (tt.name == elmenu.child.name) y = i;
           })
-          if (elmenu.child.children)
-            t.children.splice(y, 1, elmenu.child.children[0])
+   
+          if (elmenu.child.children ){
+            findchild(t.children);
+            if(is)
+             t.children.splice(y, 1, elmenu.child.children[0])
+          }
           else t.children.splice(y, 1)
+          y=-1
         }
         if (t.children) removeopacity(t.children)
       })
 
-    }
+ 
     makeidlev(tree.children, 0, 0)
     for (let ii = 0; ii < 20; ii++) {
       c = 0;
@@ -421,7 +419,7 @@ const TreeNode = (props) => {
 
     }
     setFamilyTree(props.familyTree)
-    props.changeconfig(props.config == 1 ? 2 : 1)
+    props.changeconfig(1)
     mode = 1
   }
  
@@ -613,9 +611,10 @@ const TreeNode = (props) => {
           }
           }
 
-
           onDrop={(e) => {
             mode = 0; e.stopPropagation(); 
+            e.preventDefault();
+            removeopacity(tree.children)
           }}
 
 
@@ -766,6 +765,8 @@ return <div key={i}
 
     onDrop={(e) => {
       mode = 0; e.stopPropagation(); 
+      e.preventDefault();
+      removeopacity(tree.children)
     }}
 
 
