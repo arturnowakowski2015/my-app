@@ -28,7 +28,7 @@ const Table = (props, columns) => {
     const [sort, setSort] = useState(true)
     const [view, setView] = useState(1)
     const [id, setId] = useState(0);
-    const [number, setNumber] = useState(3); // No of pages
+    const [number, setNumber] = useState(1); // No of pages
     const [element, setElement] = useState(3)
     const [chevron, setChevron] = useState("false")
     const [i, setI] = useState(0);
@@ -281,7 +281,7 @@ const Table = (props, columns) => {
        
       }, [setN]);
  
-      firstPost <index && index < ( parseInt(firstPost) + parseInt(currentPost.length)) 
+ 
 
 const z = <div>{ firstPost+"<"+(number +index)+ ":" + (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}</div>
     const el = <div>{ view1==0 && z}{view1==1 && z}

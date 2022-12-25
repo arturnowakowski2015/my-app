@@ -132,7 +132,7 @@ class AA extends React.Component {
 
   }
   changem(i){
-    this.setState({m:++this.state.m})
+    this.setState({m:i})
   }
   changeRecits(e, p) {
 
@@ -211,6 +211,7 @@ class AA extends React.Component {
   };
   changePPP(value) {
     this.setState({ postPerPage: value })
+    
 
   };
 
@@ -497,6 +498,7 @@ class AA extends React.Component {
             number1={this.state.number1}
             m={this.state.m}
             changem={this.changem.bind(this)}
+            ChangePage={this.changePPP.bind(this)}
           />
 
         </div>
