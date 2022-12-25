@@ -28,7 +28,7 @@ const Table = (props, columns) => {
     const [sort, setSort] = useState(true)
     const [view, setView] = useState(1)
     const [id, setId] = useState(0);
-    const [number, setNumber] = useState(1); // No of pages
+    const [number, setNumber] = useState(3); // No of pages
     const [element, setElement] = useState(3)
     const [chevron, setChevron] = useState("false")
     const [i, setI] = useState(0);
@@ -36,6 +36,9 @@ const Table = (props, columns) => {
     const [postPerPage, setPostPerPage] = useState(props.postPerPage);
     const [m, setM]=useState(0);
     const [view1, setView1]=useState(0)
+    const [index, setIndex] = useState(23)
+    const [tovalue, setTovalue] = useState(0)
+    const [y, setY] = useState(false)
     useEffect(() => {
         setPostPerPage(props.postPerPage)
     }, [props.postPerPage]);
@@ -184,7 +187,12 @@ const Table = (props, columns) => {
         let tr = Object.keys(row).map((k, j) => {
             return typeof row[k] !== "object" && props.columns[j] && props.columns[j].col.disp == true
                 ?
-                <td key={j} onMouseOver={() => { url = "/" + row.id + "/edit"; setId(row.id); }} ><div className="div1">{row[k]}</div></td >
+                <td onClick={() => {setY(true); setTovalue(23);setNumber(1);firstPost=i; ;}}
+                 className={y && index==i &&  firstPost <(number*10+index) && (index +number*10-10) < ( parseInt(firstPost) + parseInt(currentPost.length)) 
+                    || y==false && index==i &&  firstPost <index && index < ( parseInt(firstPost) + parseInt(currentPost.length)) 
+                    ? "red" : "white"} key={j}
+                 onMouseOver={() => { url = "/" + row.id + "/edit"; setId(row.id);
+                  }} ><div className="div1">{row[k]}</div></td >
                 : typeof row[k] !== "object" && props.columns[j] && props.columns[j].col.disp == true
                     && j == 2 ?
 
@@ -207,7 +215,7 @@ const Table = (props, columns) => {
                 ? count.filter((tt) => { return tt.id == row.id })[0].checked
                 : null)}
                 onChange={(e) => { setch(row.id, e.target.checked) }} />}<div style={{ cursor: "pointer", textDecoration: "underline" }}
-                    onMouseOver={() => { url = "/a/" + props.acturl + "/pagination/" + row.name + "/" + row.id + "/" + row.name + "/1/edit"; setId(row.id); }}
+                    onMouseOver={() => { setIndex(i);url = "/a/" + props.acturl + "/pagination/" + row.name + "/" + row.id + "/" + row.name + "/1/edit"; setId(row.id); }}
                     onClick={(e) => {
                         dv(url, row[Object.keys(row).filter((t, i) => { return i == 2 && t })],
                             Object.keys(row).filter((t, i) => { return i == 2 && t }), row.id)
@@ -252,21 +260,34 @@ const Table = (props, columns) => {
         return (<tr><td>ddddd</td></tr>);
     }
  
-    useEffect(() => {
-        const timer = setTimeout(() => {
-          props.changem()
-          setM(props.m)
-        }, 2000);
-        return () => clearTimeout(timer);
+    useEffect(() => { 
+            let timer1 = y &&  (index+firstPost)!=tovalue && setInterval(() =>   { 
+                console.log( "::"+index+":::"+ tovalue);
+               // index<tovalue && setIndex(index=> index+1) 
+               // if(index%10==0 && index/10>0 && index<tovalue){setIndex(0);setNumber(number=>number+1)}
+                index>tovalue && setIndex(index=>index-1)
+                if(index%10==0 && index>tovalue && index/10>0){setIndex(9);setNumber(number=>number-1)}
+            
+            },  50);
+    
+            // this will clear Timeout
+            // when component unmount like in willComponentUnmount
+            // and show will not change to true
+            return () => {
+              setY(false)
+              clearInterval(timer1);
+            };
+          
+       
       }, [setN]);
-
  
+      firstPost <index && index < ( parseInt(firstPost) + parseInt(currentPost.length)) 
 
-const z = <div>{m+"::"+firstPost + "-" + (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}</div>
+const z = <div>{ firstPost+"<"+(number +index)+ ":" + (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}</div>
     const el = <div>{ view1==0 && z}{view1==1 && z}
-        {props.flagsettings != 4 ? <Pagination acturl={props.acturl} fp={fp} span={span} postPerPage={postPerPage} number={number} pageNumber={pageNumber}
+        {props.flagsettings != 4 && <Pagination acturl={props.acturl} fp={fp} span={span} postPerPage={postPerPage} number={number} pageNumber={pageNumber}
             ChangePage={ChangePage} setN={setN} length={data.length} firstPost={firstPost} />
-            : null}
+             }
         <div >
             {
                 element == 1 ? null
