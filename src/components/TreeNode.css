@@ -13,6 +13,30 @@
     width: 100%;
  
   }
+p {
+ 
+  transition: 0.5s;
+}
+p:hover  {
+background-color:red;
+ 
+}
+.fa-chevron-up{
+  background-color:yellow;
+  transition: 0.5s;
+}
+.fa-chevron-up:hover  {
+background-color:red;
+ 
+}
+.fa-chevron-down{
+  background-color:red;
+  transition: 0.5s;
+}
+.fa-chevron-down:hover  {
+background-color:yellow;
+ 
+}
   span{
     padding-left: 30px;
   }

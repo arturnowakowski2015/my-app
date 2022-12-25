@@ -7,6 +7,11 @@
  .tr { 
     border-right: black solid 1px;
     text-align: center;
+    background-color:yellow;
+    transition: 0.5s;
+ }
+ .tr:hover{
+   background-color:blue;
  }
  .div1{ 
     width:150px;

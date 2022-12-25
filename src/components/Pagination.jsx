@@ -39,7 +39,7 @@ const Pagination = props => {
     return (
         <div className="my-3 text-center" >
             <button
-                className="px-3 py-1 m-1 text-center btn-primary"
+                className="px-3 py-1 m-1 text-center btn-primary pagbtn"
                 onClick={(e) => setN(e.target.innerHTML, props.number - 1)}
             >
                 Previous
@@ -50,7 +50,7 @@ const Pagination = props => {
                     <div className="pagbtn" key={i}>
                         {
                             props.number == i + props.fp ?
-                                <div><Link to={"/a/" + props.acturl + "pagination/" + Elem} onClick={(event) => funk(event, Elem)}
+                                <div><Link  to={"/a/" + props.acturl + "pagination/" + Elem} onClick={(event) => funk(event, Elem)}
 
 
                                 >

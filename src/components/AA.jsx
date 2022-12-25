@@ -67,7 +67,8 @@ class AA extends React.Component {
       categories: { actual: [{ cat: "new", l: 0 }], new: [], set: ["new", "selected", "postponed", "removed"] },
       parent: "",
       strcol: "",
-      w: []
+      w: [],
+      m:0
 
 
 
@@ -129,6 +130,9 @@ class AA extends React.Component {
     this.setState({ changes: arr })
 
 
+  }
+  changem(i){
+    this.setState({m:++this.state.m})
   }
   changeRecits(e, p) {
 
@@ -491,6 +495,8 @@ class AA extends React.Component {
             items={items} furl={this.furl.bind(this)} id={this.state.i} flag={this.state.flag} settingsid={this.state.settings}
             acturl={this.state.categories.actual[0].cat}
             number1={this.state.number1}
+            m={this.state.m}
+            changem={this.changem.bind(this)}
           />
 
         </div>

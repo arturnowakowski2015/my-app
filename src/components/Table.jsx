@@ -34,6 +34,8 @@ const Table = (props, columns) => {
     const [i, setI] = useState(0);
     const { data } = props;
     const [postPerPage, setPostPerPage] = useState(props.postPerPage);
+    const [m, setM]=useState(0);
+    const [view1, setView1]=useState(0)
     useEffect(() => {
         setPostPerPage(props.postPerPage)
     }, [props.postPerPage]);
@@ -249,9 +251,19 @@ const Table = (props, columns) => {
     const routeElement = (r) => {
         return (<tr><td>ddddd</td></tr>);
     }
+ 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+          props.changem()
+          setM(props.m)
+        }, 2000);
+        return () => clearTimeout(timer);
+      }, [setN]);
 
+ 
 
-    const el = <div>{firstPost + "-" + (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}
+const z = <div>{m+"::"+firstPost + "-" + (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}</div>
+    const el = <div>{ view1==0 && z}{view1==1 && z}
         {props.flagsettings != 4 ? <Pagination acturl={props.acturl} fp={fp} span={span} postPerPage={postPerPage} number={number} pageNumber={pageNumber}
             ChangePage={ChangePage} setN={setN} length={data.length} firstPost={firstPost} />
             : null}
@@ -285,6 +297,7 @@ const Table = (props, columns) => {
             {flagel == true ?
                 el : null
             }
+ 
         </>
 
     )

@@ -14,13 +14,13 @@ import AA from "./components/AA";
 import Update from "./components/Update";
 import ButtonModal from "./components/ButtonModal";
 
-
+import "./App.css"
 
 function App() {
 
 
   return (
-    <div>
+    <div><div className="slide-fwd-center">mm</div>
       <AppProvider>
 
 

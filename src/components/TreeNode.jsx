@@ -522,8 +522,9 @@ const TreeNode = (props) => {
 
 
       <p
+
         onMouseOut={(e) => { bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id) }}
-        className="pnode"
+  
         style={{ backgroundColor: t.bgcolor }}>        {icons[t.name]}{t.name}
         <span style={{ align: "right" }}>{t.name == props.ac.cat ? props.ac.l : ""}</span>
         {pcl(t.name) != 0 ? pcl(t.name) : ""}
@@ -614,6 +615,7 @@ const TreeNode = (props) => {
           onDrop={(e) => {
             mode = 0; e.stopPropagation(); 
             e.preventDefault();
+            alert("depth "+props.depth)
             removeopacity(tree.children)
           }}
 
@@ -863,4 +865,3 @@ return <div key={i}
 }
 
 export default TreeNode;
-
