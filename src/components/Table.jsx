@@ -33,14 +33,15 @@ const Table = (props, columns) => {
     const [chevron, setChevron] = useState("false")
     const [i, setI] = useState(0);
     const { data } = props;
+    const[green, setGreen]=useState(0)
     const [postPerPage, setPostPerPage] = useState(props.postPerPage);
-    const [m, setM]=useState(0);
+    const [oldnumber, setOldnumber]=useState(1);
+    const[oldel, setOldel]= useState(0)
     const [view1, setView1]=useState(1)
-    const [index, setIndex] = useState(1)
+    const [index, setIndex] = useState(3)
     const[oldindex, setOldIndex]=useState(1)
-    const [tovalue, setTovalue] = useState(5)
-    const [y, setY] = useState(false)
-    const[direction, setDirection]=useState(true)
+    const [tovalue, setTovalue] = useState(0)
+const[countdown, setCountdown]=useState(0);
     useEffect(() => {
         setPostPerPage(props.postPerPage)
     }, [props.postPerPage]);
@@ -189,36 +190,23 @@ const Table = (props, columns) => {
         setBiw(props.number1 == 0 ? Math.floor((number - 1) / 10) : Math.floor((number) / 10))
 
     }
-    useEffect(() => { 
-        let timer1 = y &&  (index+firstPost)!=tovalue && setInterval(() =>   { 
-            setDirection(index<tovalue)
-            console.log((index+firstPost)+":fp:"+(tovalue)+":n::"+oldindex);
-            index<tovalue && setIndex(index=> index+1) 
-            index>tovalue && setIndex(index=> index-1) 
-            if(index%postPerPage==0 && index/postPerPage>0 && index<tovalue){setIndex(0);setNumber(number=>number+1)}
-            if(index%postPerPage==0 && index/postPerPage>0 && index>tovalue ) { setNumber(number=>number-1)}
-        },  40);
-
-        // this will clear Timeout
-        // when component unmount like in willComponentUnmount
-        // and show will not change to true4
+     useEffect(() => {
+        const timeout = countdown && countdown!=tovalue && setTimeout(() => {
+ 
+            countdown<tovalue && setCountdown(countdown +1);
+            countdown>tovalue && setCountdown(countdown -1);
+            if(countdown%postPerPage==0 && countdown/postPerPage>0 && countdown<tovalue){setNumber(number=>number+1);setCountdown(countdown +1);}
+            if(countdown%postPerPage==0 && countdown/postPerPage>0 && countdown>tovalue ) {setNumber(number=>number-1); setCountdown(countdown -1);}
+     }, 50);
         return () => {
-            if(direction && (index+firstPost)==tovalue){ 
-                setY(false);
-                setOldIndex(Math.floor(tovalue/postPerPage));
-                clearInterval(timer1);
-            } else if(!direction && (index+firstPost)==tovalue+postPerPage)
-            { 
-                setY(false);
-                setOldIndex(Math.floor(tovalue/postPerPage));
-                clearInterval(timer1);
-            }
 
-          clearInterval(timer1);
-        };
-      
-   
-  }, [setN]);
+            setOldIndex(countdown)
+            setOldnumber(number)
+            clearTimeout(timeout);
+            
+            console.log(countdown+"   ct "+ tovalue)
+        }
+    }, [countdown]);
 
     const buildRow = (row, i) => {
         let m = 0;
@@ -227,14 +215,11 @@ const Table = (props, columns) => {
         let tr = Object.keys(row).map((k, j) => {
             return typeof row[k] !== "object" && props.columns[j] && props.columns[j].col.disp == true
                 ?
-                <td onClick={() => {setY(true); setTovalue(firstPost+i);setNumber(oldindex+1);setIndex(oldindex*postPerPage)
-                   ;}}
-                 className={      index>tovalue && y && i+firstPost==index 
-                    || 
-                   index<tovalue && y && index==i &&  firstPost <(number*postPerPage+index) && (index +number*postPerPage-postPerPage) < ( parseInt(firstPost) + parseInt(currentPost.length)) 
-                    || y==false && Math.floor(index/postPerPage)==i && firstPost <index && (index) < ( parseInt(firstPost) + parseInt(currentPost.length)) 
-                    ? "red" : "white"} key={j}
-                 onMouseOver={() => { url = "/" + row.id + "/edit"; setId(row.id);
+                <td onClick={(e) => {setCountdown(oldindex); setTovalue(firstPost+i); setNumber(oldnumber);
+                    setOldel((parseInt(firstPost) + parseInt(currentPost.length))/10-1) ;}}
+                 className={    countdown==firstPost+i    ? "red"  : "white" + 
+                 (  green==firstPost+i && countdown==tovalue && " green") + ( green==firstPost+i && " green")} key={j}
+                 onMouseOver={() => {setGreen(firstPost+i);console.log(countdown+"::"+  tovalue); url = "/" + row.id + "/edit"; setId(row.id);
                   }} ><div className="div1">{row[k]}</div></td >
                 : typeof row[k] !== "object" && props.columns[j] && props.columns[j].col.disp == true
                     && j == 2 ?
@@ -301,10 +286,11 @@ const Table = (props, columns) => {
  
  
 
-const z = <div>{ firstPost+"<"+(index)+ "i "+i+":"+ + (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}</div>
+const z = <div>
+    {countdown==tovalue && <div> gggg</div>}{ countdown+"<"+(oldindex)+ "i "+i+":"+ + (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}</div>
     const el = <div>{ view1==0 && z}{view1==1 && z}
         {props.flagsettings != 4 && <Pagination acturl={props.acturl} fp={fp} span={span} postPerPage={postPerPage} number={number} pageNumber={pageNumber}
-            ChangePage={ChangePage} setN={setN} length={data.length} firstPost={firstPost} tovalue={Math.ceil(tovalue/10)-1}/>
+           oldel={oldel} ChangePage={ChangePage} setN={setN} length={data.length} firstPost={firstPost} tovalue={Math.ceil(tovalue/10)-1}/>
              }
         <div >
             {
