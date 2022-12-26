@@ -50,7 +50,7 @@ const Pagination = props => {
                     <div className="pagbtn" key={i}>
                         {
                             props.number == i + props.fp ?
-                                <div><Link  to={"/a/" + props.acturl + "pagination/" + Elem} onClick={(event) => funk(event, Elem)}
+                                <div><Link  className={"red"  } to={"/a/" + props.acturl + "pagination/" + Elem} onClick={(event) => funk(event, Elem)}
 
 
                                 >
@@ -58,7 +58,7 @@ const Pagination = props => {
                                 </Link>
                                 </div>
                                 :
-                                <div><Link to={"/a/" + props.acturl + "pagination/" + Elem} onClick={(event) => funk(event, Elem)}
+                                <div><Link className={props.tovalue==i + props.fp && "green"  } to={"/a/" + props.acturl + "pagination/" + Elem} onClick={(event) => funk(event, Elem)}
 
 
                                 >
