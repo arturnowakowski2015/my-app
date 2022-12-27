@@ -7,7 +7,7 @@ import {
   useParams,
   useLocation
 } from "react-router-dom";
-
+import ProgressBar from "./ProgressBar";
 import Table from "./Table";
 import Settings from "./Settings";
 import Select from "./Select"
