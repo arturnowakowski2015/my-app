@@ -51,9 +51,10 @@ let pp = []
 let disp = true;
 let y = [];
 let yy=-1
+let rrr=0;
 const TreeNode = (props) => {
   const icons = {
-    "received": <i class="fa fa-bolt" ></i>,
+    "received": <i className={ rrr ? "s fa fa-bolt" : "fa fa-bolt" }></i>,
     "new": <i class="fa fa-bell"></i>,
     "postponed": <i class="fa fa-star"></i>,
     "removed": <i class="fa fa-envelope"></i>,
@@ -539,7 +540,7 @@ let strnew="";
   }
 
 
-
+  let i=0; 
   return <div className="nodeel" > {props.config == 0 && familyTree.map((t, i) => {
 
 
@@ -573,11 +574,11 @@ let strnew="";
     >
 
 
-      <p
+      <p      onClick={() => rrr=1}       onMouseOver={() => t.width="100px"}
 
-        onMouseOut={(e) => { bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id) }}
+        onMouseOut={(e) => {t.width="20px"; bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id) }}
   
-        style={{ backgroundColor: t.bgcolor }}>        {icons[t.name]}{t.name}
+        style={{ backgroundColor: t.bgcolor, height: t.width }}>        {icons[t.name]}{t.name}
         <span style={{ align: "right" }}>{t.name == props.ac.cat ? props.ac.l : ""}</span>
         {pcl(t.name) != 0 ? pcl(t.name) : ""}
 
@@ -668,7 +669,7 @@ let strnew="";
 
 
             className="p fw-bold"
-            style={{ backgroundColor: t.bgcolor }}>{t.name}....
+            style={{ backgroundColor: t.bgcolor, width: t.width}}>{t.name}.1...
             {pcl(t.name) != 0 ? pcl(t.name) : ""}
 
           </p>

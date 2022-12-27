@@ -13,3 +13,13 @@
 .white{
     background-color:white
 }
+
+  .s {
+    overflow: hidden;
+ 
+    transition : transform 0.8s;;
+}
+.s1 {
+    transform: rotate(360deg);
+ 
+}

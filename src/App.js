@@ -13,6 +13,7 @@ import AppProvider from "./ctx/AppProvider";
 import AA from "./components/AA";
 import Update from "./components/Update";
 import ButtonModal from "./components/ButtonModal";
+import "./App.scss"
 
 import "./App.css"
 
@@ -20,7 +21,7 @@ function App() {
 
 
   return (
-    <div><div className="slide-fwd-center">mm</div>
+    <div><div className="scssClass">mccccccccccccm</div>
       <AppProvider>
 
 

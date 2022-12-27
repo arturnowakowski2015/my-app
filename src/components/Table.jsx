@@ -10,6 +10,7 @@ import Pagination from "./Pagination"
 import Update from "./Update";
 import "./Table.css"
 import UserContext from "../ctx/User";
+import { findByLabelText } from "@testing-library/react";
 
 
 
@@ -40,7 +41,8 @@ const Table = (props, columns) => {
     const [view1, setView1]=useState(1)
     const [index, setIndex] = useState(3)
     const[oldindex, setOldIndex]=useState(1)
-    const [tovalue, setTovalue] = useState(0)
+    const [tovalue, setTovalue] = useState(0);
+    const [name, setName] = useState("####")
 const[countdown, setCountdown]=useState(0);
     useEffect(() => {
         setPostPerPage(props.postPerPage)
@@ -215,11 +217,11 @@ const[countdown, setCountdown]=useState(0);
         let tr = Object.keys(row).map((k, j) => {
             return typeof row[k] !== "object" && props.columns[j] && props.columns[j].col.disp == true
                 ?
-                <td onClick={(e) => {setCountdown(oldindex); setTovalue(firstPost+i); setNumber(oldnumber);
+                <td onClick={(e) => {setName(row[k]);setCountdown(oldindex); setTovalue(firstPost+i); setNumber(oldnumber);
                     setOldel((parseInt(firstPost) + parseInt(currentPost.length))/10-1) ;}}
                  className={    countdown==firstPost+i    ? "red"  : "white" + 
-                 (  green==firstPost+i && countdown==tovalue && " green") + ( green==firstPost+i && " green")} key={j}
-                 onMouseOver={() => {setGreen(firstPost+i);console.log(countdown+"::"+  tovalue); url = "/" + row.id + "/edit"; setId(row.id);
+                 (  green==firstPost+i && countdown==tovalue && " green") + ( green==firstPost+i && " green") } key={j}
+                 onMouseOver={() => {;setGreen(firstPost+i);console.log(countdown+"::"+  tovalue); url = "/" + row.id + "/edit"; setId(row.id);
                   }} ><div className="div1">{row[k]}</div></td >
                 : typeof row[k] !== "object" && props.columns[j] && props.columns[j].col.disp == true
                     && j == 2 ?
@@ -286,10 +288,10 @@ const[countdown, setCountdown]=useState(0);
  
  
 
-const z = <div>
-    {countdown==tovalue && <div> gggg</div>}{ countdown+"<"+(oldindex)+ "i "+i+":"+ + (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}</div>
-    const el = <div>{ view1==0 && z}{view1==1 && z}
-        {props.flagsettings != 4 && <Pagination acturl={props.acturl} fp={fp} span={span} postPerPage={postPerPage} number={number} pageNumber={pageNumber}
+const z = <div style={{display: "flex", flexDirection: "row"}}>{<div className={countdown==tovalue ? "s" : "s1"}>
+     {countdown}</div>}<span style={{width: "20px"}}></span>  {(parseInt(firstPost) + parseInt(currentPost.length))-10+ " - "+ (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}</div>
+    const el = <div> {z}    
+        {props.flagsettings != 4 &&  <Pagination acturl={props.acturl} fp={fp} span={span} postPerPage={postPerPage} number={number} pageNumber={pageNumber}
            oldel={oldel} ChangePage={ChangePage} setN={setN} length={data.length} firstPost={firstPost} tovalue={Math.ceil(tovalue/10)-1}/>
              }
         <div >

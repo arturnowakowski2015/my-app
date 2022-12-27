@@ -7,6 +7,7 @@ import {
   useParams,
   useLocation
 } from "react-router-dom";
+ 
 import ProgressBar from "./ProgressBar";
 import Table from "./Table";
 import Settings from "./Settings";
@@ -18,6 +19,7 @@ import Update from "./Update";
 import ButtonModal from "./ButtonModal";
 import { tree } from '../data/dummy';
 import '../index.css';
+import "./ButtonModal.scss"
 import UserContext from "../ctx/User";
 
 function withParams(Component) {
@@ -362,7 +364,7 @@ class AA extends React.Component {
     }
 
     return (
-      <div>
+      <div> 
 
         {this.state.settings == 0 && this.props.params.f == undefined &&
 
@@ -472,7 +474,7 @@ class AA extends React.Component {
           </div>
         }
         <div className="LTchild">
-          <div className="treeNode">
+          <div className="treeNode"><ProgressBar />
             <TreeNode changeintree={(category, flag, flag1) => { this.changedata(category, flag, flag1); updateCount("", 0, 3) }}
               changeparent={(name) => this.setState({ parent: name })}
               config={this.state.config}

@@ -30,5 +30,21 @@
    background-color:white;
  }
  .green{
-   background-color:green;
+   background-color:#70bb70;
  }
+
+ 
+ .s {  
+  text-align:center;
+  background-color: rgb(208, 208, 236);
+  width: 20px;
+  transition : transform 0.8s 
+}
+.s1{
+  text-align:center;
+  background-color:rgb(208, 208, 236);
+   width: 20px;
+  transform: rotate(360deg);
+
+}
+ 

@@ -13,13 +13,22 @@
     width: 100%;
  
   }
-p {
  
+
+
+
+p {
+  height:20px;
+   transition: height 0.5 sec;
   transition: 0.5s;
 }
 p:hover  {
 background-color:red;
- 
+
+}
+.fa-chevron-up{
+  background-color:yellow;
+  transition: 0.5s;
 }
 .fa-chevron-up{
   background-color:yellow;

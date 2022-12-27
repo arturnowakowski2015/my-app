@@ -1,0 +1,20 @@
+@mixin theme($k ) { 
+          @if $k == 4 {    height: 2px; }
+ 
+  }
+  
+
+
+  .deleteset{
+    @for $k from 1 through 5 {
+ 
+            .btn-#{$k}{  
+                    @include theme($k); 
+            }
+  }
+}
+.btn-2{
+    background-color:red;
+    
+     
+}

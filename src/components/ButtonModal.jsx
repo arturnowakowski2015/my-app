@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useVavigate } from "react-router-dom";
 import '../index.css';
+import "./ButtonModal";
 import {
   useNavigate
 } from "react-router-dom";
@@ -38,18 +39,19 @@ const ButtonModal = props => {
 
     })
   }
-
+ 
   const [el, setEl] = useState(makeEl(props.familyTree, 0))
-
+  const[mix, setMix]=useState(0)
   return (
     <div>
-      <div className="deleteset">
-        <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+ 
+      <div className="deleteset" >
+        <button type="button"  onClick={() =>{setMix(2); props.checkall()}} className={mix==2 ? "btn-4 " : "btn-1 btn btn-primary"} data-bs-toggle="modal" data-bs-target="#staticBackdrop">
           move ckecked to choosen folder         </button>
-        <button type="button" className="btn btn-primary" onClick={() => props.checkall()} onMouseOut={() => navigate("/a/" + props.ac[0].cat + "/pagination")}>
+        <button type="button" className={mix==1 ? "btn-4 " : "btn-2 btn btn-primary"} onClick={() =>{setMix(1); props.checkall()}} onMouseOut={() => navigate("/a/" + props.ac[0].cat + "/pagination")}>
           check/uncheck
         </button>
-        <button type="button" className="btn btn-primary" onClick={() => props.deleteel()} >
+        <button type="button"  className={mix==3 ? "btn-4 " : "btn-3 btn btn-primary"} onClick={() =>{setMix(3); props.checkall()}}  >
           delete
         </button></div>
 

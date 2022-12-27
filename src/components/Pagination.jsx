@@ -36,6 +36,7 @@ const Pagination = props => {
         if (v > 0 && str == "Next" && props.firstPost < props.length - props.postPerPage)
             props.setN(v)
     }
+    let rrr= 0;
     return (
         <div className="my-3 text-center" >
             <button
@@ -58,7 +59,7 @@ const Pagination = props => {
                                 </Link>
                                 </div>
                                 :
-                                <div><Link className={ props.oldel==i && "green" } to={"/a/" + props.acturl + "pagination/" + Elem}
+                                <div><Link className={ props.oldel==i ?  "green" : "s"} to={"/a/" + props.acturl + "pagination/" + Elem}
                                  onClick={(event) => {event.preventDefault(); funk(event, Elem)}}
 
 
