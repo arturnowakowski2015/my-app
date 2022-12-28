@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { recits, tree } from '../data/dummy';
 import AnimatedButton from "./AnimatedButton";
 
-import "./TreeNode.css"
+import "./TreeNode.scss"
 let c = 0;
 let p = 0
 let tdepth = [];

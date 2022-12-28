@@ -4,12 +4,14 @@ import {
     Routes,
     Route,
     Link,
-    useNavigate
+    useNavigate 
 } from "react-router-dom";
 import Pagination from "./Pagination"
+import Searching from "./Searching";
 import Update from "./Update";
-import "./Table.css"
+import "./Table.scss"
 import UserContext from "../ctx/User";
+import Tab from "./Tab";
 import { findByLabelText } from "@testing-library/react";
 
 
@@ -43,11 +45,15 @@ const Table = (props, columns) => {
     const[oldindex, setOldIndex]=useState(1)
     const [tovalue, setTovalue] = useState(0);
     const [name, setName] = useState("####")
-const[countdown, setCountdown]=useState(0);
+    const[countdown, setCountdown]=useState(0);
+ 
+
     useEffect(() => {
         setPostPerPage(props.postPerPage)
     }, [props.postPerPage]);
-
+    const [searchtext, setSearchtext]=useState([""])
+    const [searchi, setSearchi]=useState({new:1, old:0})
+    const [tabs, setTabs] = useState({eltabs:[{name:"all records", words:""},{name:"ssss", words:"eee"}], searchtext:searchtext})
     let r = "";
     useEffect(() => {
 
@@ -288,9 +294,10 @@ const[countdown, setCountdown]=useState(0);
  
  
 
-const z = <div style={{display: "flex", flexDirection: "row"}}>{<div className={countdown==tovalue ? "s" : "s1"}>
+const z = <div className="tablecontainer">{<div className={countdown==tovalue ? "s" : "s1"}>
      {countdown}</div>}<span style={{width: "20px"}}></span>  {(parseInt(firstPost) + parseInt(currentPost.length))-10+ " - "+ (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}</div>
     const el = <div> {z}    
+        {   window.location.href.indexOf("searchtext")!=-1 && <Searching i={window.location.href.indexOf("searchtext")} serchtext={searchtext[searchi.new]} /> }
         {props.flagsettings != 4 &&  <Pagination acturl={props.acturl} fp={fp} span={span} postPerPage={postPerPage} number={number} pageNumber={pageNumber}
            oldel={oldel} ChangePage={ChangePage} setN={setN} length={data.length} firstPost={firstPost} tovalue={Math.ceil(tovalue/10)-1}/>
              }
@@ -299,7 +306,15 @@ const z = <div style={{display: "flex", flexDirection: "row"}}>{<div className={
                 element == 1 ? null
                     :
 
-                    <div className="table"><table>
+                    <div className="table1">
+                        <div className="tabs">{
+                            tabs.eltabs.map((t, j) => {
+                                return <Tab searchi={searchi} j={j} name={t.name} setsi={() => {setSearchi({old: searchi.new, new:j});
+                                navigate("searchtext/"+t.words);}} />          
+                            })
+                        }
+                        </div>
+                        <table>
                         <thead className="th">
                             {data[0] ? buildHeader(Object.keys(data[0]), data.columns) : null}
                         </thead>

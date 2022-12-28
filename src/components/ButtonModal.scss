@@ -1,10 +1,7 @@
 @mixin theme($k ) { 
-          @if $k == 4 {    height: 2px; }
+          @if $k == 4 { background-color:rgb(25, 60, 163); transition:  1s}
  
   }
-  
-
-
   .deleteset{
     @for $k from 1 through 5 {
  
@@ -15,6 +12,11 @@
 }
 .btn-2{
     background-color:red;
-    
+
      
+}
+.deleteset{
+    padding-left: 300px;
+    width: 100wh;
+    padding-bottom: 20px;  
 }

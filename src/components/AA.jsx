@@ -98,9 +98,20 @@ class AA extends React.Component {
       .then((response) => {
         // set the state 
         if (this.state.data[this.state.categories.actual[0].cat].length == 0)
-          this.state.data[this.state.categories.actual[0].cat] = response
+          this.state.data[this.state.categories.actual[0].cat] = response.filter((t, i) => {
+            return i<50 && t;
+          })
         this.setState({ data: this.state.data })
+        this.state.data["postponed"] = response.filter((t, i) => {
+          return i>50 && i<200 && t;
+        })
+      this.setState({ data: this.state.data })
 
+
+      this.state.data["postponed"] = response.filter((t, i) => {
+        return i>200 && i<response.length && t;
+      })
+    this.setState({ data: this.state.data })
 
 
         this.state.categories.actual[0].l = response.length
@@ -252,7 +263,7 @@ class AA extends React.Component {
 
   }
 
-  changedata(category, flag, flag1) {
+  changedata(category, flag, flag1) {alert(category+":"+flag+":"+flag1)
     if (flag1 == 1 || flag1 == 2) {
 
       this.state.categories.new[0] = category;
@@ -474,8 +485,8 @@ class AA extends React.Component {
           </div>
         }
         <div className="LTchild">
-          <div className="treeNode"><ProgressBar />
-            <TreeNode changeintree={(category, flag, flag1) => { this.changedata(category, flag, flag1); updateCount("", 0, 3) }}
+          <div className="treeNode">
+            <TreeNode changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1); updateCount("", 0, 3) }}
               changeparent={(name) => this.setState({ parent: name })}
               config={this.state.config}
               familyTree={tree.children}

@@ -15,6 +15,30 @@
   }
  
 
+@mixin theme($k ) { 
+    @if $k == 4 { background-color:rgb(25, 60, 163); transition:  1s}
+
+}
+.nodeel{
+@for $k from 1 through 20 {
+
+      .btn-#{$k}{  
+              @include theme($k); 
+      }
+      .btn{
+          background-color:rgb(97, 7, 7);
+          width:100%;
+
+}
+}
+}
+
+
+
+
+
+
+
 
 
 p {

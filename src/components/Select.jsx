@@ -22,6 +22,7 @@ const Select = (props) => {
         setB(1); setVstr(e.target.value);
 
         setId(e.target.value)
+        back()
     }
     const back = () => {
 
@@ -37,7 +38,7 @@ const Select = (props) => {
         </select>
         <div>
             {b == 0 && <div className="btn2" >choose database</div>} </div>
-        {b == 1 && <button onClick={() => back()}>deploy</button>}
+ 
 
     </div>)
 }

@@ -1,12 +1,7 @@
 .pagbtn{
     padding-left: 5px;
 }
-.pagbtn:hover,
-.pagbtn:focus {
-  background-color: #333;
-  color: blue;
-  transition: all 0.5s ease-out;
-}
+
 .green{
     background-color:green
 }
