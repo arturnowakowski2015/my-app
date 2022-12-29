@@ -34,7 +34,7 @@ let w = [];
 let ii = 0;
 let act = ""
 let kk = 0;
-class AA extends React.Component {
+class Home extends React.Component {
 
   static contextType = UserContext;
   constructor(props) {
@@ -316,7 +316,7 @@ class AA extends React.Component {
       this.setcategories(category, this.state.categories.actual[0].cat)
 
     }
-    else alert("   no records !!");
+ 
 
 
 
@@ -332,34 +332,6 @@ class AA extends React.Component {
 
   render() {
 
-
-
-
-    let change = false;
-    const [count, updateCount] = this.context;
-    arr = count.map((t) => t)
-    function setch(i, r) {
-
-
-      let arr = count.filter((t) => t.checked)
-
-      if (arr.length >= 1)
-        change = true;
-      else
-        change = false;
-
-
-    }
-
-    function allchtrue() {
-
-      count = count.map((t) => { t.checked = "true"; return t })
-    }
-
-    function allchfalse() {
-
-      count = count.map((t) => { t.checked = null; return t })
-    }
  
 
     return (
@@ -441,8 +413,7 @@ class AA extends React.Component {
             <Select acturl={this.state.categories.actual[0].cat} changeconfig={(i) => { this.setState({ config: i }) }}
               changecategory={(category, flag, flag1) => {
                 this.changedata(category, flag, flag1);
-                arr = count.map((t) => t.checked = false)
-                updateCount("", 0, 3)
+ 
               }} changeRecits={this.changeRecits.bind(this)} strd={this.state.strd}
               reset={this.reset.bind(this)}
 
@@ -451,7 +422,7 @@ class AA extends React.Component {
         }
         <div className="LTchild">
           <div className="treeNode">
-            <TreeNode changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1); updateCount("", 0, 3) }}
+            <TreeNode changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
               changeparent={(name) => this.setState({ parent: name })}
               config={this.state.config}
               familyTree={tree.children}
@@ -462,7 +433,7 @@ class AA extends React.Component {
 
               parent={this.state.parent} />
           </div>
-          <Table i={this.state.i} data={this.state.data[this.state.categories.actual[0].cat]} setch={() => setch()} familyTree={tree.children}
+          <Table i={this.state.i} data={this.state.data[this.state.categories.actual[0].cat]}   familyTree={tree.children}
             columns={this.state.columns.map((t, i) => {
               if (i == this.state.icolumn && this.state.checked) t.col.disp = false;
               else if (i == this.state.icolumn && this.state.checked == false) t.col.disp = true;
@@ -484,4 +455,4 @@ class AA extends React.Component {
   }
 }
 
-export default withParams(AA);
+export default withParams(Home);

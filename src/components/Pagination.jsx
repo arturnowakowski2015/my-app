@@ -59,12 +59,12 @@ const Pagination = props => {
                                 </Link>
                                 </div>
                                 :
-                                <div><Link className={ props.oldel==i ?  "green" : "s"} to={"/a/" + props.acturl + "pagination/" + Elem}
+                                <div>{i<Math.ceil((props.length>0 ? props.length: 100)/10) && <Link className={ props.oldel==i  ?  "green" : "s"} to={"/a/" + props.acturl + "pagination/" + Elem}
                                  onClick={(event) => {event.preventDefault(); funk(event, Elem)}}
 
 
-                                >{Elem}
-                                </Link>
+                                >{   Elem}
+                                </Link>}
                                 </div>
                         }
                     </div>

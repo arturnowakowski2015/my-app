@@ -25,7 +25,7 @@ import { tab } from "@testing-library/user-event/dist/tab";
 
 
 const Table = (props, columns) => {
-    const [count, updateCount] = React.useContext(UserContext);
+ 
     const navigate = useNavigate();
     const [flagel, setFlagel] = useState(true)
     const [biw, setBiw] = useState(0)
@@ -52,8 +52,11 @@ const Table = (props, columns) => {
     const[sliced, setSliced]=useState([])
     useEffect(() => {
         setPostPerPage(props.postPerPage)
+
         setSearchtext([""])
     }, [props.postPerPage]);
+  
+
     const [searchtext, setSearchtext]=useState([""])
     const [searchi, setSearchi]=useState({new:1, old:0})
     const [tabs, setTabs] = useState({eltabs:[{name:"all records", words:"", saved:1},], searchtext:searchtext})
@@ -111,8 +114,7 @@ const Table = (props, columns) => {
     
         }
      
-    
-        e = data.filter(f => count.filter(item => f.id === item.id))
+ 
         if (lastPost == 0)
             lastPost = postPerPage
               currentPost = props.flag == 1 ? data1.slice(firstPost, lastPost) : data.slice(firstPost, lastPost)
@@ -199,7 +201,20 @@ const Table = (props, columns) => {
  
     },[stop])
 
+    useEffect(()=>{
+    
 
+       let obj = Object.assign({}, makepagination())
+
+    
+        setSliced(slice=> props.data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
+            return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[searchi.new])!=-1 
+           })
+          }).slice(1, 11))
+        console.log("przed  "+JSON.stringify(data1))
+         setFlagel(flagel)
+ 
+    },[ ])
 
 
 
@@ -244,16 +259,7 @@ const Table = (props, columns) => {
     const mkf = (e) => {
         setFlagel(false)
     }
-    const setch = (id, r) => {
- 
-            navigate("/a/" + props.acturl + "/pagination", { state: { id } })
-        props.setch(id, { id: 90, checked: true })
-        let t = count.filter((t) => { return t.id == id })
-
-        updateCount(t.length == 0 ? { id: id, checked: !t.checked } : id, id, 0, null, r.toString())
-
-    }
-
+  
     const dv = (url, str, upstr, i) => {
 
         props.furl(3, i, props.i, "u", str, upstr);
@@ -321,11 +327,9 @@ const Table = (props, columns) => {
 
 
         return (<tr key={i} ><td>{row.checkbox == true ? <input type="checkbox" id={row.id + "/"}
-            checked={count[i].checked ? null : null} />
-            : <input style={{ position: "relative", top: "10px", float: "left" }} type="checkbox" id={row.id} checked={(count.filter((tt) => { return tt.id == row.id })[0] != undefined
-                ? count.filter((tt) => { return tt.id == row.id })[0].checked
-                : null)}
-                onChange={(e) => { setch(row.id, e.target.checked) }} />}<div style={{ cursor: "pointer", textDecoration: "underline" }}
+         />
+            : <input style={{ position: "relative", top: "10px", float: "left" }} type="checkbox" id={row.id}  
+              />}<div style={{ cursor: "pointer", textDecoration: "underline" }}
                     onMouseOver={() => {url = "/a/" + props.acturl + "/pagination/" + row.name + "/" + row.id + "/" + row.name + "/1/edit"; setId(row.id); }}
                     onClick={(e) => {
                         dv(url, row[Object.keys(row).filter((t, i) => { return i == 2 && t })],
@@ -385,34 +389,21 @@ const Table = (props, columns) => {
     setFlagel(!flagel)
  }
 
-
-
- 
-
-
- 
-
-
-
-let x = pageNumber.length
-let y=Math.ceil(data1.length/10);
-if(data1.length==0) y=pageNumber.length
- 
-while(y<x){
- 
- pageNumber.pop()
- ++y
-}
+if(data1.length==0)
+ pageNumber=[1,2,3,4,5,6]
 
 const z = <div className="tablecontainer">{<div className={countdown==tovalue ? "s" : "s1"}>
      {countdown}</div>}<span style={{width: "20px"}}></span>  {(parseInt(firstPost) + parseInt(currentPost.length))-10+ " - "+ (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}</div>
     const el = <div> {z}    
         {   window.location.href.indexOf("searchtext")!=-1 ? 
         <Searching i={window.location.href.indexOf("searchtext")} searchtext={searchtext[searchi.new]} 
-        saved={tabs.eltabs[tabs.eltabs.length-1].saved} setValue={(es)=> {setValue(es); setStop(stop=>stop+1)}} savetab={()=>savetab()}/>
+        saved={tabs.eltabs[tabs.eltabs.length-1].saved} setValue={(es)=> {setValue(es); setStop(stop=>stop+1); setNumber(0);}} savetab={()=>savetab()}/>
      :<div style={{height:"30px"}}></div> }
-        {props.flagsettings != 4 &&  <Pagination acturl={props.acturl} fp={fp} span={span} postPerPage={postPerPage} number={number} pageNumber={pageNumber }
-           oldel={oldel} ChangePage={ChangePage} setN={setN} length={data.length} firstPost={firstPost} tovalue={Math.ceil(tovalue/10)-1}/>
+        {props.flagsettings != 4 &&  <Pagination stop={stop} acturl={props.acturl} fp={fp} span={span} postPerPage={postPerPage} number={number} 
+        pageNumber={ window.location.href.indexOf("searchtext")!=-1 ?
+                                                        stop==0 && pageNumber || stop &&  pageNumber.slice(0,Math.ceil(data1.length/10))
+                                                        : pageNumber}
+           oldel={oldel} ChangePage={ChangePage} setN={setN} length={data1.length} firstPost={firstPost} tovalue={Math.ceil(tovalue/10)-1}/>
              }
         <div ><div>found: {  data1.length}</div>
             {

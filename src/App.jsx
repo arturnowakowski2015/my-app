@@ -8,7 +8,7 @@ import {
 import Settings from "./components/Settings";
 import Select from './components/Select';
 import AppProvider from "./ctx/AppProvider";
-import AA from "./components/AA";
+import Home from "./components/Home";
 import Update from "./components/Update";
  
 import Searching from "./components/Searching";
@@ -23,7 +23,7 @@ const[old, setOld]=useState(-1)
 
   return (
     <div>    
-      <AppProvider>
+ 
 
 
         <Router>
@@ -50,7 +50,7 @@ const[old, setOld]=useState(-1)
 
 
 
-            <Route exact path="/a/:elem/pagination" element={<AA />} >
+            <Route exact path="/a/:elem/pagination" element={<Home />} >
               <Route exact path="settings" element={<Settings />} />
               <Route path="searchtext" element={<Table />} >
                   <Route path=":r" element={<Searching /> } />
@@ -62,7 +62,7 @@ const[old, setOld]=useState(-1)
                </Routes>
 
         </Router>
-      </AppProvider>
+ 
     </div>
   );
 }

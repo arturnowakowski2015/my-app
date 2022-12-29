@@ -37,7 +37,8 @@
           }
       }
     }
-  .tablecontainer{
+  .tablecontainer, .pag{
+
     display: flex;
     flex-direction:row;
  }
