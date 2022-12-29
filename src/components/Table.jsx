@@ -86,7 +86,7 @@ const Table = (props, columns) => {
         let currentPost =""
         const ChangePage = (pageNumber) => {
             window.location.href.indexOf("searchtext")!=-1 &&
-            setStop(stop=>stop+1)
+            setStop(stop=>stop)
             window.location.href.indexOf("searchtext")==-1 &&
             setStop(stop=>0)
             setNumber(pageNumber);
@@ -382,6 +382,7 @@ const Table = (props, columns) => {
         setSearchtext(searchtext)
          setSearchi({new: tabs.eltabs.length-1, old:searchi-1})  
         setTabs(tabs);
+        
         setFlagel(!flagel)
     }
  const savetab =(str) =>{
@@ -392,20 +393,25 @@ const Table = (props, columns) => {
 if(data1.length==0)
  pageNumber=[1,2,3,4,5,6]
 
+ useEffect(()=> {
+         
+ 
+  setSliced( props.data   ) 
+   },[props.data])
 const z = <div className="tablecontainer">{<div className={countdown==tovalue ? "s" : "s1"}>
      {countdown}</div>}<span style={{width: "20px"}}></span>  {(parseInt(firstPost) + parseInt(currentPost.length))-10+ " - "+ (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}</div>
     const el = <div> {z}    
         {   window.location.href.indexOf("searchtext")!=-1 ? 
         <Searching i={window.location.href.indexOf("searchtext")} searchtext={searchtext[searchi.new]} 
-        saved={tabs.eltabs[tabs.eltabs.length-1].saved} setValue={(es)=> {setValue(es); setStop(stop=>stop+1); setNumber(0);}} savetab={()=>savetab()}/>
+        saved={tabs.eltabs[tabs.eltabs.length-1].saved} setValue={(es)=> {setValue(es); setStop(stop=>stop+1)}} savetab={()=>savetab()}/>
      :<div style={{height:"30px"}}></div> }
         {props.flagsettings != 4 &&  <Pagination stop={stop} acturl={props.acturl} fp={fp} span={span} postPerPage={postPerPage} number={number} 
-        pageNumber={ window.location.href.indexOf("searchtext")!=-1 ?
-                                                        stop==0 && pageNumber || stop &&  pageNumber.slice(0,Math.ceil(data1.length/10))
-                                                        : pageNumber}
+        pageNumber={  
+                                                         pageNumber 
+                                                       }
            oldel={oldel} ChangePage={ChangePage} setN={setN} length={data1.length} firstPost={firstPost} tovalue={Math.ceil(tovalue/10)-1}/>
              }
-        <div ><div>found: {  data1.length}</div>
+        <div ><div>found: {  sliced.length}</div>
             {
                 element == 1 ? null
                     :
