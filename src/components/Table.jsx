@@ -36,7 +36,7 @@ const Table = (props, columns) => {
     const [element, setElement] = useState(3)
     const [chevron, setChevron] = useState("false")
     const [i, setI] = useState(0);
-    const { data } = props;
+    let { data } = props;
     const[green, setGreen]=useState(0)
     const [postPerPage, setPostPerPage] = useState(props.postPerPage);
     const [oldnumber, setOldnumber]=useState(1);
@@ -47,8 +47,9 @@ const Table = (props, columns) => {
     const [tovalue, setTovalue] = useState(0);
     const [name, setName] = useState("####")
     const[countdown, setCountdown]=useState(0);
- 
-
+    const[data1, setData1]=useState([]);
+    const[stop, setStop] = useState(0)
+    const[sliced, setSliced]=useState([])
     useEffect(() => {
         setPostPerPage(props.postPerPage)
     }, [props.postPerPage]);
@@ -66,72 +67,142 @@ const Table = (props, columns) => {
         }
 
     }, [setNumber]);
+        let pageNumber = [];
+        let cell = { col: { name: "ddd", disp: true } };
+        let col = [cell];
+    
+    
+        const border = [0, postPerPage * 10, postPerPage * 20, postPerPage * 30, postPerPage * 40,
+            postPerPage * 50, postPerPage * 60, postPerPage * 70, postPerPage * 80, postPerPage * 90
+        ];
+    
+        let fp = border[biw] ? border[biw] / postPerPage + 1 : 1;
+        let span = 0
+        let e =""
+        let currentPost =""
+        const ChangePage = (pageNumber) => {
+            setStop(stop=>stop+1)
+            setNumber(pageNumber);
+        };
+    const makepagination = () => {
+    
+
+    
+        if (props.number1 == 0) {
+            lastPost = number * postPerPage;
+            firstPost = lastPost - postPerPage;
+        } else {
+    
+            lastPost = number * postPerPage;
+            firstPost = lastPost - postPerPage;
+            if (firstPost > data.length) {
+                firstPost = 0;
+                setNumber(Math.floor(data1.length / postPerPage))
+    
+            }
+        }
+ 
+        if (firstPost < 0) {
+            firstPost = 0;
+    
+        }
+     
+    
+        e = data.filter(f => count.filter(item => f.id === item.id))
+        if (lastPost == 0)
+            lastPost = postPerPage
+              currentPost = props.flag == 1 ? data1.slice(firstPost, lastPost) : data.slice(firstPost, lastPost)
+    
+              console.log("pmmmmmmo   "+ pageNumber.length )
+        if (firstPost > border[biw]) {
+    
+    
+            for (let i = 0; i < 10; i++) {
+    
+                pageNumber.unshift()
+                console.log(data1.length+" v   "+ JSON.stringify(pageNumber) )
+            }
+        }
 
 
+        Math.floor(data1.length / postPerPage) >= 10 ? span = 10 : span = Math.floor(data.length / postPerPage) + 1
+    
+        for (let i = (fp); i <= border[biw] / postPerPage + span; i++) {
+    
+            if (Math.floor(data1.length / postPerPage) < 10 + 1)
+                pageNumber.push(i - border[biw] / postPerPage);
+            else
+                pageNumber.push(i);
+        }
+
+        return {firstPost: firstPost, lastPost: lastPost}
+    }
 
 
     let ttt = 0;
 
+
     const arr = [];
     let lastPost = 0;
     let firstPost = 0;
+ 
+ makepagination()
 
-    if (props.number1 == 0) {
-        lastPost = number * postPerPage;
-        firstPost = lastPost - postPerPage;
-    } else {
-
-        lastPost = number * postPerPage;
-        firstPost = lastPost - postPerPage;
-        if (firstPost > data.length) {
+ let u=0;
+    useEffect(()=>{
+        console.log(stop+" przed  "+JSON.stringify(currentPost.length))
+        const arr = [];
+        let lastPost = 0;
+        let firstPost = 0;
+    
+        if (props.number1 == 0) {
+            lastPost = number * postPerPage;
+            firstPost = lastPost - postPerPage;
+        } else {
+    
+            lastPost = number * postPerPage;
+            firstPost = lastPost - postPerPage;
+            if (firstPost > data.length) {
+                firstPost = 0;
+                setNumber(Math.floor(data1.length / postPerPage))
+    
+            }
+        }
+        if (firstPost < 0) {
             firstPost = 0;
-            setNumber(Math.floor(data.length / postPerPage))
-
+    
         }
-    }
-    if (firstPost < 0) {
-        firstPost = 0;
 
-    }
-
-    let e = data.filter(f => count.filter(item => f.id === item.id))
-    if (lastPost == 0)
-        lastPost = postPerPage
-    const currentPost = props.flag == 1 ? e.slice(firstPost, lastPost) : data.slice(firstPost, lastPost)
-
-    const pageNumber = [];
+ 
 
 
-    let cell = { col: { name: "ddd", disp: true } };
-    let col = [cell];
+        setData1(data1=>data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
+          return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[searchi.new])!=-1 
+         })
+        }))
+       // currentPost= data1.slice(firstPost, lastPost)
 
 
-    const border = [0, postPerPage * 10, postPerPage * 20, postPerPage * 30, postPerPage * 40,
-        postPerPage * 50, postPerPage * 60, postPerPage * 70, postPerPage * 80, postPerPage * 90
-    ];
+       let obj = Object.assign({}, makepagination())
 
-    let fp = border[biw] ? border[biw] / postPerPage + 1 : 1;
+    
+        setSliced(slice=> data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
+            return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[searchi.new])!=-1 
+           })
+          }).slice(obj.firstPost, obj.lastPost))
+        console.log("przed  "+JSON.stringify(data1))
+         setFlagel(flagel)
+    },[stop])
 
-    if (firstPost > border[biw]) {
 
 
-        for (let i = 0; i < 10; i++) {
 
-            pageNumber.unshift()
 
-        }
-    }
 
-    let span = 0
-    Math.floor(data.length / postPerPage) >= 10 ? span = 10 : span = Math.floor(data.length / postPerPage) + 1
 
-    for (let i = (fp); i <= border[biw] / postPerPage + span; i++) {
 
-        if (Math.floor(data.length / postPerPage) < 10 + 1)
-            pageNumber.push(i - border[biw] / postPerPage);
-        else
-            pageNumber.push(i);
-    }
+
+
 
     const buildHeader = (header, columns) => {
         data.map((t, i) => {
@@ -281,9 +352,7 @@ const Table = (props, columns) => {
 
     }
 
-    const ChangePage = (pageNumber) => {
-        setNumber(pageNumber);
-    };
+
 
 
 
@@ -293,31 +362,56 @@ const Table = (props, columns) => {
  
 
     const setValue =(str) => { 
-        console.log(JSON.stringify(tabs))
+
  
  
         if(tabs.eltabs.length<8 && tabs.eltabs[tabs.eltabs.length-1].saved==1)
              tabs.eltabs.push({name:str, words: "ddd", saved:2})
          else if(tabs.eltabs.length<8 && tabs.eltabs[tabs.eltabs.length-1].saved==2)
             tabs.eltabs.splice(tabs.eltabs.length-1, 1, {name:str, words: "ddd", saved:2})
+
         searchtext[tabs.eltabs.length-1]=str;
+        
         setSearchtext(searchtext)
-         setSearchi({new: tabs.eltabs.length-1, old:searchi-1})
+         setSearchi({new: tabs.eltabs.length-1, old:searchi-1}) 
+                console.log("jjjjjjjjj   "+JSON.stringify(searchtext))
         setTabs(tabs);
         setFlagel(!flagel)
     }
- const savetab =() =>{
+ const savetab =(str) =>{
     tabs.eltabs.splice(tabs.eltabs.length-1, 1, {name:tabs.eltabs[tabs.eltabs.length-1].name, words:"ttt", saved:1})
     setFlagel(!flagel)
  }
 
+
+
+ 
+
+
+ 
+
+
+
+let x = pageNumber.length
+let y=Math.ceil(data1.length/10);
+if(data1.length==0) y=pageNumber.length
+ 
+while(y<x){
+ 
+ pageNumber.pop()
+ ++y
+}
+
 const z = <div className="tablecontainer">{<div className={countdown==tovalue ? "s" : "s1"}>
-     {countdown}</div>}<span style={{width: "20px"}}></span>  {(parseInt(firstPost) + parseInt(currentPost.length))-10+ " - "+ (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}</div>
-    const el = <div> {z}    
+     </div>}<span style={{width: "20px"}}></span>  {(parseInt(firstPost) + parseInt(currentPost.length))-10+ " - "+ (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}</div>
+    const el = <div>{data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
+        return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[searchi.new])!=-1 
+       })
+      }).length} {z}    
         {   window.location.href.indexOf("searchtext")!=-1 && 
         <Searching i={window.location.href.indexOf("searchtext")} searchtext={searchtext[searchi.new]} 
-        saved={tabs.eltabs[tabs.eltabs.length-1].saved} setValue={(es)=> setValue(es)} savetab={()=>savetab()}/> }
-        {props.flagsettings != 4 &&  <Pagination acturl={props.acturl} fp={fp} span={span} postPerPage={postPerPage} number={number} pageNumber={pageNumber}
+        saved={tabs.eltabs[tabs.eltabs.length-1].saved} setValue={(es)=> {setValue(es); setStop(stop=>stop+1)}} savetab={()=>savetab()}/> }
+        {props.flagsettings != 4 &&  <Pagination acturl={props.acturl} fp={fp} span={span} postPerPage={postPerPage} number={number} pageNumber={pageNumber }
            oldel={oldel} ChangePage={ChangePage} setN={setN} length={data.length} firstPost={firstPost} tovalue={Math.ceil(tovalue/10)-1}/>
              }
         <div >
@@ -329,9 +423,15 @@ const z = <div className="tablecontainer">{<div className={countdown==tovalue ? 
                         <div className="tabs">{
                             tabs.eltabs!=undefined && tabs.eltabs.map((t, j) => {
                                 return <Tab searchi={searchi} j={j} name={t.name} 
-                                setsi={() => {setSearchi({old: searchi.new, new:j});
+                                
+                                setsi={(e) => {
+                                    
+                                    console.log(JSON.stringify(searchi));setSearchi({old: searchi.new, new:j});
                                 if(tabs.eltabs[tabs.eltabs.length-1].saved==2)
-                                tabs.eltabs.splice(tabs.eltabs.length-1, 1, {name:searchtext[j], words: "ddd", saved:2})
+                                tabs.eltabs.splice(tabs.eltabs.length-1, 1, {name:searchtext[j], words: "ddd", saved:2});
+           
+                                setStop(stop=>stop+1)
+              
                                                  navigate("searchtext/"+t.words);}} />          
                             })
                         }
@@ -342,9 +442,13 @@ const z = <div className="tablecontainer">{<div className={countdown==tovalue ? 
                         </thead>
                         <tbody>{
                             view == 1 ?
-                                currentPost.length >= 0 ? currentPost.map(buildRow) : <tr>vvvv</tr>
-                                :
-                                <tr><td>dddddddddddd</td></tr>
+                                currentPost.length >= 0 && data1.length>0 ? sliced.map(buildRow) : stop==0 && currentPost.map(buildRow) 
+                                ? stop==0 && currentPost.map(buildRow) : <tr><td style={{backgroundColor: "red", textAlign:"center",
+                            padding:"50px", width:" 300px"}}> norec</td><td style={{backgroundColor: "red", textAlign:"center",
+                            padding:"50px", width:" 300px"}}> norec</td><td style={{backgroundColor: "red", textAlign:"center",
+                            padding:"50px", width:" 300px"}}> norec</td><td style={{backgroundColor: "red", textAlign:"center",
+                            padding:"50px", width:" 300px"}}> norec</td></tr> :
+                                <tr><td>dddddddddddd</td></tr>  
                         }</tbody>
                     </table>
                     </div>
