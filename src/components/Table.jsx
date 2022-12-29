@@ -13,6 +13,7 @@ import "./Table.scss"
 import UserContext from "../ctx/User";
 import Tab from "./Tab";
 import { findByLabelText } from "@testing-library/react";
+import { tab } from "@testing-library/user-event/dist/tab";
 
 
 
@@ -51,9 +52,9 @@ const Table = (props, columns) => {
     useEffect(() => {
         setPostPerPage(props.postPerPage)
     }, [props.postPerPage]);
-    const [searchtext, setSearchtext]=useState([""])
+    const [searchtext, setSearchtext]=useState(["eee", "rrrrr"])
     const [searchi, setSearchi]=useState({new:1, old:0})
-    const [tabs, setTabs] = useState({eltabs:[{name:"all records", words:""},{name:"ssss", words:"eee"}], searchtext:searchtext})
+    const [tabs, setTabs] = useState({eltabs:[{name:"all records", words:"", saved:1},{name:"ssss", words:"eee",saved:1}], searchtext:searchtext})
     let r = "";
     useEffect(() => {
 
@@ -291,13 +292,31 @@ const Table = (props, columns) => {
     }
  
 
+    const setValue =(str) => { 
+        console.log(JSON.stringify(tabs))
  
  
+        if(tabs.eltabs.length<8 && tabs.eltabs[tabs.eltabs.length-1].saved==1)
+             tabs.eltabs.push({name:str, words: "ddd", saved:2})
+         else if(tabs.eltabs.length<8 && tabs.eltabs[tabs.eltabs.length-1].saved==2)
+            tabs.eltabs.splice(tabs.eltabs.length-1, 1, {name:str, words: "ddd", saved:2})
+        searchtext[tabs.eltabs.length-1]=str;
+        setSearchtext(searchtext)
+         setSearchi({new: tabs.eltabs.length-1, old:searchi-1})
+        setTabs(tabs);
+        setFlagel(!flagel)
+    }
+ const savetab =() =>{
+    tabs.eltabs.splice(tabs.eltabs.length-1, 1, {name:tabs.eltabs[tabs.eltabs.length-1].name, words:"ttt", saved:1})
+    setFlagel(!flagel)
+ }
 
 const z = <div className="tablecontainer">{<div className={countdown==tovalue ? "s" : "s1"}>
      {countdown}</div>}<span style={{width: "20px"}}></span>  {(parseInt(firstPost) + parseInt(currentPost.length))-10+ " - "+ (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}</div>
     const el = <div> {z}    
-        {   window.location.href.indexOf("searchtext")!=-1 && <Searching i={window.location.href.indexOf("searchtext")} serchtext={searchtext[searchi.new]} /> }
+        {   window.location.href.indexOf("searchtext")!=-1 && 
+        <Searching i={window.location.href.indexOf("searchtext")} searchtext={searchtext[searchi.new]} 
+        saved={tabs.eltabs[tabs.eltabs.length-1].saved} setValue={(es)=> setValue(es)} savetab={()=>savetab()}/> }
         {props.flagsettings != 4 &&  <Pagination acturl={props.acturl} fp={fp} span={span} postPerPage={postPerPage} number={number} pageNumber={pageNumber}
            oldel={oldel} ChangePage={ChangePage} setN={setN} length={data.length} firstPost={firstPost} tovalue={Math.ceil(tovalue/10)-1}/>
              }
@@ -308,9 +327,12 @@ const z = <div className="tablecontainer">{<div className={countdown==tovalue ? 
 
                     <div className="table1">
                         <div className="tabs">{
-                            tabs.eltabs.map((t, j) => {
-                                return <Tab searchi={searchi} j={j} name={t.name} setsi={() => {setSearchi({old: searchi.new, new:j});
-                                navigate("searchtext/"+t.words);}} />          
+                            tabs.eltabs!=undefined && tabs.eltabs.map((t, j) => {
+                                return <Tab searchi={searchi} j={j} name={t.name} 
+                                setsi={() => {setSearchi({old: searchi.new, new:j});
+                                if(tabs.eltabs[tabs.eltabs.length-1].saved==2)
+                                tabs.eltabs.splice(tabs.eltabs.length-1, 1, {name:searchtext[j], words: "ddd", saved:2})
+                                                 navigate("searchtext/"+t.words);}} />          
                             })
                         }
                         </div>
@@ -337,8 +359,9 @@ const z = <div className="tablecontainer">{<div className={countdown==tovalue ? 
 
         <>
             {flagel == true ?
-                el : null
+                el : el
             }
+
  
         </>
 
