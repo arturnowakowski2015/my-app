@@ -53,9 +53,9 @@ const Table = (props, columns) => {
     useEffect(() => {
         setPostPerPage(props.postPerPage)
     }, [props.postPerPage]);
-    const [searchtext, setSearchtext]=useState(["eee", "rrrrr"])
+    const [searchtext, setSearchtext]=useState([""])
     const [searchi, setSearchi]=useState({new:1, old:0})
-    const [tabs, setTabs] = useState({eltabs:[{name:"all records", words:"", saved:1},{name:"ssss", words:"eee",saved:1}], searchtext:searchtext})
+    const [tabs, setTabs] = useState({eltabs:[{name:"all records", words:"", saved:1},], searchtext:searchtext})
     let r = "";
     useEffect(() => {
 
@@ -403,11 +403,8 @@ while(y<x){
 }
 
 const z = <div className="tablecontainer">{<div className={countdown==tovalue ? "s" : "s1"}>
-     </div>}<span style={{width: "20px"}}></span>  {(parseInt(firstPost) + parseInt(currentPost.length))-10+ " - "+ (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}</div>
-    const el = <div>{data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
-        return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[searchi.new])!=-1 
-       })
-      }).length} {z}    
+     {countdown}</div>}<span style={{width: "20px"}}></span>  {(parseInt(firstPost) + parseInt(currentPost.length))-10+ " - "+ (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}</div>
+    const el = <div> {z}    
         {   window.location.href.indexOf("searchtext")!=-1 && 
         <Searching i={window.location.href.indexOf("searchtext")} searchtext={searchtext[searchi.new]} 
         saved={tabs.eltabs[tabs.eltabs.length-1].saved} setValue={(es)=> {setValue(es); setStop(stop=>stop+1)}} savetab={()=>savetab()}/> }
@@ -426,12 +423,16 @@ const z = <div className="tablecontainer">{<div className={countdown==tovalue ? 
                                 
                                 setsi={(e) => {
                                     
-                                    console.log(JSON.stringify(searchi));setSearchi({old: searchi.new, new:j});
-                                if(tabs.eltabs[tabs.eltabs.length-1].saved==2)
-                                tabs.eltabs.splice(tabs.eltabs.length-1, 1, {name:searchtext[j], words: "ddd", saved:2});
+                                    console.log(JSON.stringify(searchi));setSearchi({old: searchi.new, new:j}); 
            
                                 setStop(stop=>stop+1)
               
+                                
+                                
+
+
+
+
                                                  navigate("searchtext/"+t.words);}} />          
                             })
                         }
