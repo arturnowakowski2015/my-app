@@ -5,8 +5,10 @@ function AppProvider(props) {
   const [changeAll, setChangeAll] = React.useState(0)
   const [count, setCount] = React.useState([]);
   const df = () => { };
-
+ 
   function updateCount(e, id, all, data, data2) {
+    console.log(JSON.stringify(e)+":xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx::"+id+":::"+all+"::"+JSON.stringify(data)+":::"+
+    JSON.stringify(data2))
     setChangeAll(all);
     let r = [];
     if (all == 0 && data2 == "false") {
@@ -46,7 +48,10 @@ function AppProvider(props) {
 
     }
     let w = 0;
-    all == 0 && typeof e == "object" ? setCount((count) => [...y, e]) : setCount((count) => [...r])
+    all == 0 && typeof e == "object" ?   setCount((count) => [...y, e]) : 
+     
+     
+     console.log(e+":xbbbb                           xxxxx::"+id+":::"+all) && setCount((count) => [...r])
 
 
 

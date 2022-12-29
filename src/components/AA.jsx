@@ -16,10 +16,10 @@ import Select from "./Select"
 import TreeNode from "./TreeNode";
 import Update from "./Update";
 
-import ButtonModal from "./ButtonModal";
+ 
 import { tree } from '../data/dummy';
 import '../index.css';
-import "./ButtonModal.scss"
+ 
 import UserContext from "../ctx/User";
 
 function withParams(Component) {
@@ -103,13 +103,13 @@ class AA extends React.Component {
           })
         this.setState({ data: this.state.data })
         this.state.data["postponed"] = response.filter((t, i) => {
-          return i>50 && i<200 && t;
+          return i>50 && i<100 && t;
         })
       this.setState({ data: this.state.data })
 
 
-      this.state.data["postponed"] = response.filter((t, i) => {
-        return i>200 && i<response.length && t;
+      this.state.data["removed"] = response.filter((t, i) => {
+        return i>100 && i<150 && t;
       })
     this.setState({ data: this.state.data })
 
@@ -250,7 +250,7 @@ class AA extends React.Component {
 
     }
 
-    arr = 0;
+ 
     return this.setState({ actual: this.state.categories.actual });
 
 
@@ -291,6 +291,7 @@ class AA extends React.Component {
           this.state.data[category] = this.state.data[this.state.categories.actual[0].cat]
 
         let arr1 = arr.filter((t) => t != "")
+ 
         if (arr1.length != this.state.data[category].length) {
           y = this.state.data[category].filter(f => arr.some(item => item.id === f.id))
           y2 = this.state.data[category].filter(f => !arr.some(item => item.id === f.id))
@@ -302,13 +303,14 @@ class AA extends React.Component {
         this.state.data[this.state.categories.actual[0].cat] = y2
         this.state.categories.actual[0].l = y2.length
         this.state.categories.new = [...this.state.categories.new, { cat: category, l: y.length }]
-        this.state.data[category] = y
+        //this.state.data[category] = y
+        this.state.data[category] = [... this.state.data[category], y]
         this.setcategories(category, this.state.categories.actual[0].cat)
         // this.state.categories.actual[0].cat = category
       }
     } else if (flag == 0 && this.state.data[category] && this.state.data[category].length && stop == 0) {
 
-      this.state.data[this.state.categories.actual[0].cat] = this.state.data[category]
+      this.state.data[this.state.categories.actual[0].cat] =  this.state.data[category].filter(f => !arr.some(item => item.id === f.id))
       this.state.categories.actual[0].l = this.state.data[category].length
       this.state.categories.actual[0].cat = category;
       this.setcategories(category, this.state.categories.actual[0].cat)
@@ -358,21 +360,7 @@ class AA extends React.Component {
 
       count = count.map((t) => { t.checked = null; return t })
     }
-
-    function deleteel() {
-      let arr = count.filter((t) => t.checked == true)
-
-      this.setState({
-        data: [this.state.categories[0]] = this.state.data[this.state.categories[0]].filter(f => !arr.some(item => item.id === f.id))
-      })
-
-
-
-    }
-    function setchoosen(r) {
-      this.state.data[this.state.categories[0]] = r
-
-    }
+ 
 
     return (
       <div> 
@@ -390,30 +378,7 @@ class AA extends React.Component {
               }
               {arr.length > 0 &&
                 <div>
-                  <ButtonModal familyTree={tree.children} menu={1}
-                    checkall={() => {
-                      this.setState({ checkall: !this.state.checkall });
-                      (this.state.checkall ? updateCount("", 0, 1, this.state.data[this.state.categories.actual[0].cat])
-                        : updateCount("", 0, 2, this.state.data[this.state.categories.actual[0].cat]))
-                    }}
-                    changecategory={(category, flag, flag1) => {
-                      this.changedata(category, flag, flag1);
-                      arr = count.map((t) => t.checked = false)
-                      updateCount("", 0, 3)
-                    }
-
-                    }
-                    changeintree={(category, flag, flag1) => { this.changedata(category, flag, flag1); updateCount("", 0, 3) }}
-                    ac={this.state.categories.actual[0]}
-                    deleteel={() => {
-                      let arr = count.filter((t) => t.checked == true)
-
-                      this.setState({
-                        data: [this.state.categories[0]] = this.state.data[this.state.categories[0]].filter(f => !arr.some(item => item.id === f.id))
-                      })
-                    }}
-                    actcat={this.state.categories.actual[0].cat}
-                  />
+ 
                 </div>
               }
 

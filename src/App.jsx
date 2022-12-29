@@ -10,7 +10,7 @@ import Select from './components/Select';
 import AppProvider from "./ctx/AppProvider";
 import AA from "./components/AA";
 import Update from "./components/Update";
-import ButtonModal from "./components/ButtonModal";
+ 
 import Searching from "./components/Searching";
 import Table from "./components/Table";
 
@@ -56,7 +56,7 @@ const[old, setOld]=useState(-1)
                   <Route path=":r" element={<Searching /> } />
                 </Route>
               <Route path="url" element={<Select />} />
-              <Route path="putin" element={<ButtonModal />} />
+ 
               <Route path=":str/:id/:title/:f/edit" element={<Update />} />
             </Route>
                </Routes>

@@ -54,7 +54,7 @@ let yy=-1
 let rrr=0;
 const TreeNode = (props) => {
   const icons = {
-    "received": <i className={ rrr ? "s fa fa-bolt" : "fa fa-bolt" }></i>,
+    "received": <i className={ "fa fa-bolt" }></i>,
     "new": <i class="fa fa-bell"></i>,
     "postponed": <i class="fa fa-star"></i>,
     "removed": <i class="fa fa-envelope"></i>,
@@ -574,11 +574,11 @@ let strnew="";
     >
 
 
-      <p      onClick={() => rrr=1}       onMouseOver={() => t.width="100px"}
+      <p      onClick={() => rrr=1}       
 
         onMouseOut={(e) => {t.width="20px"; bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id) }}
   
-        style={{ backgroundColor: t.bgcolor, height: t.width }}>        {icons[t.name]}{t.name}
+        style={{ backgroundColor: t.bgcolor  }}>        {icons[t.name]}{t.name}
         <span style={{ align: "right" }}>{t.name == props.ac.cat ? props.ac.l : ""}</span>
         {pcl(t.name) != 0 ? pcl(t.name) : ""}
 
@@ -669,7 +669,7 @@ let strnew="";
 
 
             className="p fw-bold"
-            style={{ backgroundColor: t.bgcolor, width: t.width}}>{t.name}.1...
+            style={{ backgroundColor: t.bgcolor }}>{t.name}.1...
             {pcl(t.name) != 0 ? pcl(t.name) : ""}
 
           </p>
@@ -705,7 +705,7 @@ let strnew="";
                     removeopacity(tree.children, props.depth)
                   }}
 
-            style={{ marginTop: "-30px", height: "50px", width: "100%", backgroundColor: "red" }} >##  ROOT</div>
+            style={{ marginTop: "-30px", height: "50px", width: "500px", backgroundColor: "red" }} >##  ROOT</div>
         }</div>
 
 
