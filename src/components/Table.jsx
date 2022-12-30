@@ -458,13 +458,13 @@ const z = <div className="tablecontainer">{<div className={countdown==tovalue ? 
                                 
                                 setsi={(e) => {
                                     
-                                    console.log(JSON.stringify(searchi));setSearchi({old: searchi.new, new:j}); 
+                                    console.log(">>>>                 "+JSON.stringify(searchi));setSearchi({old:searchi.old, new:j}); 
            
                                 setStop(stop=>stop+1)
               
                                 
                                 
-
+                                setNumber(0);
 
 
 
