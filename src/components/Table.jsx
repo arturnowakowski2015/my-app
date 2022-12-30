@@ -4,7 +4,7 @@ import {
     Routes,
     Route,
     Link,
-    useNavigate 
+    useNavigate , useLocation
 } from "react-router-dom";
 import Pagination from "./Pagination"
 import Searching from "./Searching";
@@ -25,7 +25,7 @@ import { tab } from "@testing-library/user-event/dist/tab";
 
 
 const Table = (props, columns) => {
- 
+    const location = useLocation();
     const navigate = useNavigate();
     const [flagel, setFlagel] = useState(true)
     const [biw, setBiw] = useState(0)
@@ -113,11 +113,11 @@ const Table = (props, columns) => {
             firstPost = 0;
     
         }
-     
+ 
  
         if (lastPost == 0)
             lastPost = postPerPage
-              currentPost = props.flag == 1 ? data1.slice(firstPost, lastPost) : data.slice(firstPost, lastPost)
+              currentPost =   data.slice(firstPost, lastPost)
     
               console.log("pmmmmmmo   "+ pageNumber.length )
         if (firstPost > border[biw]) {
@@ -170,7 +170,7 @@ const Table = (props, columns) => {
             firstPost = lastPost - postPerPage;
             if (firstPost > data.length) {
                 firstPost = 0;
-                setNumber(Math.floor(data1.length / postPerPage))
+                setNumber(Math.floor(data.length / postPerPage))
     
             }
         }
@@ -196,25 +196,12 @@ const Table = (props, columns) => {
             return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[searchi.new])!=-1 
            })
           }).slice(obj.firstPost, obj.lastPost))
-        console.log("przed  "+JSON.stringify(data1))
+ 
+        console.log(" przed  "+ data1.length)
          setFlagel(flagel)
  
-    },[stop])
-
-    useEffect(()=>{
-    
-
-       let obj = Object.assign({}, makepagination())
-
-    
-        setSliced(slice=> props.data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
-            return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[searchi.new])!=-1 
-           })
-          }).slice(1, 11))
-        console.log("przed  "+JSON.stringify(data1))
-         setFlagel(flagel)
+    },[stop, number])
  
-    },[ ])
 
 
 
@@ -339,7 +326,7 @@ const Table = (props, columns) => {
     }
 
 
-
+    let length1=0;
 
     const d = () => { ttt = 1;; }
     const sortarr = (k, i) => {
@@ -393,25 +380,73 @@ const Table = (props, columns) => {
 if(data1.length==0)
  pageNumber=[1,2,3,4,5,6]
 
- useEffect(()=> {
-         
+   useEffect(() => { 
+    console.log(stop+" przed  "+JSON.stringify(currentPost.length))
+    const arr = [];
+    let lastPost = 0;
+    let firstPost = 0;
+
+    if (props.number1 == 0) {
+        lastPost = number * postPerPage;
+        firstPost = lastPost - postPerPage;
+    } else {
+
+        lastPost = number * postPerPage;
+        firstPost = lastPost - postPerPage;
+        if (firstPost > data.length) {
+            firstPost = 0;
+            setNumber(Math.floor(data1.length / postPerPage))
+
+        }
+    }
+    if (firstPost < 0) {
+        firstPost = 0;
+
+    }
+
+
+
+    console.log("  222222222222222222222222"+data1.length)
+    setData1(data1=> data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
+      return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[searchi.new])!=-1 
+     })
+    }))
+   // currentPost= data1.slice(firstPost, lastPost)
+
+
+   let obj = Object.assign({}, makepagination())
+
+
+    setSliced(slice=> props.data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
+        return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[searchi.new])!=-1 
+       })
+      }).slice(firstPost, lastPost))
+    console.log("  111111111111"+data1.length)
+    setNumber(1)
+    firstPost=21;
+    lastPost=31 ;
  
-  setSliced( props.data   ) 
-   },[props.data])
+    pageNumber=[1,2,3,4,5,6,7]
+     setFlagel(flagel)
+  }, [location])
+ 
+ 
 const z = <div className="tablecontainer">{<div className={countdown==tovalue ? "s" : "s1"}>
      {countdown}</div>}<span style={{width: "20px"}}></span>  {(parseInt(firstPost) + parseInt(currentPost.length))-10+ " - "+ (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}</div>
     const el = <div> {z}    
         {   window.location.href.indexOf("searchtext")!=-1 ? 
         <Searching i={window.location.href.indexOf("searchtext")} searchtext={searchtext[searchi.new]} 
-        saved={tabs.eltabs[tabs.eltabs.length-1].saved} setValue={(es)=> {setValue(es); setStop(stop=>stop+1)}} savetab={()=>savetab()}/>
+        saved={tabs.eltabs[tabs.eltabs.length-1].saved} setValue={(es)=> {setValue(es); setStop(stop=>stop+1);setNumber(0);}} savetab={()=>savetab()}/>
      :<div style={{height:"30px"}}></div> }
-        {props.flagsettings != 4 &&  <Pagination stop={stop} acturl={props.acturl} fp={fp} span={span} postPerPage={postPerPage} number={number} 
+        {props.flagsettings != 4 &&  <Pagination stop={stop} acturl={props.acturl} fp={1} span={span} postPerPage={postPerPage} number={number} 
         pageNumber={  
                                                          pageNumber 
                                                        }
-           oldel={oldel} ChangePage={ChangePage} setN={setN} length={data1.length} firstPost={firstPost} tovalue={Math.ceil(tovalue/10)-1}/>
+           oldel={oldel} ChangePage={ChangePage} setN={setN} length={
+            window.location.href.indexOf("searchtext")!=-1 ? data1.length : props.data.length
+           } firstPost={1} tovalue={Math.ceil(tovalue/10)-1}/>
              }
-        <div ><div>found: {  sliced.length}</div>
+        <div ><div>found: {  fp}</div>
             {
                 element == 1 ? null
                     :
@@ -443,12 +478,8 @@ const z = <div className="tablecontainer">{<div className={countdown==tovalue ? 
                         </thead>
                         <tbody>{
                             view == 1 ?
-                                currentPost.length >= 0 && data1.length>0 ? sliced.map(buildRow) : stop==0 && currentPost.map(buildRow) 
-                                ? stop==0 && currentPost.map(buildRow) : <tr><td style={{backgroundColor: "red", textAlign:"center",
-                            padding:"50px", width:" 300px"}}> norec</td><td style={{backgroundColor: "red", textAlign:"center",
-                            padding:"50px", width:" 300px"}}> norec</td><td style={{backgroundColor: "red", textAlign:"center",
-                            padding:"50px", width:" 300px"}}> norec</td><td style={{backgroundColor: "red", textAlign:"center",
-                            padding:"50px", width:" 300px"}}> norec</td></tr> :
+                                currentPost.length >= 0 && data1.length==data.length ? sliced.map(buildRow) : stop==0 && currentPost.map(buildRow) 
+                                ? stop==0 && currentPost.map(buildRow) : sliced.map(buildRow) :
                                 <tr><td>dddddddddddd</td></tr>  
                         }</tbody>
                     </table>
