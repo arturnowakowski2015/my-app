@@ -89,6 +89,7 @@ const Table = (props, columns) => {
             setStop(stop=>stop)
             window.location.href.indexOf("searchtext")==-1 &&
             setStop(stop=>0)
+            alert(pageNumber)
             setNumber(pageNumber);
         };
     const makepagination = () => {
@@ -381,6 +382,8 @@ if(data1.length==0)
  pageNumber=[1,2,3,4,5,6]
 
    useEffect(() => { 
+ 
+             alert(number+"  numer")
     console.log(stop+" przed  "+JSON.stringify(currentPost.length))
     const arr = [];
     let lastPost = 0;
@@ -407,7 +410,7 @@ if(data1.length==0)
 
 
     console.log("  222222222222222222222222"+data1.length)
-    setData1(data1=> data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
+    setData1(data1=> props.data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
       return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[searchi.new])!=-1 
      })
     }))
@@ -415,24 +418,28 @@ if(data1.length==0)
 
 
    let obj = Object.assign({}, makepagination())
-
-
     setSliced(slice=> props.data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
+        return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[searchi.new])!=-1  })
+      }).length ? 
+      props.data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
         return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[searchi.new])!=-1 
        })
-      }).slice(firstPost, lastPost))
-    console.log("  111111111111"+data1.length)
+      }).slice(obj.firstPost, obj.lastPost) :
+      props.data.filter((r) => {return r}).slice(obj.firstPost, obj.lastPost)
+      ) 
+      
+ alert(sliced.length+"  sliced")
     setNumber(1)
     firstPost=21;
     lastPost=31 ;
- 
+ setStop(0)
     pageNumber=[1,2,3,4,5,6,7]
      setFlagel(flagel)
   }, [location])
  
  
 const z = <div className="tablecontainer">{<div className={countdown==tovalue ? "s" : "s1"}>
-     {countdown}</div>}<span style={{width: "20px"}}></span>  {(parseInt(firstPost) + parseInt(currentPost.length))-10+ " - "+ (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}</div>
+     {data1.length}</div>}<span style={{width: "20px"}}></span>  {(parseInt(firstPost) + parseInt(currentPost.length))-10+ " - "+ (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}</div>
     const el = <div> {z}    
         {   window.location.href.indexOf("searchtext")!=-1 ? 
         <Searching i={window.location.href.indexOf("searchtext")} searchtext={searchtext[searchi.new]} 
@@ -440,7 +447,7 @@ const z = <div className="tablecontainer">{<div className={countdown==tovalue ? 
      :<div style={{height:"30px"}}></div> }
         {props.flagsettings != 4 &&  <Pagination stop={stop} acturl={props.acturl} fp={1} span={span} postPerPage={postPerPage} number={number} 
         pageNumber={  
-                                                         pageNumber 
+                                                           pageNumber 
                                                        }
            oldel={oldel} ChangePage={ChangePage} setN={setN} length={
             window.location.href.indexOf("searchtext")!=-1 ? data1.length : props.data.length
@@ -454,7 +461,7 @@ const z = <div className="tablecontainer">{<div className={countdown==tovalue ? 
                     <div className="table1">
                         <div className="tabs">{
                             window.location.href.indexOf("searchtext")!=-1 &&  tabs.eltabs!=undefined && tabs.eltabs.map((t, j) => {
-                                return <Tab searchi={searchi} j={j} name={t.name} 
+                                return   <Tab len={data1.length} searchi={searchi} j={j} name={t.name} 
                                 
                                 setsi={(e) => {
                                     

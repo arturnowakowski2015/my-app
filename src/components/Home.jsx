@@ -12,7 +12,7 @@ import ProgressBar from "./ProgressBar";
 import Table from "./Table";
 import Settings from "./Settings";
 import Select from "./Select"
-
+import AUrl from "../AUrl"
 import TreeNode from "./TreeNode";
 import Update from "./Update";
 
@@ -335,7 +335,7 @@ class Home extends React.Component {
  
 
     return (
-      <div> 
+      <div>        <AUrl />
 
         {this.state.settings == 0 && this.props.params.f == undefined &&
 

@@ -28,12 +28,7 @@ const[old, setOld]=useState(-1)
 
         <Router>
     <div>
-        <div className="s-2">
-            <Link className={el==1 ? "s-1-1" : old==1 ? "s-2-1" : "s-1" } to="/a/new/pagination/" onClick={() => { setOld(el); setEl(1)}}>app</Link>
-            <Link className={el==2 ? "s-1-2" : old==2 ? "s-2-2" :"s-1" } to="/a/new/pagination/searchtext" onClick={() => {setOld(el);  setEl(2);}}>searching</Link>
-            <Link className={el==3 ? "s-1-3"  : old==3? "s-2-3":"s-1" } to="/a/new/pagination/calendar" onClick={() => {setOld(el);  setEl(3);}}>calendar</Link>
-            <Link className={el==4 ? "s-1-4" : old==4 ? "s-2-4" :"s-1" } to="/a/new/pagination/settings" onClick={() => {setOld(el);  setEl(4);}}>settings</Link>
-          </div>
+
  
         </div>
            <div>j <a href="#" class="accordion-toggle">Hover for height animate</a>
@@ -46,7 +41,6 @@ const[old, setOld]=useState(-1)
 </div>
 
           <Routes>
-
 
 
 

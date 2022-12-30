@@ -1,3 +1,13 @@
+const [to, setTo] = useState(
+  {
+      received:{eltabs:[{name:"all records", words:"", saved:1},], searchtext:searchtext},
+   selected:{eltabs:[{name:"all records", words:"", saved:1},], searchtext:searchtext},
+  postponed:{eltabs:[{name:"all records", words:"", saved:1},], searchtext:searchtext},
+  removed:{eltabs:[{name:"all records", words:"", saved:1},], searchtext:searchtext},
+  labels:{eltabs:[{name:"all records", words:"", saved:1},], searchtext:searchtext}
+})
+
+
 import React, { useState, useEffect } from "react";
 import {
     BrowserRouter as Router,
