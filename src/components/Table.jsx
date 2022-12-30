@@ -133,6 +133,7 @@ const Table = (props, columns) => {
  
         if (lastPost == 0)
             lastPost = postPerPage
+            if(data)
               currentPost =   data.slice(firstPost, lastPost)
      
         if (firstPost > border[biw]) {
@@ -145,7 +146,7 @@ const Table = (props, columns) => {
         }
 
 
-        Math.floor(data1.length / postPerPage) >= 10 ? span = 10 : span = Math.floor(data.length / postPerPage) + 1
+        Math.floor(data1.length / postPerPage) >= 10 ? span = 10 : span = Math.floor(data && data.length / postPerPage) + 1
     
         for (let i = (fp); i <= border[biw] / postPerPage + span; i++) {
     
@@ -454,7 +455,7 @@ if(data1.length==0)
  
  
 const z = <div className="tablecontainer">{<div className={countdown==tovalue ? "s" : "s1"}>
-     {data1.length}</div>}<span style={{width: "20px"}}></span>  {(parseInt(firstPost) + parseInt(currentPost.length))-10+ " - "+ (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}</div>
+     {data1.length}</div>}<span style={{width: "20px"}}></span>  {(parseInt(firstPost) + parseInt(currentPost.length))-10+ " - "+ (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + (data && data.length)}</div>
     const el = <div> {z}    
         {   window.location.href.indexOf("searchtext")!=-1 ? 
         <Searching i={window.location.href.indexOf("searchtext")} searchtext={    console.log(indextab+"::::"+JSON.stringify(searchtext))} 
@@ -472,7 +473,7 @@ const z = <div className="tablecontainer">{<div className={countdown==tovalue ? 
                                                          pageNumber 
                                                        }
            oldel={oldel} ChangePage={ChangePage} setN={setN} length={
-            window.location.href.indexOf("searchtext")!=-1 ? data1.length : props.data.length
+            window.location.href.indexOf("searchtext")!=-1 ? data1.length : (props.data && props.data.length )
            } firstPost={1} tovalue={Math.ceil(tovalue/10)-1}/>
              }
         
@@ -504,12 +505,12 @@ const z = <div className="tablecontainer">{<div className={countdown==tovalue ? 
                         </div>
                         <table>
                         <thead className="th">
-                            {data[0] ? buildHeader(Object.keys(data[0]), data.columns) : null}
+                            {data && data[0] ? buildHeader(Object.keys(data && data[0]),data && data.columns) : null}
                         </thead>
                         <tbody>{
-                            view == 1 ?
-                                currentPost.length >= 0 && data1.length==data.length ? sliced.map(buildRow) : stop==0 && currentPost.map(buildRow) 
-                                ? stop==0 && currentPost.map(buildRow) : sliced.map(buildRow) :
+                            view == 1 ? 
+                              currentPost.length >= 0 && data  && data1.length==data.length ? sliced.map(buildRow) : stop==0 && currentPost && currentPost.map(buildRow) 
+                                ? stop==0 && currentPost && currentPost.map(buildRow) : sliced.map(buildRow) :
                                 <tr><td>dddddddddddd</td></tr>  
                         }</tbody>
                     </table>

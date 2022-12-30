@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import { recits, tree } from '../data/dummy';
 import AnimatedButton from "./AnimatedButton";
@@ -78,6 +78,7 @@ const TreeNode = (props) => {
   }, [])
 
 
+ 
 
   const clear = () => {
     makeidlev(tree.children, 0, 0);
@@ -179,7 +180,7 @@ const TreeNode = (props) => {
 
     //setFamilyTree(tree.children) 
   }
-
+  
   const markleaf = (e, nodes, depth, id) => {
 
     y = nodes && nodes.map((t) => {
@@ -579,7 +580,7 @@ let strnew="";
         onMouseOut={(e) => {t.width="20px"; bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id) }}
   
         style={{ backgroundColor: t.bgcolor  }}>        {icons[t.name]}{t.name}
-        <span style={{ align: "right" }}>{t.name == props.ac.cat ? props.ac.l : ""}</span>
+        <span style={{ align: "right" }}>{t.name == props.ac.cat ? (alert(props.ac.cat+"  L:"), props.ac.l) : ""}</span>
         {pcl(t.name) != 0 ? pcl(t.name) : ""}
 
       </p>

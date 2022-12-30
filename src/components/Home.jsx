@@ -7,8 +7,9 @@ import {
   useParams,
   useLocation
 } from "react-router-dom";
-import Buttoncheckall from "./Buttoncheckall"
-import ProgressBar from "./ProgressBar";
+ 
+import Deletebutton from "./Deletebutton";
+import Button  from "./Button";
 import Table from "./Table";
 import Settings from "./Settings";
 import Select from "./Select"
@@ -69,20 +70,20 @@ class Home extends React.Component {
       change: false,
       changes: [],
       changeall: false,
-      checkall: false,
+      checkall: true,
       config: 0,
       categories: { actual: [{ cat: "new", l: 0 }], new: [], set: ["new", "selected", "postponed", "removed"] },
       parent: "",
       strcol: "",
       w: [],
-      m:0
+      m:0,
+      ttt:true
 
 
 
     };
     this.setRec = this.setRec.bind(this);
     this.df = this.df.bind(this)
- 
   }
   df(i, el) {
 
@@ -194,25 +195,54 @@ class Home extends React.Component {
   setchecked(i, actual)
   {    
     if(this.state.data!=undefined){ 
-    this.state.data[this.state.categories.actual[0].cat].map((t)=>{
-      if(t.id==i &&      this.state.checkedel.set[this.state.categories.actual[0].cat].indexOf(i)==-1)
-      this.state.checkedel.set[this.state.categories.actual[0].cat].push(t.id);
-        this.state.checkedel.actual[0].cat=actual;
-      this.setState({checkedel: this.state.checkedel});
-      console.log(JSON.stringify(this.state.checkedel)+"   gggggggggg")
-    })
+      
+        this.state.data[actual].map((t)=>{
+          if(t.id==i &&      this.state.checkedel.set[actual].indexOf(i)==-1){alert(9)
+            this.state.checkedel.set[actual].push(t.id);
+          }
+            else if(t.id==i &&  this.state.checkedel.set[actual].indexOf(i)!=-1){
+              
+              console.log(JSON.stringify(this.state.checkedel)+"    g  "+i)
+            this.state.checkedel.set[actual].splice(this.state.checkedel.set[actual].indexOf(i), 1)
+            console.log(JSON.stringify(this.state.checkedel)+"   gg           ggg")
+          }
+            this.state.checkedel.actual[0].cat=actual;
+          this.setState({checkedel: this.state.checkedel});
+          console.log(JSON.stringify(this.state.checkedel)+"   gggggggggg")
+        }) 
+    }
+    if(this.state.checkedel.set[actual].length>0)
+      this.setState({settings: 4})
+    else this.setState({settings:-1})
   }
+  delete(){
+    console.log(JSON.stringify(this.state.data[this.state.categories.actual[0].cat] ))
+    let y = this.state.data[this.state.categories.actual[0].cat]=[]
+    this.state.data[this.state.categories.actual[0].cat] = y;
+    console.log(JSON.stringify(this.state.data[this.state.categories.actual[0].cat] ))
+    this.setState({ttt: !this.state.ttt})
   }
-  checkall(flag){
-    if(flag){
-      setTimeout(()=>{
+  checkallel(flag){ 
+    if(flag==false){
+ 
+ 
       this.state.data[this.state.categories.actual[0].cat].map((t, i)=>{
-        if(t.id==i &&      this.state.checkedel.set[this.state.categories.actual[0].cat].indexOf(i)==-1)
-        this.state.checkedel.set[this.state.categories.actual[0].cat].push(t.id);
-        this.setState({i: this.state.i++})
+ 
+      if(        this.state.checkedel.set[this.state.categories.actual[0].cat].indexOf(i)==-1)
+        this.state.checkedel.set[this.state.categories.actual[0].cat].push(i);
+        this.setState({checkedel: this.state.checkedel})
+ 
         this.setState({checkall: false})
-      }, 50*this.state.i)
+ 
+        console.log(this.state.checkedel.set[this.state.categories.actual[0].cat])
+ 
+ 
     })
+  }else
+  {
+    this.state.checkedel.set[this.state.categories.actual[0].cat]=[]
+    this.setState({checkedel: this.state.checkedel})
+    this.setState({checkall: true})
   }
 }
   setRec() {
@@ -362,7 +392,39 @@ class Home extends React.Component {
 
   render() {
 
- 
+ let treetable = <div className="LTchild">
+ <div className="treeNode"> 
+   <TreeNode changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
+     changeparent={(name) => this.setState({ parent: name })}
+     config={this.state.config}
+     familyTree={tree.children}
+     changeconfig={(i) => { this.setState({ config: i }) }}
+     settings={this.state.settings}
+     ac={this.state.categories.set}
+     pc={this.state.data} id={0} depth={0} p={0} pdepth={-1} pid={0}
+
+     parent={this.state.parent} />
+ </div>
+ <Table i={this.state.i} data={this.state.data[this.state.categories.actual[0].cat]}   familyTree={tree.children}
+ checkedel={this.state.checkedel.set[this.state.categories.actual[0].cat]}
+ setchecked={this.setchecked.bind(this)}
+   columns={this.state.columns.map((t, i) => {
+     if (i == this.state.icolumn && this.state.checked) t.col.disp = false;
+     else if (i == this.state.icolumn && this.state.checked == false) t.col.disp = true;
+
+     return t;
+   })}
+   flagsettings={this.state.flagsettings} postPerPage={this.state.postPerPage}
+   dff={this.state.dff} str={this.props.params.str}
+   items={items} furl={this.furl.bind(this)} id={this.state.i} flag={this.state.flag} settingsid={this.state.settings}
+   acturl={this.state.categories.actual[0].cat}
+   number1={this.state.number1}
+   m={this.state.m}
+   changem={this.changem.bind(this)}
+   ChangePage={this.changePPP.bind(this)}
+ />
+
+</div>
 
     return (
       <div>        <AUrl />
@@ -394,13 +456,12 @@ class Home extends React.Component {
 
 {this.state.settings == 4 &&
 
-<div className="LT">
+<div className="LT">  
 
-  <div className="LTchild">
-     <Buttoncheckall   checkall={(e) => this.checkall.bind(e)} checked={this.state.checkall}/>
+  <div className="LTchild"> aaaaaaaaaaaaaaaaaaaaaaaaaa{this.state.checkall}
 
-
-
+<Button   checkallel={ this.checkallel.bind(this)}  checkall1={this.state.checkall} />
+<Deletebutton delete={this.delete.bind(this)} />
   </div>
 
 </div>
@@ -466,41 +527,12 @@ class Home extends React.Component {
             />
           </div>
         }
-        <div className="LTchild">
-          <div className="treeNode">
-            <TreeNode changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
-              changeparent={(name) => this.setState({ parent: name })}
-              config={this.state.config}
-              familyTree={tree.children}
-              changeconfig={(i) => { this.setState({ config: i }) }}
-              settings={this.state.settings}
-              ac={this.state.categories.set}
-              pc={this.state.data} id={0} depth={0} p={0} pdepth={-1} pid={0}
+        { this.state.ttt ? treetable :  treetable}
 
-              parent={this.state.parent} />
-          </div>
-          <Table i={this.state.i} data={this.state.data[this.state.categories.actual[0].cat]}   familyTree={tree.children}
-          checkedel={this.state.checkedel.set[this.state.categories.actual[0].cat]}
-          setchecked={this.setchecked.bind(this)}
-            columns={this.state.columns.map((t, i) => {
-              if (i == this.state.icolumn && this.state.checked) t.col.disp = false;
-              else if (i == this.state.icolumn && this.state.checked == false) t.col.disp = true;
 
-              return t;
-            })}
-            flagsettings={this.state.flagsettings} postPerPage={this.state.postPerPage}
-            dff={this.state.dff} str={this.props.params.str}
-            items={items} furl={this.furl.bind(this)} id={this.state.i} flag={this.state.flag} settingsid={this.state.settings}
-            acturl={this.state.categories.actual[0].cat}
-            number1={this.state.number1}
-            m={this.state.m}
-            changem={this.changem.bind(this)}
-            setsettings={this.setState({ settings: 4 })}
-            ChangePage={this.changePPP.bind(this)}
-          />
 
-        </div>
       </div >)
+        
   }
 }
 

@@ -12,7 +12,7 @@ const CheckboxInput = props => {
                 checked={check}
                 onChange={(e) => { ch(check, e) }}
                 value={props.value} />
-            {props.label}
+v 
         </label>
     );
 }
