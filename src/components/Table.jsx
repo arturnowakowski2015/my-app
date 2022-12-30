@@ -104,7 +104,7 @@ const Table = (props, columns) => {
             setStop(stop=>stop)
             window.location.href.indexOf("searchtext")==-1 &&
             setStop(stop=>0)
-            alert(pageNumber)
+ 
             setNumber(pageNumber);
         };
     const makepagination = () => {
@@ -324,10 +324,12 @@ const Table = (props, columns) => {
         });
 
 
-        return (<tr key={i} ><td>{row.checkbox == true ? <input type="checkbox" id={row.id + "/"}
+        return (<tr key={i} ><td>{row.checkbox == true ? <input type="checkbox" id={row.id + "/"} 
          />
-            : <input style={{ position: "relative", top: "10px", float: "left" }} type="checkbox" id={row.id}  
-              />}<div style={{ cursor: "pointer", textDecoration: "underline" }}
+            : <input style={{ position: "relative", top: "10px", float: "left" }} 
+            type="checkbox" id={row.id} 
+            checked={props.checkedel!=undefined && props.checkedel.filter((t) => {return t==row.id  }).length==1 && true}
+            onChange={()=>props.setchecked(row.id, location.pathname.split("/")[2])} />}<div style={{ cursor: "pointer", textDecoration: "underline" }}
                     onMouseOver={() => {url = "/a/" + props.acturl + "/pagination/" + row.name + "/" + row.id + "/" + row.name + "/1/edit"; setId(row.id); }}
                     onClick={(e) => {
                         dv(url, row[Object.keys(row).filter((t, i) => { return i == 2 && t })],
@@ -434,8 +436,7 @@ if(data1.length==0)
       }).slice(obj.firstPost, obj.lastPost) :
       props.data.filter((r) => {return r}).slice(obj.firstPost, obj.lastPost)
       ) 
-      
- alert(sliced.length+"  sliced")
+ 
     setNumber(1)
     firstPost=21;
     lastPost=31 ;

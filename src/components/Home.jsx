@@ -7,7 +7,7 @@ import {
   useParams,
   useLocation
 } from "react-router-dom";
- 
+import Buttoncheckall from "./Buttoncheckall"
 import ProgressBar from "./ProgressBar";
 import Table from "./Table";
 import Settings from "./Settings";
@@ -58,13 +58,18 @@ class Home extends React.Component {
       ],
       i: 0,
       number1: 0,
+
+
+
+
+      checkedel:{ actual: [{ cat: "new", l: 0 }],  set: {"new":[], "selected":[], "postponed":[], "removed":[], "labels":[]} },
       checked: true,
       icolumn: -1,
       settings: 0,
       change: false,
       changes: [],
       changeall: false,
-      checkall: true,
+      checkall: false,
       config: 0,
       categories: { actual: [{ cat: "new", l: 0 }], new: [], set: ["new", "selected", "postponed", "removed"] },
       parent: "",
@@ -77,8 +82,10 @@ class Home extends React.Component {
     };
     this.setRec = this.setRec.bind(this);
     this.df = this.df.bind(this)
+ 
   }
   df(i, el) {
+
 
   }
 
@@ -184,6 +191,30 @@ class Home extends React.Component {
 
 
   }
+  setchecked(i, actual)
+  {    
+    if(this.state.data!=undefined){ 
+    this.state.data[this.state.categories.actual[0].cat].map((t)=>{
+      if(t.id==i &&      this.state.checkedel.set[this.state.categories.actual[0].cat].indexOf(i)==-1)
+      this.state.checkedel.set[this.state.categories.actual[0].cat].push(t.id);
+        this.state.checkedel.actual[0].cat=actual;
+      this.setState({checkedel: this.state.checkedel});
+      console.log(JSON.stringify(this.state.checkedel)+"   gggggggggg")
+    })
+  }
+  }
+  checkall(flag){
+    if(flag){
+      setTimeout(()=>{
+      this.state.data[this.state.categories.actual[0].cat].map((t, i)=>{
+        if(t.id==i &&      this.state.checkedel.set[this.state.categories.actual[0].cat].indexOf(i)==-1)
+        this.state.checkedel.set[this.state.categories.actual[0].cat].push(t.id);
+        this.setState({i: this.state.i++})
+        this.setState({checkall: false})
+      }, 50*this.state.i)
+    })
+  }
+}
   setRec() {
     let v = this.props.params.data;
     let t = v.map((t, i) => {
@@ -202,8 +233,7 @@ class Home extends React.Component {
 
 
   componentDidMount() {
-
-
+ 
     if (stop == 0) {
       const r = this.props.params.id && this.props.params.f == undefined ? this.props.params.id : this.state.i;
 
@@ -263,7 +293,7 @@ class Home extends React.Component {
 
   }
 
-  changedata(category, flag, flag1) {alert(category+":"+flag+":"+flag1)
+  changedata(category, flag, flag1) { 
     if (flag1 == 1 || flag1 == 2) {
 
       this.state.categories.new[0] = category;
@@ -362,6 +392,22 @@ class Home extends React.Component {
         }
 
 
+{this.state.settings == 4 &&
+
+<div className="LT">
+
+  <div className="LTchild">
+     <Buttoncheckall   checkall={(e) => this.checkall.bind(e)} checked={this.state.checkall}/>
+
+
+
+  </div>
+
+</div>
+}
+
+
+
 
         {this.state.settings == 3 &&
           <div className="LT">
@@ -434,6 +480,8 @@ class Home extends React.Component {
               parent={this.state.parent} />
           </div>
           <Table i={this.state.i} data={this.state.data[this.state.categories.actual[0].cat]}   familyTree={tree.children}
+          checkedel={this.state.checkedel.set[this.state.categories.actual[0].cat]}
+          setchecked={this.setchecked.bind(this)}
             columns={this.state.columns.map((t, i) => {
               if (i == this.state.icolumn && this.state.checked) t.col.disp = false;
               else if (i == this.state.icolumn && this.state.checked == false) t.col.disp = true;
@@ -447,6 +495,7 @@ class Home extends React.Component {
             number1={this.state.number1}
             m={this.state.m}
             changem={this.changem.bind(this)}
+            setsettings={this.setState({ settings: 4 })}
             ChangePage={this.changePPP.bind(this)}
           />
 
