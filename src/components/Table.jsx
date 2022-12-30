@@ -50,16 +50,31 @@ const Table = (props, columns) => {
     const[data1, setData1]=useState([]);
     const[stop, setStop] = useState(0)
     const[sliced, setSliced]=useState([])
+    const[indextab, setIndextab]=useState(location.pathname.split("/")[2])
     useEffect(() => {
         setPostPerPage(props.postPerPage)
 
-        setSearchtext([""])
+        setSearchtext({
+            new:{searchtext:[""]},  received:{searchtext:[""]}, selected:{searchtext:[""]}, postponed:{searchtext:[""]}, 
+            removed:{searchtext:[""]},   labels:{searchtext:[""]}
+        })
     }, [props.postPerPage]);
   
 
-    const [searchtext, setSearchtext]=useState([""])
+    const [searchtext, setSearchtext]=useState({
+        new:{searchtext:[""]},  received:{searchtext:[""]}, selected:{searchtext:[""]}, postponed:{searchtext:[""]}, 
+        removed:{searchtext:[""]},   labels:{searchtext:[""]}
+    })
     const [searchi, setSearchi]=useState({new:1, old:0})
-    const [tabs, setTabs] = useState({eltabs:[{name:"all records", words:"", saved:1},], searchtext:searchtext})
+    const [to, setTo] = useState(
+        {
+            new:{eltabs:[{name:"all records", words:"", saved:1},], searchtext:searchtext},
+            received:{eltabs:[{name:"all records", words:"", saved:1},], searchtext:searchtext},
+         selected:{eltabs:[{name:"all records", words:"", saved:1},], searchtext:searchtext},
+        postponed:{eltabs:[{name:"all records", words:"", saved:1},], searchtext:searchtext},
+        removed:{eltabs:[{name:"all records", words:"", saved:1},], searchtext:searchtext},
+        labels:{eltabs:[{name:"all records", words:"", saved:1},], searchtext:searchtext}
+      })
     let r = "";
     useEffect(() => {
 
@@ -119,15 +134,13 @@ const Table = (props, columns) => {
         if (lastPost == 0)
             lastPost = postPerPage
               currentPost =   data.slice(firstPost, lastPost)
-    
-              console.log("pmmmmmmo   "+ pageNumber.length )
+     
         if (firstPost > border[biw]) {
     
     
             for (let i = 0; i < 10; i++) {
     
-                pageNumber.unshift()
-                console.log(data1.length+" v   "+ JSON.stringify(pageNumber) )
+                pageNumber.unshift() 
             }
         }
 
@@ -156,8 +169,7 @@ const Table = (props, columns) => {
  makepagination()
 
  let u=0;
-    useEffect(()=>{
-        console.log(stop+" przed  "+JSON.stringify(currentPost.length))
+    useEffect(()=>{ 
         const arr = [];
         let lastPost = 0;
         let firstPost = 0;
@@ -184,7 +196,7 @@ const Table = (props, columns) => {
 
 
         setData1(data1=>data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
-          return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[searchi.new])!=-1 
+          return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[indextab].searchtext[searchi.new])!=-1 
          })
         }))
        // currentPost= data1.slice(firstPost, lastPost)
@@ -194,11 +206,10 @@ const Table = (props, columns) => {
 
     
         setSliced(slice=> data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
-            return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[searchi.new])!=-1 
+            return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[indextab].searchtext[searchi.new])!=-1 
            })
           }).slice(obj.firstPost, obj.lastPost))
- 
-        console.log(" przed  "+ data1.length)
+  
          setFlagel(flagel)
  
     },[stop, number])
@@ -280,8 +291,7 @@ const Table = (props, columns) => {
             setOldIndex(countdown)
             setOldnumber(number)
             clearTimeout(timeout);
-            
-            console.log(countdown+"   ct "+ tovalue)
+             
         }
     }, [countdown]);
 
@@ -296,7 +306,7 @@ const Table = (props, columns) => {
                     setOldel((parseInt(firstPost) + parseInt(currentPost.length))/10-1) ;}}
                  className={    countdown==firstPost+i    ? "red"  : "white" + 
                  (  green==firstPost+i && countdown==tovalue && " green") + ( green==firstPost+i && " green") } key={j}
-                 onMouseOver={() => {;setGreen(firstPost+i);console.log(countdown+"::"+  tovalue); url = "/" + row.id + "/edit"; setId(row.id);
+                 onMouseOver={() => {;setGreen(firstPost+i);  url = "/" + row.id + "/edit"; setId(row.id);
                   }} ><div className="div1">{row[k]}</div></td >
                 : typeof row[k] !== "object" && props.columns[j] && props.columns[j].col.disp == true
                     && j == 2 ?
@@ -357,24 +367,23 @@ const Table = (props, columns) => {
  
 
     const setValue =(str) => { 
-
  
  
-        if(tabs.eltabs.length<8 && tabs.eltabs[tabs.eltabs.length-1].saved==1)
-             tabs.eltabs.push({name:str, words: "ddd", saved:2})
-         else if(tabs.eltabs.length<8 && tabs.eltabs[tabs.eltabs.length-1].saved==2)
-            tabs.eltabs.splice(tabs.eltabs.length-1, 1, {name:str, words: "ddd", saved:2})
+        if(to[indextab].eltabs.length<8 && to[indextab].eltabs[to[indextab].eltabs.length-1].saved==1)
+             to[indextab].eltabs.push({name:str, words: "ddd", saved:2})
+         else if(to[indextab].eltabs.length<8 && to[indextab].eltabs[to[indextab].eltabs.length-1].saved==2)
+            to[indextab].eltabs.splice(to[indextab].eltabs.length-1, 1, {name:str, words: "ddd", saved:2})
 
-        searchtext[tabs.eltabs.length-1]=str;
+        searchtext[indextab].searchtext[to[indextab].eltabs.length-1]=str;
         
         setSearchtext(searchtext)
-         setSearchi({new: tabs.eltabs.length-1, old:searchi-1})  
-        setTabs(tabs);
+         setSearchi({new: to[indextab].eltabs.length-1, old:searchi-1})  
+        setTo(to);
         
         setFlagel(!flagel)
     }
  const savetab =(str) =>{
-    tabs.eltabs.splice(tabs.eltabs.length-1, 1, {name:tabs.eltabs[tabs.eltabs.length-1].name, words:"ttt", saved:1})
+    to[indextab].eltabs.splice(to[indextab].eltabs.length-1, 1, {name:to[indextab].eltabs[to[indextab].eltabs.length-1].name, words:"ttt", saved:1})
     setFlagel(!flagel)
  }
 
@@ -382,9 +391,8 @@ if(data1.length==0)
  pageNumber=[1,2,3,4,5,6]
 
    useEffect(() => { 
- 
-             alert(number+"  numer")
-    console.log(stop+" przed  "+JSON.stringify(currentPost.length))
+    setIndextab(location.pathname.split("/")[2]); 
+
     const arr = [];
     let lastPost = 0;
     let firstPost = 0;
@@ -407,11 +415,10 @@ if(data1.length==0)
 
     }
 
-
-
-    console.log("  222222222222222222222222"+data1.length)
+ 
+    console.log("  222222222222222222222222"+JSON.stringify(searchtext))
     setData1(data1=> props.data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
-      return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[searchi.new])!=-1 
+      return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[indextab].searchtext[searchi.new])!=-1 
      })
     }))
    // currentPost= data1.slice(firstPost, lastPost)
@@ -419,10 +426,10 @@ if(data1.length==0)
 
    let obj = Object.assign({}, makepagination())
     setSliced(slice=> props.data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
-        return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[searchi.new])!=-1  })
+        return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[indextab].searchtext[searchi.new])!=-1  })
       }).length ? 
       props.data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
-        return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[searchi.new])!=-1 
+        return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[indextab].searchtext[searchi.new])!=-1 
        })
       }).slice(obj.firstPost, obj.lastPost) :
       props.data.filter((r) => {return r}).slice(obj.firstPost, obj.lastPost)
@@ -435,6 +442,13 @@ if(data1.length==0)
  setStop(0)
     pageNumber=[1,2,3,4,5,6,7]
      setFlagel(flagel)
+
+
+     
+
+
+
+     console.log(indextab+":::"+JSON.stringify(searchtext[indextab]))
   }, [location])
  
  
@@ -442,25 +456,33 @@ const z = <div className="tablecontainer">{<div className={countdown==tovalue ? 
      {data1.length}</div>}<span style={{width: "20px"}}></span>  {(parseInt(firstPost) + parseInt(currentPost.length))-10+ " - "+ (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + data.length}</div>
     const el = <div> {z}    
         {   window.location.href.indexOf("searchtext")!=-1 ? 
-        <Searching i={window.location.href.indexOf("searchtext")} searchtext={searchtext[searchi.new]} 
-        saved={tabs.eltabs[tabs.eltabs.length-1].saved} setValue={(es)=> {setValue(es); setStop(stop=>stop+1);setNumber(0);}} savetab={()=>savetab()}/>
-     :<div style={{height:"30px"}}></div> }
-        {props.flagsettings != 4 &&  <Pagination stop={stop} acturl={props.acturl} fp={1} span={span} postPerPage={postPerPage} number={number} 
+        <Searching i={window.location.href.indexOf("searchtext")} searchtext={    console.log(indextab+"::::"+JSON.stringify(searchtext))} 
+        saved={to[indextab]!=undefined && to[indextab].eltabs[to[indextab].eltabs.length-1].saved} len={data1.length} setValue={(es)=> {setValue(es); setStop(stop=>stop+1);setNumber(0);}} savetab={()=>savetab()}/>
+     :
+     <div style={{height:"30px"}}></div> }
+
+
+   
+        <div><div class="pagcon"><div style={{paddingTop:"15px", paddingRight:"20px"}}>found: {  fp}</div>   
+        {((props.flagsettings != 4 && data1.length) || (data1.length==0 && window.location.href.indexOf("searchtext")==-1) 
+        || window.location.href.indexOf("searchtext")!=-1 && sliced.length!=0)
+        && <Pagination stop={stop} acturl={props.acturl} fp={1} span={span} postPerPage={postPerPage} number={number} 
         pageNumber={  
-                                                           pageNumber 
+                                                         pageNumber 
                                                        }
            oldel={oldel} ChangePage={ChangePage} setN={setN} length={
             window.location.href.indexOf("searchtext")!=-1 ? data1.length : props.data.length
            } firstPost={1} tovalue={Math.ceil(tovalue/10)-1}/>
              }
-        <div ><div>found: {  fp}</div>
+        
+        </div>
             {
                 element == 1 ? null
                     :
 
                     <div className="table1">
                         <div className="tabs">{
-                            window.location.href.indexOf("searchtext")!=-1 &&  tabs.eltabs!=undefined && tabs.eltabs.map((t, j) => {
+                            window.location.href.indexOf("searchtext")!=-1 &&  to[indextab]!=undefined && to[indextab].eltabs.map((t, j) => {
                                 return   <Tab len={data1.length} searchi={searchi} j={j} name={t.name} 
                                 
                                 setsi={(e) => {

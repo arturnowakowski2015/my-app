@@ -38,20 +38,20 @@ const Pagination = props => {
     }
     let rrr= 0;
     return (
-        <div className="my-3 text-center" >
-            <button
-                className="px-3 py-1 m-1 text-center btn-primary pagbtn"
+        <div className="my-3" >
+            <div
+                className=" "
                 onClick={(e) =>  setN(e.target.innerHTML, props.number - 1)}
             >
                 Previous
-            </button>
+            </div>
 
             {props.pageNumber.map((Elem, i) => {
                 return ( 
                     <div className="pagbtn" key={i}>
                         {
                             props.number == i + props.fp ?
-                                <div><Link  className={"red"} to={"/a/" + props.acturl + "pagination/" + Elem} onClick={(event) => funk(event, Elem)}
+                                <div><Link   to={"/a/" + props.acturl + "pagination/" + Elem} onClick={(event) => funk(event, Elem)}
 
 
                                 >
@@ -71,12 +71,12 @@ const Pagination = props => {
                 );
             })
             }
-            <button
-                className="px-3 py-1 m-1 text-center btn-primary"
+            <div
+                className=" "
                 onClick={(e) => setN(e.target.innerHTML, props.number + 1)}
             >
                 Next
-            </button>
+            </div>
         </div>)
 }
 

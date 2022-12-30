@@ -21,7 +21,7 @@ useEffect(()=>{console.log(i+":  ::"+props.searchtext)
  
     return <div className={  "e"} ><input type="text" defaultValue 
             value={str} onChange={(e) => z(e.target.value)}></input>
-                        {props.saved == 2 && <button onClick={()=>props.savetab()}>save record</button> }</div>
+                        {props.saved == 2 && props.len>0 && <button onClick={()=>props.savetab()}>save record</button> }</div>
 }
 
 export default Searching;
