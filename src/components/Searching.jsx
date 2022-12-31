@@ -7,16 +7,12 @@ const Searching = (props) => {
     setTimeout(()=> {setD(0)}, 1000)
     const z = (str) =>{
         props.setValue(str)
-       // setStr(str)
+         setStr(str)
     }
  
-useEffect(()=>{console.log(i+":  ::"+props.searchtext)
-    const timer =  setTimeout(() =>    {
-    setStr(props.searchtext);
-    setI(0)
+useEffect(()=>{ 
  
-}, i*50)
-
+    setStr(props.searchtext)
 }, [props.searchtext])
  
     return <div className={  "e"} ><input type="text" defaultValue 

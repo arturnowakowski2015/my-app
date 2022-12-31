@@ -371,7 +371,7 @@ const TreeNode = (props) => {
  
     tr.length && tr.map((t) => {
       if(typeof elmenu.parentroot.name == "number" && mode==0)
-      {alert(elmenu.parentroot.name+":::::::")
+      { 
         if(elmenu.parentroot.children && elmenu.parentroot.children[0])
         tr.splice(elmenu.parentroot.name+1,1, elmenu.parentroot.children[0])
         else tr.splice(elmenu.parentroot.name+1,1)
@@ -409,7 +409,7 @@ const TreeNode = (props) => {
   mode = 1
 }
   const zrob = (e, level) => {
-    console.log(e.target.id + "  level           " + level + "::" + elmenu.child.depth)
+ 
     e.stopPropagation()
     
       addel(tree.children);
@@ -439,7 +439,7 @@ let strnew="";
  
       tr.length && tr.map((t) => {
         if(typeof elmenu.parentroot.name == "number" && mode==0)
-        {alert(elmenu.parentroot.name+":::::::")
+        { 
           if(elmenu.parentroot.children && elmenu.parentroot.children[0])
           tr.splice(elmenu.parentroot.name+1,1, elmenu.parentroot.children[0])
           else tr.splice(elmenu.parentroot.name+1,1)
@@ -580,7 +580,7 @@ let strnew="";
         onMouseOut={(e) => {t.width="20px"; bck(e, props.familyTree, t.depth, t.id); markEl(e, familyTree, t.depth, t.id) }}
   
         style={{ backgroundColor: t.bgcolor  }}>        {icons[t.name]}{t.name}
-        <span style={{ align: "right" }}>{t.name == props.ac.cat ? (alert(props.ac.cat+"  L:"), props.ac.l) : ""}</span>
+        <span style={{ align: "right" }}>{t.name == props.ac.cat ? ( props.ac.l) : ""}</span>
         {pcl(t.name) != 0 ? pcl(t.name) : ""}
 
       </p>
@@ -626,10 +626,10 @@ let strnew="";
 
             if (e.target.id == "ff")
               t.opacity = 0.1
-            console.log(t.name + "mmm" + elmenu.child.name)
+       
             if (t.name != elmenu.child.name) {
               
-              console.log(90909090)
+    
               removeprobe(tree.children, 1, 0);
               if (mode == 0) {
 
@@ -695,14 +695,14 @@ let strnew="";
             e.preventDefault();
             e.dataTransfer.getData("text");
 
-            console.log("mode           " + mode)
+ 
             removeprobe(tree, root, "root");
             mode=0;
             addtoroot(tree)
                   }} 
 
                   onDrop={(e) => { 
-                     alert("depth "+props.depth)
+       
                     removeopacity(tree.children, props.depth)
                   }}
 
@@ -742,10 +742,9 @@ return <div key={i}
 
       if (e.target.id == "ff")
         t.opacity = 0.1
-      console.log(t.name + "mmm" + elmenu.child.name)
+ 
       if (t.name != elmenu.child.name) {
-        
-        console.log(90909090)
+ 
         removeprobe(tree.children, 1, 0);
         if (mode == 0) {
 
@@ -811,7 +810,7 @@ return <div key={i}
       e.preventDefault();
       e.dataTransfer.getData("text");
 
-      console.log("mode           " + mode)
+ 
       removeprobe(tree, root, "root");
       mode=0;
       addtoroot(tree)
@@ -820,7 +819,7 @@ return <div key={i}
             onDrop={(e) => {
               mode = 0; e.stopPropagation(); 
               e.preventDefault();
-               alert("depth "+props.depth)
+              
                removeopacity(tree.children, props.depth)
             }}
 

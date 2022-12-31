@@ -34,6 +34,7 @@
               background-color: red;
               transition: background-color 1s;
             }
+
           }
       }
     }
@@ -42,13 +43,19 @@
     display: flex;
     flex-direction:row;
  }
-         
- 
- .th{    width:150px;
-  height: 20px;
+                   .selected{ 
+                    width:150px;                           
+                height: 20px;
+                border-right: black solid 1px;
+                text-align: center;
+                background-color:yellow;
+                transition: 0.5s;
+            }
+ .th{
     border: black solid 1px
  }
- .tr {     width:150px;
+ .tr {   
+ 
   height: 20px;
     border-right: black solid 1px;
     text-align: center;

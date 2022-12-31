@@ -5,7 +5,7 @@ import {
   Route,
   Link,
   useParams,
-  useLocation
+   useHistory 
 } from "react-router-dom";
  
 import Deletebutton from "./Deletebutton";
@@ -70,7 +70,7 @@ class Home extends React.Component {
       change: false,
       changes: [],
       changeall: false,
-      checkall: true,
+      checkall: false,
       config: 0,
       categories: { actual: [{ cat: "new", l: 0 }], new: [], set: ["new", "selected", "postponed", "removed"] },
       parent: "",
@@ -197,33 +197,44 @@ class Home extends React.Component {
     if(this.state.data!=undefined){ 
       
         this.state.data[actual].map((t)=>{
-          if(t.id==i &&      this.state.checkedel.set[actual].indexOf(i)==-1){alert(9)
+          if(t.id==i &&      this.state.checkedel.set[actual].indexOf(i)==-1){ 
             this.state.checkedel.set[actual].push(t.id);
           }
             else if(t.id==i &&  this.state.checkedel.set[actual].indexOf(i)!=-1){
               
-              console.log(JSON.stringify(this.state.checkedel)+"    g  "+i)
+         
             this.state.checkedel.set[actual].splice(this.state.checkedel.set[actual].indexOf(i), 1)
-            console.log(JSON.stringify(this.state.checkedel)+"   gg           ggg")
+   
           }
             this.state.checkedel.actual[0].cat=actual;
           this.setState({checkedel: this.state.checkedel});
-          console.log(JSON.stringify(this.state.checkedel)+"   gggggggggg")
+ 
         }) 
     }
     if(this.state.checkedel.set[actual].length>0)
       this.setState({settings: 4})
     else this.setState({settings:-1})
+    this.setState({checkall: false})
   }
-  delete(){
-    console.log(JSON.stringify(this.state.data[this.state.categories.actual[0].cat] ))
-    let y = this.state.data[this.state.categories.actual[0].cat]=[]
-    this.state.data[this.state.categories.actual[0].cat] = y;
-    console.log(JSON.stringify(this.state.data[this.state.categories.actual[0].cat] ))
+  delete1(i){ 
+
+     const timer =setTimeout(()=>{
+    if(this.state.checkall)
+    this.state.data[this.state.categories.actual[0].cat].splice(
+      this.state.data[this.state.categories.actual[0].cat].length-1, 1)
+    this.setState({checkall: true})
+    history.push("/a/pagination"+this.state.data[this.state.categories.actual[0].cat].length-1);
+         
+    //this.state.data[this.state.categories.actual[0].cat] = y; 
     this.setState({ttt: !this.state.ttt})
+    this.delete1(i)
+    
+  }, 50)
+     if(this.state.data[this.state.categories.actual[0].cat].length<1)
+        clearTimeout(timer)
   }
   checkallel(flag){ 
-    if(flag==false){
+    if(flag==false ){
  
  
       this.state.data[this.state.categories.actual[0].cat].map((t, i)=>{
@@ -234,7 +245,7 @@ class Home extends React.Component {
  
         this.setState({checkall: false})
  
-        console.log(this.state.checkedel.set[this.state.categories.actual[0].cat])
+ 
  
  
     })
@@ -405,7 +416,8 @@ class Home extends React.Component {
 
      parent={this.state.parent} />
  </div>
- <Table i={this.state.i} data={this.state.data[this.state.categories.actual[0].cat]}   familyTree={tree.children}
+ <Table i={this.state.i} data={this.state.data[this.state.categories.actual[0].cat]} 
+ checkall={this.state.checkall}  familyTree={tree.children}
  checkedel={this.state.checkedel.set[this.state.categories.actual[0].cat]}
  setchecked={this.setchecked.bind(this)}
    columns={this.state.columns.map((t, i) => {
@@ -458,10 +470,11 @@ class Home extends React.Component {
 
 <div className="LT">  
 
-  <div className="LTchild"> aaaaaaaaaaaaaaaaaaaaaaaaaa{this.state.checkall}
+  <div className="LTchild"> aaaaaaaaaaaaaaaaaaaaaaaaaa .{this.state.data[this.state.categories.actual[0].cat].length}.
 
-<Button   checkallel={ this.checkallel.bind(this)}  checkall1={this.state.checkall} />
-<Deletebutton delete={this.delete.bind(this)} />
+<Button   checkallel={ this.checkallel.bind(this)}  />
+<Deletebutton delete={this.delete1.bind(this)}  checkall1={this.state.checkall} length={this.state.data[this.state.categories.actual[0].cat].length} 
+i={this.state.i}/>
   </div>
 
 </div>
