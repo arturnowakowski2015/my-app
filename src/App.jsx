@@ -27,18 +27,7 @@ const[old, setOld]=useState(-1)
 
 
         <Router>
-    <div>
-
  
-        </div>
-           <div>j <a href="#" class="accordion-toggle">Hover for height animate</a>
-  <div class="accordion-content">
-    <div class="accordion-inner"> 
-      <p>For animate the "height" of element with CSS Transitions you need use "max-height".</p>
-      <p>If use the "height: auto", the effect not works. Is necessary some value for the CSS create a CSS animate, and you can use "max-height" with a great value for emulate this effect.</p> 
-    </div>
-  </div>
-</div>
 
           <Routes>
 

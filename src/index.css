@@ -49,24 +49,8 @@ body {
   border-right: solid black 2px;
  
  }
- .LT {
-  margin-top: 50px;
- }
-.LTchild{ 
-  display: flex;
-  flex-direction:row;
-}
-.TreeNode {
-  position:absolute;
-  top:250px; 
-
-} 
-.treeNode{
-  margin-top:100px;
-  margin-right: 30px; 
-   display:flex;
-  flex-direction: row;
-}
+  
+ 
  
 .col { 
   white-space: nowrap; }

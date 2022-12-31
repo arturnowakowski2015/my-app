@@ -7,15 +7,17 @@ import {
   useParams,
    useHistory 
 } from "react-router-dom";
- 
+import "./Home.scss"
 import Deletebutton from "./Deletebutton";
 import Button  from "./Button";
+import TreeMove from "./TreeMove";
 import Table from "./Table";
 import Settings from "./Settings";
 import Select from "./Select"
 import AUrl from "../AUrl"
 import TreeNode from "./TreeNode";
 import Update from "./Update";
+import MoveButton from "./MoveButton";
 
  
 import { tree } from '../data/dummy';
@@ -77,7 +79,9 @@ class Home extends React.Component {
       strcol: "",
       w: [],
       m:0,
-      ttt:true
+      ttt:true,
+      move:0,
+      dest:[0,0]
 
 
 
@@ -222,8 +226,7 @@ class Home extends React.Component {
     if(this.state.checkall)
     this.state.data[this.state.categories.actual[0].cat].splice(
       this.state.data[this.state.categories.actual[0].cat].length-1, 1)
-    this.setState({checkall: true})
-    history.push("/a/pagination"+this.state.data[this.state.categories.actual[0].cat].length-1);
+    this.setState({checkall: true}) 
          
     //this.state.data[this.state.categories.actual[0].cat] = y; 
     this.setState({ttt: !this.state.ttt})
@@ -333,7 +336,12 @@ class Home extends React.Component {
     this.setState({ categories: this.state.categories })
 
   }
-
+  changedest(d, id){ 
+    this.state.dest[0]=d;
+    this.state.dest[1]=id;
+    this.setState({dest: this.state.dest});
+ 
+  }
   changedata(category, flag, flag1) { 
     if (flag1 == 1 || flag1 == 2) {
 
@@ -403,8 +411,50 @@ class Home extends React.Component {
 
   render() {
 
- let treetable = <div className="LTchild">
- <div className="treeNode"> 
+
+ 
+
+
+let treetablemin = <div className="treetablemincont" >aaaaaaaaaaaaaaaa<div className="treetablemin">
+ 
+  <TreeNode changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
+    changeparent={(name) => this.setState({ parent: name })}
+    config={this.state.config}
+    familyTree={tree.children}
+    changeconfig={(i) => { this.setState({ config: i }) }}
+    settings={this.state.settings}
+    ac={this.state.categories.set}
+    pc={this.state.data} id={0} depth={0} p={0} pdepth={-1} pid={0}
+
+    parent={this.state.parent} />
+</div>
+<Table i={this.state.i} data={this.state.data[this.state.categories.actual[0].cat]} 
+checkall={this.state.checkall}  familyTree={tree.children}
+checkedel={this.state.checkedel.set[this.state.categories.actual[0].cat]}
+setchecked={this.setchecked.bind(this)}
+  columns={this.state.columns.map((t, i) => {
+    if (i == this.state.icolumn && this.state.checked) t.col.disp = false;
+    else if (i == this.state.icolumn && this.state.checked == false) t.col.disp = true;
+
+    return t;
+  })}
+  flagsettings={this.state.flagsettings} postPerPage={this.state.postPerPage}
+  dff={this.state.dff} str={this.props.params.str}
+  items={items} furl={this.furl.bind(this)} id={this.state.i} flag={this.state.flag} settingsid={this.state.settings}
+  acturl={this.state.categories.actual[0].cat}
+  number1={this.state.number1}
+  m={this.state.m}
+  changem={this.changem.bind(this)}
+  ChangePage={this.changePPP.bind(this)}
+/>
+ 
+</div>
+
+ 
+
+
+ let treetable = <div className="treetablemincont">
+ <div className="treetablemin"> 
    <TreeNode changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
      changeparent={(name) => this.setState({ parent: name })}
      config={this.state.config}
@@ -468,16 +518,51 @@ class Home extends React.Component {
 
 {this.state.settings == 4 &&
 
-<div className="LT">  
-
-  <div className="LTchild"> aaaaaaaaaaaaaaaaaaaaaaaaaa .{this.state.data[this.state.categories.actual[0].cat].length}.
-
+<>aaaaaaaaaaaaaaaa
+<MoveButton move={() => this.setState({move:1})} />
 <Button   checkallel={ this.checkallel.bind(this)}  />
 <Deletebutton delete={this.delete1.bind(this)}  checkall1={this.state.checkall} length={this.state.data[this.state.categories.actual[0].cat].length} 
 i={this.state.i}/>
-  </div>
 
-</div>
+ 
+
+  {this.state.move &&  < > <TreeMove  style={{paddingTop:"100px"}}  changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
+    changedest={this.changedest.bind(this)}
+    dest={this.state.dest}
+    move={this.state.move}
+     changeparent={(name) => this.setState({ parent: name })}
+     config={this.state.config}
+     familyTree={tree.children}
+     changeconfig={(i) => { this.setState({ config: i }) }}
+     settings={this.state.settings}
+     ac={this.state.categories.set}
+     pc={this.state.data} id={0} depth={0} p={0} pdepth={-1} pid={0}
+
+     parent={this.state.parent} /> 
+      <Table i={this.state.i} data={this.state.data[this.state.categories.actual[0].cat]} 
+ checkall={this.state.checkall}  familyTree={tree.children}
+ checkedel={this.state.checkedel.set[this.state.categories.actual[0].cat]}
+ setchecked={this.setchecked.bind(this)}
+   columns={this.state.columns.map((t, i) => {
+     if (i == this.state.icolumn && this.state.checked) t.col.disp = false;
+     else if (i == this.state.icolumn && this.state.checked == false) t.col.disp = true;
+
+     return t;
+   })}
+   flagsettings={this.state.flagsettings} postPerPage={this.state.postPerPage}
+   dff={this.state.dff} str={this.props.params.str}
+   items={items} furl={this.furl.bind(this)} id={this.state.i} flag={this.state.flag} settingsid={this.state.settings}
+   acturl={this.state.categories.actual[0].cat}
+   number1={this.state.number1}
+   m={this.state.m}
+   changem={this.changem.bind(this)}
+   ChangePage={this.changePPP.bind(this)}
+ />
+ </>
+}  
+
+
+ </>
 }
 
 
@@ -540,7 +625,7 @@ i={this.state.i}/>
             />
           </div>
         }
-        { this.state.ttt ? treetable :  treetable}
+        { this.state.move==false && treetablemin && (this.state.ttt ? treetable :  treetable) }
 
 
 

@@ -42,7 +42,7 @@ const Pagination = props => {
         setInd(ind=>props.checkall && Math.ceil(props.length/10) )
     }, [props.length])
     return (
-        <div className="my-3" >
+        <div className="pagination" >
             <div
                 className=" "
                 onClick={(e) =>  setN(e.target.innerHTML, props.number - 1)}
