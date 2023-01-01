@@ -4,7 +4,7 @@ const Deletebutton = (props) => {
      const[i, setI]=useState(0)
      let j=1
   const del =() =>{  
-    props.delete(1)
+    props.delete1()
  
   }
  

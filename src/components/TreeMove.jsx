@@ -27,7 +27,7 @@ const makeids = (nodes, i) => {
 const TreeMove = (props) => {
     const[btn, setBtn]=useState(false)
     const [familyTree, setFamilyTree] = useState(props.familyTree)
-    const [destination, setDestination] =useState([0,0])
+    const [destination, setDestination] =useState({name:"", coordinates:[0,0]})
     const bck = ( nodes, depth, id) => {
 
  
@@ -35,7 +35,7 @@ const TreeMove = (props) => {
         
         let y = nodes.map((t) => {
   
-            if(t.depth==destination[0] && t.id==destination[1]) 
+            if(t.depth==destination.coordinates[0] && t.id==destination.coordinates[1]) 
             t.id=12
             else t.bgcolor="white"
           if ( t.children) { bck( t.children, depth, id); }
@@ -48,7 +48,7 @@ const TreeMove = (props) => {
  
       }
       useEffect(()=> {
-        setDestination(destination=>[props.dest[0], props.dest[1]])
+        setDestination({name:props.dest.name, coordinates:[props.dest.coordinates[0], props.dest.coordinates[1]]})
  
       }, [props.changedest])
     return (
@@ -68,28 +68,29 @@ const TreeMove = (props) => {
     
       > 
     
-       {destination[0]==t.depth && destination[1]==i? <p id="text" onClick={(e) => {
+       {destination.coordinates[0]==t.depth && destination.coordinates[1]==i? <p id="text" onClick={(e) => {
  
-        props.changedest(t.depth, t.id)
+        props.changedest(t.name,t.depth, t.id)
         setBtn(false)
         }}j
 
     
           className="p fw-bold"
-          style={{ backgroundColor: "green" }}>{t.name} 
+          style={{ backgroundColor: "green" }}>{t.name +"::"+ props.pc[t.name] && props.pc[t.name].length }  
       
     
         </p>
         :
         <p id="text" onClick={(e) => {
+ 
             e.stopPropagation();
-        props.changedest(t.depth, t.id)
+        props.changedest(t.name,t.depth, t.id)
         setBtn(false)
         }}j
 
     
           className="p fw-bold"
-          style={{ backgroundColor: t.bgcolor }}>{t.name} 
+          style={{ backgroundColor: t.bgcolor }}>{t.name}  {   props.pc[t.name] && props.pc[t.name].length }  
       
     
         </p>}
@@ -102,7 +103,7 @@ const TreeMove = (props) => {
           changedest={props.changedest}
           dest={props.dest}
           changeconfig={props.changeconfig}
-    
+ 
           changeparent={props.changeparent}
           familyTree={t.children}
           settings={props.settings}
@@ -120,7 +121,7 @@ const TreeMove = (props) => {
     return <div key={i}
     
     
-      style={{ paddingLeft: "10px", paddingTop: "5px" }} > 
+      style={{ paddingLeft: "10px", paddingTop: "5px" }} >{"depth:"+t.dep+"  id:"+ t.id+":::"+JSON.stringify(destination)}
     
     
       {t.name != props.pc[0] && <div   style={{ opacity: t.opacity, cursor: t.cursor }}
@@ -129,28 +130,29 @@ const TreeMove = (props) => {
     
       > 
     
-       {destination[0]==t.depth && destination[1]==i? <p id="text" onClick={(e) => {
+       {destination.coordinates[0]==t.depth && destination.coordinates[1]==i? <p id="text" onClick={(e) => {
  
-        props.changedest(t.depth, t.id)
+        props.changedest(t.name,t.depth, t.id)
         setBtn(false)
         }}j
 
     
           className="p fw-bold"
-          style={{ backgroundColor: "green" }}>{t.name} 
+          style={{ backgroundColor: "green" }}>{t.name +"::"+ props.pc[t.name] && props.pc[t.name].length }  
       
     
         </p>
         :
         <p id="text" onClick={(e) => {
+ 
             e.stopPropagation();
-        props.changedest(t.depth, t.id)
+        props.changedest(t.name,t.depth, t.id)
         setBtn(false)
         }}j
 
     
           className="p fw-bold"
-          style={{ backgroundColor: t.bgcolor }}>{t.name} 
+          style={{ backgroundColor: t.bgcolor }}>{t.name}  {   props.pc[t.name] && props.pc[t.name].length }  
       
     
         </p>}
@@ -163,7 +165,7 @@ const TreeMove = (props) => {
           changedest={props.changedest}
           dest={props.dest}
           changeconfig={props.changeconfig}
-    
+ 
           changeparent={props.changeparent}
           familyTree={t.children}
           settings={props.settings}

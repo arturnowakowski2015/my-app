@@ -564,7 +564,7 @@ let strnew="";
 
         markIn(e, c, tree.children, t.depth, t.id)
         if (marked == 0) markedformer(tree.children)
-        navigate("/a/" + t.name + "/pagination")
+        props.pc[t.name].length && navigate("/a/" + t.name + "/pagination")
       }}
 
       onMouseOver={(e) => {
