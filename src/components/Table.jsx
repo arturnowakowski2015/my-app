@@ -80,7 +80,7 @@ const Table = (props, columns) => {
 
         let r = window.location.href.slice(window.location.href.lastIndexOf("/") + 1);
 
-        if (r.charAt(0) != 0 && r != "p" && typeof r.charAt(0) != "string") {
+        if (r.charAt(0) !== 0 && r !== "p" && typeof r.charAt(0) !== "string") {
             setNumber(r.charAt(0))
             r = "";
         }
@@ -100,9 +100,9 @@ const Table = (props, columns) => {
         let e =""
         let currentPost =""
         const ChangePage = (pageNumber) => {
-            window.location.href.indexOf("searchtext")!=-1 &&
+            window.location.href.indexOf("searchtext")!==-1 &&
             setStop(stop=>stop)
-            window.location.href.indexOf("searchtext")==-1 &&
+            window.location.href.indexOf("searchtext")===-1 &&
             setStop(stop=>0)
  
             setNumber(pageNumber);
@@ -110,9 +110,9 @@ const Table = (props, columns) => {
     const makepagination = () => {
     
 
-    if(props.checkall==false){
+    if(props.checkall[0]===0){
  
-        if (props.number1 == 0) {
+        if (props.number1 === 0) {
             lastPost = number * postPerPage;
             firstPost = lastPost - postPerPage;
         } else {
@@ -137,7 +137,7 @@ const Table = (props, columns) => {
         }
  
  
-        if (lastPost == 0)
+        if (lastPost === 0)
             lastPost = postPerPage
             if(data)
               currentPost =   data.slice(firstPost, lastPost)
@@ -162,7 +162,7 @@ const Table = (props, columns) => {
                 pageNumber.push(i);
         }
    
-        let r = (props.checkedall==false ?  {firstPost:  props.length-10, lastPost: props.data.length}: 
+        let r = (props.checkedall===false ?  {firstPost:  props.length-10, lastPost: props.data.length}: 
         {firstPost:  firstPost, lastPost:lastPost})
         console.log("obj               "+JSON.stringify(r))
         return  r
@@ -185,7 +185,7 @@ const Table = (props, columns) => {
         let lastPost = 0;
         let firstPost = 0;
     
-        if (props.number1 == 0) {
+        if (props.number1 === 0) {
             lastPost = number * postPerPage;
             firstPost = lastPost - postPerPage;
         } else {
@@ -207,7 +207,7 @@ const Table = (props, columns) => {
 
 
         setData1(data1=>data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
-          return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[indextab].searchtext[searchi.new])!=-1 
+          return           typeof r[row] === "string" &&  r[row].indexOf(searchtext[indextab].searchtext[searchi.new])!==-1 
          })
         }))
        // currentPost= data1.slice(firstPost, lastPost)
@@ -215,9 +215,9 @@ const Table = (props, columns) => {
 
        let obj = Object.assign({}, makepagination())
 
-     console.log(props.checkall+"  ssss             "+JSON.stringify(props.data.length)) 
+     console.log(props.checkall[0]+"  ssss             "+JSON.stringify(props.data.length)) 
         setSliced(slice=> data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
-            return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[indextab].searchtext[searchi.new])!=-1 
+            return           typeof r[row] === "string" &&  r[row].indexOf(searchtext[indextab].searchtext[searchi.new])!==-1 
            })
           }).slice(obj.firstPost, obj.lastPost))
 
@@ -236,16 +236,16 @@ const Table = (props, columns) => {
 
     const buildHeader = (header, columns) => {
         data.map((t, i) => {
-            let ii = 0; for (let f of Object.values(t)) { if (typeof f == "object") arr.push(ii); ii++ }
+            let ii = 0; for (let f of Object.values(t)) { if (typeof f === "object") arr.push(ii); ii++ }
         })
-        header.map((k, i) => { return arr.indexOf(i) == -1 ? (cell = { col: { name: "", disp: true } }, cell.col.zzzzzzzzzzzzz = k, col.push(cell)) : null })
+        header.map((k, i) => { return arr.indexOf(i) === -1 ? (cell = { col: { name: "", disp: true } }, cell.col.zzzzzzzzzzzzz = k, col.push(cell)) : null })
         let h = header.map((k, ii) => {
-            return (arr.indexOf(ii) == -1 && props.columns[ii]
-                && props.columns[ii].col.disp == true)
+            return (arr.indexOf(ii) === -1 && props.columns[ii]
+                && props.columns[ii].col.disp === true)
                 ? (<th key={ii} className="tr" onClick={() => { sortarr(k, i); setChevron(!chevron); }}>
                     <div onMouseOver={() => setI(ii)} >
                         {
-                            chevron && ii == i ? <i className="fa fa-chevron-up"></i> : chevron == false && ii == i ?
+                            chevron && ii === i ? <i className="fa fa-chevron-up"></i> : chevron === false && ii === i ?
                                 <i className="fa fa-chevron-down"></i> : null
                         }
                         c{k}</div></th>) : null
@@ -286,16 +286,16 @@ const Table = (props, columns) => {
         r = "p"
         setNumber(number)
 
-        setBiw(props.number1 == 0 ? Math.floor((number - 1) / 10) : Math.floor((number) / 10))
+        setBiw(props.number1 === 0 ? Math.floor((number - 1) / 10) : Math.floor((number) / 10))
 
     }
      useEffect(() => {
-        const timeout = countdown && countdown!=tovalue && setTimeout(() => {
+        const timeout = countdown && countdown!==tovalue && setTimeout(() => {
  
             countdown<tovalue && setCountdown(countdown +1);
             countdown>tovalue && setCountdown(countdown -1);
-            if(countdown%postPerPage==0 && countdown/postPerPage>0 && countdown<tovalue){setNumber(number=>number+1);setCountdown(countdown +1);}
-            if(countdown%postPerPage==0 && countdown/postPerPage>0 && countdown>tovalue ) {setNumber(number=>number-1); setCountdown(countdown -1);}
+            if(countdown%postPerPage===0 && countdown/postPerPage>0 && countdown<tovalue){setNumber(number=>number+1);setCountdown(countdown +1);}
+            if(countdown%postPerPage===0 && countdown/postPerPage>0 && countdown>tovalue ) {setNumber(number=>number-1); setCountdown(countdown -1);}
      }, 50);
         return () => {
 
@@ -311,16 +311,17 @@ const Table = (props, columns) => {
 
 
         let tr = Object.keys(row).map((k, j) => {
-            return typeof row[k] !== "object" && props.columns[j] && props.columns[j].col.disp == true
+            return typeof row[k] !== "object" && props.columns[j] && props.columns[j].col.disp === true
                 ?
                 <td onClick={(e) => {setName(row[k]);setCountdown(oldindex); setTovalue(firstPost+i); setNumber(oldnumber);
                     setOldel((parseInt(firstPost) + parseInt(currentPost.length))/10-1) ;}}
-                 className={    countdown==firstPost+i    ? "red"  : "white" + 
-                 (  green==firstPost+i && countdown==tovalue && " green") + ( green==firstPost+i && " green") } key={j}
+                 className={    countdown===firstPost+i    ? "red"  : "white" + 
+                 (  green===firstPost+i && countdown===tovalue && " green") + ( green===firstPost+i && " green") 
+                +(props.data.length===0 )} key={j}
                  onMouseOver={() => {;setGreen(firstPost+i);  url = "/" + row.id + "/edit"; setId(row.id);
                   }} ><div className="div1">{row[k]}</div></td >
-                : typeof row[k] !== "object" && props.columns[j] && props.columns[j].col.disp == true
-                    && j == 2 ?
+                : typeof row[k] !== "object" && props.columns[j] && props.columns[j].col.disp === true
+                    && j === 2 ?
 
 
                     <td key={j} onMouseOver={() => { url = "/a/" + props.acturl + "/pagination/" + row[k] + "/" + row.id + "/lll" + "/1/edit"; setId(row.id); }} >
@@ -335,16 +336,16 @@ const Table = (props, columns) => {
         });
 
 
-        return (<tr key={i} ><td>{row.checkbox == true ? <input type="checkbox" id={row.id + "/"} 
+        return (<tr key={i} ><td>{row.checkbox === true ? <input type="checkbox" id={row.id + "/"} 
          />
             : <input style={{ marginLeft:"20px",position: "relative", top: "10px" }} 
             type="checkbox" id={row.id} 
-            checked={props.checkedel!=undefined && props.checkedel.filter((t) => {return t==row.id  }).length==1 && true}
+            checked={props.checkedel!==undefined && props.checkedel.filter((t) => {return t===row.id  }).length===1 && true}
             onChange={()=>props.setchecked(row.id, location.pathname.split("/")[2])} />}<div style={{marginLeft:"60px",height:"20px",position:"relative",top:"-20px", cursor: "pointer" ,  textDecoration: "underline" }}
                     onMouseOver={() => {url = "/a/" + props.acturl + "/pagination/" + row.name + "/" + row.id + "/" + row.name + "/1/edit"; setId(row.id); }}
                     onClick={(e) => {
-                        dv(url, row[Object.keys(row).filter((t, i) => { return i == 2 && t })],
-                            Object.keys(row).filter((t, i) => { return i == 2 && t }), row.id)
+                        dv(url, row[Object.keys(row).filter((t, i) => { return i === 2 && t })],
+                            Object.keys(row).filter((t, i) => { return i === 2 && t }), row.id)
                     }} > edit</div></td>{tr}</tr>);
 
     }
@@ -359,12 +360,12 @@ const Table = (props, columns) => {
         let r = Object.keys(data[0]).filter((t, index) => { return data[0][t] })
 
         sort ? (data.sort(function (a, b) {
-            return typeof a[r[i]] == "string" ? a[r[i]].localeCompare(b[r[i]]) : a[r[i]] - b[r[i]];
+            return typeof a[r[i]] === "string" ? a[r[i]].localeCompare(b[r[i]]) : a[r[i]] - b[r[i]];
         })
         )
             :
             (data.sort(function (a, b) {
-                return typeof a[r[i]] == "string" ? b[r[i]].localeCompare(a[r[i]]) : b[r[i]] - a[r[i]];
+                return typeof a[r[i]] === "string" ? b[r[i]].localeCompare(a[r[i]]) : b[r[i]] - a[r[i]];
 
             })
             )
@@ -383,9 +384,9 @@ const Table = (props, columns) => {
     const setValue =(str) => { 
  
  
-        if(to[indextab].eltabs.length<8 && to[indextab].eltabs[to[indextab].eltabs.length-1].saved==1)
+        if(to[indextab].eltabs.length<8 && to[indextab].eltabs[to[indextab].eltabs.length-1].saved===1)
              to[indextab].eltabs.push({name:str, words: str, saved:2})
-         else if(to[indextab].eltabs.length<8 && to[indextab].eltabs[to[indextab].eltabs.length-1].saved==2)
+         else if(to[indextab].eltabs.length<8 && to[indextab].eltabs[to[indextab].eltabs.length-1].saved===2)
             to[indextab].eltabs.splice(to[indextab].eltabs.length-1, 1, {name:str, words: str, saved:2})
 
         searchtext[indextab].searchtext[to[indextab].eltabs.length-1]=to[indextab].eltabs[to[indextab].eltabs.length-1].words
@@ -402,7 +403,7 @@ const Table = (props, columns) => {
     setFlagel(!flagel)
  }
 
-if(data1.length==0)
+if(data1.length===0)
  pageNumber=[1,2,3,4,5,6]
 
    useEffect(() => { 
@@ -412,7 +413,7 @@ if(data1.length==0)
     let lastPost = 0;
     let firstPost = 0;
 
-    if (props.number1 == 0) {
+    if (props.number1 === 0) {
         lastPost = number * postPerPage;
         firstPost = lastPost - postPerPage;
     } else {
@@ -432,7 +433,7 @@ if(data1.length==0)
 
   
     setData1(data1=> props.data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
-      return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[indextab].searchtext[searchi.new])!=-1 
+      return           typeof r[row] === "string" &&  r[row].indexOf(searchtext[indextab].searchtext[searchi.new])!==-1 
      })
     }))
    // currentPost= data1.slice(firstPost, lastPost)
@@ -441,10 +442,10 @@ if(data1.length==0)
    let obj = Object.assign({}, makepagination())
    console.log("alerm    "+JSON.stringify(obj))
     setSliced(slice=> props.data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
-        return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[indextab].searchtext[searchi.new])!=-1  })
+        return           typeof r[row] === "string" &&  r[row].indexOf(searchtext[indextab].searchtext[searchi.new])!==-1  })
       }).length ? 
       props.data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
-        return           typeof r[row] == "string" &&  r[row].indexOf(searchtext[indextab].searchtext[searchi.new])!=-1 
+        return           typeof r[row] === "string" &&  r[row].indexOf(searchtext[indextab].searchtext[searchi.new])!==-1 
        })
       }).slice(obj.firstPost, obj.lastPost) :
       props.data.filter((r) => {return r}).slice(obj.firstPost, obj.lastPost)
@@ -457,46 +458,47 @@ if(data1.length==0)
     pageNumber=[1,2,3,4,5,6,7]
      setFlagel(flagel)
 
- 
+
   }, [location])
  
  
-const z = <div className="tablecontainer">{props.checkall==false && <div className={(countdown==tovalue  ? "s" : "s1") 
+const z = <div className="tablecontainer">{ 
+    props.checkall[1]===0 && <div className={(countdown===tovalue  ? "s" : "s1") 
 }>
      {data.length}</div>}
      
-     {props.checkall && <div className={( data.length==0 ? "s" : "s1")}>
+     {props.checkall[1]===1 && <div className={( data.length===0 ? "s" : "s1")}>
      {data.length}</div> }
      <span style={{width: "20px"}}></span>  {(parseInt(firstPost) + parseInt(currentPost.length))-10+ " - "+ (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + (data && data.length)}</div>
     const el = <div> {z}    
-        {   window.location.href.indexOf("searchtext")!=-1 ? 
-        <Searching i={window.location.href.indexOf("searchtext")} searchtext={ to[indextab].eltabs[searchi.new]!=undefined ? to[indextab].eltabs[searchi.new].words : ""  } searchi={searchi.new}
-        saved={to[indextab]!=undefined && to[indextab].eltabs[to[indextab].eltabs.length-1].saved} len={data1.length} setValue={(es)=> {setValue(es); setStop(stop=>stop+1);setNumber(0);}} savetab={()=>savetab()}/>
+        {   window.location.href.indexOf("searchtext")!==-1 ? 
+        <Searching i={window.location.href.indexOf("searchtext")} searchtext={ to[indextab].eltabs[searchi.new]!==undefined ? to[indextab].eltabs[searchi.new].words : ""  } searchi={searchi.new}
+        saved={to[indextab]!==undefined && to[indextab].eltabs[to[indextab].eltabs.length-1].saved} len={data1.length} setValue={(es)=> {setValue(es); setStop(stop=>stop+1);setNumber(0);}} savetab={()=>savetab()}/>
      :
      <div style={{height:"30px"}}></div> }
 
 
    
         <div><div class="pagcon"><div style={{paddingTop:"15px", paddingRight:"20px"}}>found: {  props.data.length}</div>   
-        {((props.flagsettings != 4 && data1.length) || (data1.length==0 && window.location.href.indexOf("searchtext")==-1) 
-        || window.location.href.indexOf("searchtext")!=-1 && sliced.length!=0)
+        {((props.flagsettings !== 4 && data1.length) || (data1.length===0 && window.location.href.indexOf("searchtext")===-1) 
+        || window.location.href.indexOf("searchtext")!==-1 && sliced.length!==0)
         && data.length > 0 && <Pagination stop={stop} acturl={props.acturl} fp={1} span={span} postPerPage={postPerPage} number={number} 
         pageNumber={  
                                                          pageNumber 
                                                        }
            oldel={oldel} ChangePage={ChangePage} setN={setN} length={
-            window.location.href.indexOf("searchtext")!=-1 ? data1.length : (props.data && props.data.length )
+            window.location.href.indexOf("searchtext")!==-1 ? data1.length : (props.data && props.data.length )
            } firstPost={1} tovalue={Math.ceil(tovalue/10)-1} checkall={props.checkall}/>
              }
         
         </div>
             {
-                element == 1 ? null
+                element === 1 ? null
                     :
 
                     <div className="table1">
                         <div className="tabs">{
-                            window.location.href.indexOf("searchtext")!=-1 &&  to[indextab]!=undefined && to[indextab].eltabs.map((t, j) => {
+                            window.location.href.indexOf("searchtext")!==-1 &&  to[indextab]!==undefined && to[indextab].eltabs.map((t, j) => {
                                 return   <Tab len={data1.length} searchi={searchi} j={j} name={t.name} 
                                 
                                 setsi={(e) => {
@@ -519,9 +521,9 @@ const z = <div className="tablecontainer">{props.checkall==false && <div classNa
                             {data && data[0] ? buildHeader(Object.keys(data && data[0]),data && data.columns) : null}
                         </thead>
                         <tbody>{
-                            view == 1 ? 
-                              currentPost.length >= 0 && data  && data1.length==data.length ? sliced.map(buildRow) : stop==0 && currentPost && currentPost.map(buildRow) 
-                                ? stop==0 && currentPost && currentPost.map(buildRow) : sliced.map(buildRow) :
+                            view === 1 ? 
+                              currentPost.length >= 0 && data  && data1.length===data.length ? sliced.map(buildRow) : stop===0 && currentPost && currentPost.map(buildRow) 
+                                ? stop===0 && currentPost && currentPost.map(buildRow) : sliced.map(buildRow) :
                                 <tr><td>dddddddddddd</td></tr>  
                         }</tbody>
                     </table>
@@ -536,7 +538,7 @@ const z = <div className="tablecontainer">{props.checkall==false && <div classNa
 
 
         <>
-            {flagel == true ?
+            {flagel === true ?
                 el : el
             }
 

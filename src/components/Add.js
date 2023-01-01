@@ -15,7 +15,7 @@ const Add = (props) => {
     }
     return (<div>
         <input type="text" value={editfield} onChange={(e) => change(e)} />
-        <button onClick={() => props.index !== props.todos.length - 1 ? (props.changeind()) : props.add(editfield)}>add</button>
+        <button onClick={() => props.index !==== props.todos.length - 1 ? (props.changeind()) : props.add(editfield)}>add</button>
     </div>)
 }
 

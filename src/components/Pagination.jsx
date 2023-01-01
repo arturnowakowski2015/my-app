@@ -25,21 +25,21 @@ const Pagination = props => {
 
         let t = 0;
         props.number >= 10 && props.firstPost < props.length ? t = props.number + props.postPerPage : t = props.postPerPage
-        /*       if (  props.firstPost < props.length - props.postPerPage && str=="Next")
+        /*       if (  props.firstPost < props.length - props.postPerPage && str==="Next")
                   props.setN(v)
-               if (  props.firstPost < props.length - props.postPerPage && str=="Previous")
+               if (  props.firstPost < props.length - props.postPerPage && str==="Previous")
                   props.setN(v-1)
                   */
-        if (v > 0 && str == "Previous")
+        if (v > 0 && str === "Previous")
             props.setN(v)
-        if (v <= 0 && str == "Next")
+        if (v <= 0 && str === "Next")
             props.setN(v + 1)
-        if (v > 0 && str == "Next" && props.firstPost < props.length - props.postPerPage)
+        if (v > 0 && str === "Next" && props.firstPost < props.length - props.postPerPage)
             props.setN(v)
     }
     let rrr= 0;
     useEffect(()=>{
-        setInd(ind=>props.checkall && Math.ceil(props.length/10) )
+        setInd(ind=>props.checkall[1] && Math.ceil(props.length/10) )
     }, [props.length])
     return (
         <div className="pagination" >
@@ -54,7 +54,7 @@ const Pagination = props => {
                 return ( 
                     <div className="pagbtn" key={i}>ind.{ind}
                         {
-                             props.checkall==false && props.number == i + props.fp ?
+                             props.checkall[0]===0 && props.number === i + props.fp ?
                                 <div><Link style={{backgroundColor:"red"}}   to={"/a/" + props.acturl + "pagination/" + Elem} onClick={(event) => funk(event, Elem)}
 
 
@@ -63,7 +63,7 @@ const Pagination = props => {
                                 </Link>
                                 </div>
                                 :
-                                <div>{i<Math.ceil((props.length ? props.length: 100)/10) && <Link className={ props.oldel==i  ?  "green" : "s"} to={"/a/" + props.acturl + "pagination/" + Elem}
+                                <div>{i<Math.ceil((props.length ? props.length: 100)/10) && <Link className={ props.oldel===i  ?  "green" : "s"} to={"/a/" + props.acturl + "pagination/" + Elem}
                                  onClick={(event) => {event.preventDefault(); funk(event, Elem)}}
 
 
@@ -118,11 +118,11 @@ const Pagination = props => {
         let t = 0;
         props.number >= 10 && props.firstPost < props.length ? t = props.number + props.postPerPage : t = props.postPerPage
  
-                  if (v > 0 && str == "Previous")
+                  if (v > 0 && str === "Previous")
                   props.setN(v)
-              if (v <= 0 && str == "Next")
+              if (v <= 0 && str === "Next")
                   props.setN(v + 1)
-              if (v > 0 && str == "Next" && props.firstPost < props.length - props.postPerPage)
+              if (v > 0 && str === "Next" && props.firstPost < props.length - props.postPerPage)
                   props.setN(v)
           }
           let rrr= 0;
@@ -139,7 +139,7 @@ const Pagination = props => {
                       return ( 
                           <div className="pagbtn" key={i}>
                               {
-                                  props.number == i + props.fp ?
+                                  props.number === i + props.fp ?
                                       <div><Link   to={"/a/" + props.acturl + "pagination/" + Elem} onClick={(event) => funk(event, Elem)}
       
       
@@ -148,7 +148,7 @@ const Pagination = props => {
                                       </Link>
                                       </div>
                                       :
-                                      <div>{i<Math.ceil((props.length ? props.length: 100)/10) && <Link className={ props.oldel==i  ?  "green" : "s"} to={"/a/" + props.acturl + "pagination/" + Elem}
+                                      <div>{i<Math.ceil((props.length ? props.length: 100)/10) && <Link className={ props.oldel===i  ?  "green" : "s"} to={"/a/" + props.acturl + "pagination/" + Elem}
                                        onClick={(event) => {event.preventDefault(); funk(event, Elem)}}
       
       

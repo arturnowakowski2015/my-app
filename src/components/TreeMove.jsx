@@ -5,7 +5,7 @@ let c=0;
 const makeids = (nodes, i) => {
     nodes && nodes.map((t) => {
       {
-        if (t.depth == i)
+        if (t.depth === i)
           t.id = c++;
       }
       if (t.children) { makeids(t.children, i); }
@@ -25,17 +25,17 @@ const makeids = (nodes, i) => {
   
   };
 const TreeMove = (props) => {
+    
     const[btn, setBtn]=useState(false)
     const [familyTree, setFamilyTree] = useState(props.familyTree)
     const [destination, setDestination] =useState({name:"", coordinates:[0,0]})
     const bck = ( nodes, depth, id) => {
 
- 
 
         
         let y = nodes.map((t) => {
   
-            if(t.depth==destination.coordinates[0] && t.id==destination.coordinates[1]) 
+            if(t.depth===destination.coordinates[0] && t.id===destination.coordinates[1]) 
             t.id=12
             else t.bgcolor="white"
           if ( t.children) { bck( t.children, depth, id); }
@@ -48,7 +48,14 @@ const TreeMove = (props) => {
  
       }
       useEffect(()=> {
+        makeidlev(tree.children, 0, 0)
+        for (let ii = 0; ii < 20; ii++) {
+          c = 0;
+          makeids(tree.children, ii)
+    
+        }
         setDestination({name:props.dest.name, coordinates:[props.dest.coordinates[0], props.dest.coordinates[1]]})
+ 
  
       }, [props.changedest])
     return (
@@ -62,13 +69,13 @@ const TreeMove = (props) => {
       style={{ paddingLeft: "10px", paddingTop: "5px" }} >{"depth:"+t.dep+"  id:"+ t.id+":::"+JSON.stringify(destination)}
     
     
-      {t.name != props.pc[0] && <div   style={{ opacity: t.opacity, cursor: t.cursor }}
+      {t.name !== props.pc[0] && <div   style={{ opacity: t.opacity, cursor: t.cursor }}
 
       
     
       > 
     
-       {destination.coordinates[0]==t.depth && destination.coordinates[1]==i? <p id="text" onClick={(e) => {
+       {destination.coordinates[0]===t.depth && destination.coordinates[1]===i? <p id="text" onClick={(e) => {
  
         props.changedest(t.name,t.depth, t.id)
         setBtn(false)
@@ -124,13 +131,13 @@ const TreeMove = (props) => {
       style={{ paddingLeft: "10px", paddingTop: "5px" }} >{"depth:"+t.dep+"  id:"+ t.id+":::"+JSON.stringify(destination)}
     
     
-      {t.name != props.pc[0] && <div   style={{ opacity: t.opacity, cursor: t.cursor }}
+      {t.name !== props.pc[0] && <div   style={{ opacity: t.opacity, cursor: t.cursor }}
 
       
     
       > 
     
-       {destination.coordinates[0]==t.depth && destination.coordinates[1]==i? <p id="text" onClick={(e) => {
+       {destination.coordinates[0]===t.depth && destination.coordinates[1]===i? <p id="text" onClick={(e) => {
  
         props.changedest(t.name,t.depth, t.id)
         setBtn(false)

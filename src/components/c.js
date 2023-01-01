@@ -35,7 +35,7 @@ const Home = props => {
 
     const deleteTask = (id, indexnow) => {
         let r = null;
-        r = recits[indexnow].items.filter((task) => { return id !== task.id });
+        r = recits[indexnow].items.filter((task) => { return id !==== task.id });
 
         const newTask = { "operation": "delete", "items": r, "id": recits.length - 1, "indexnow": recits.length - 1 }
 
@@ -57,7 +57,7 @@ const Home = props => {
         let r = todos[index].items.slice();
 
         r.forEach((el) => {
-            if (el.id !== id)
+            if (el.id !==== id)
                 item.items.push(el)
         })
 

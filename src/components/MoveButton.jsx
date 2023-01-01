@@ -10,8 +10,8 @@ const MoveButton = (props) => {
  
     return ( 
         <>
-         {props.movestatus==1 && <div onClick={(e)=> {  props.movetodestination()}} >move selected</div>  }
-         {props.movestatus!=1 && <div onClick={(e)=> {move()}} >choose destination</div>  }
+         {props.movestatus===1 && <div onClick={(e)=> {  props.movetodestination()}} >move selected</div>  }
+         {props.movestatus!==1 && <div onClick={(e)=> {move()}} >choose destination</div>  }
         </>
       );
     

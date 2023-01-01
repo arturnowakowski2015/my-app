@@ -72,7 +72,7 @@ class Home extends React.Component {
       change: false,
       changes: [],
       changeall: false,
-      checkall: false,
+      checkall: [0,0],
       config: 0,
       categories: { actual: [{ cat: "new", l: 0 }], new: [], set: ["labels", "received", "new", "selected", "postponed", "removed"] },
       parent: "",
@@ -109,7 +109,7 @@ class Home extends React.Component {
       .then((response) => response.json())
       .then((response) => {
         // set the state 
-        if (this.state.data[this.state.categories.actual[0].cat].length == 0)
+        if (this.state.data[this.state.categories.actual[0].cat].length === 0)
           this.state.data[this.state.categories.actual[0].cat] = response.filter((t, i) => {
             return i<50 && t;
           })
@@ -149,7 +149,7 @@ class Home extends React.Component {
 
     this.state.data[this.state.categories.actual[0].cat].map((tt) => {
 
-      if (tt.id == idrec) tt[str] = upstr;
+      if (tt.id === idrec) tt[str] = upstr;
     })
 
     this.setState({ changes: arr })
@@ -171,7 +171,7 @@ class Home extends React.Component {
     this.setState({
       data: [this.state.categories[0]] = this.props.data.map((t, i) => {
 
-        if (this.props.params.id == i) t.title = this.state.str;
+        if (this.props.params.id === i) t.title = this.state.str;
         return t
       })
     })
@@ -198,15 +198,15 @@ class Home extends React.Component {
   }
   setchecked(i, actual)
   {    
-    if(this.state.data!=undefined){ 
-      
+    if(this.state.data!==undefined){ 
+               console.log("vvvvvvv                  "+JSON.stringify(this.state.checkedel.set[actual]))
         this.state.data[actual].map((t)=>{
-          if(t.id==i &&      this.state.checkedel.set[actual].indexOf(i)==-1){ 
+          if(t.id===i &&      this.state.checkedel.set[actual].indexOf(i)===-1){ 
             this.state.checkedel.set[actual].push(t.id);
           }
-            else if(t.id==i &&  this.state.checkedel.set[actual].indexOf(i)!=-1){
+            else if(t.id===i &&  this.state.checkedel.set[actual].indexOf(i)!==-1){
               
-         
+
             this.state.checkedel.set[actual].splice(this.state.checkedel.set[actual].indexOf(i), 1)
    
           }
@@ -218,7 +218,7 @@ class Home extends React.Component {
     if(this.state.checkedel.set[actual].length>0)
       this.setState({settings: 4})
     else this.setState({settings:-1})
-    this.setState({checkall: false})
+   // this.setState({checkall: false})
   }
  
  
@@ -227,27 +227,32 @@ class Home extends React.Component {
 
       this.state.checkedel.set[this.state.categories.actual[0].cat].map((t,i) => {
  
-
-        if(this.state.checkedel.set[this.state.categories.actual[0].cat].indexOf(i+1)!=-1)
-        {
-             console.log((JSON.stringify(this.state.data[this.state.categories.actual[0].cat][i])+"::") )
-          this.state.data[this.state.dest.name].unshift(this.state.data[this.state.categories.actual[0].cat][i])
-        
-          this.state.data[this.state.categories.actual[0].cat].splice(i, 1)
+ 
+          console.log((JSON.stringify(this.state.data[this.state.categories.actual[0].cat][t]))+"::" +t+"::"+i)
+          this.state.data[this.state.dest.name].unshift(this.state.data[this.state.categories.actual[0].cat][   
+            this.state.data[this.state.categories.actual[0].cat].findIndex(function(item){
+            return item.id === t
+          })])
          // this.setState({data: this.state.data[this.state.categories.actual[0].cat]})
+
+           this.state.data[this.state.categories.actual[0].cat].splice(
+                  this.state.data[this.state.categories.actual[0].cat].findIndex(function(item){
+                  return item.id === t
+                }), 1)
            this.state.checkedel.set[this.state.categories.actual[0].cat].splice(i,1)
-  
-        }
+        
       })
  
  
-          
+
     this.movetodestination( )
     
-  }, 50)
+  }, 150)
     {
-     if(this.state.checkedel.set[this.state.categories.actual[0].cat].length<  0)   clearTimeout(timer)
+      if(this.state.checkedel.set[this.state.categories.actual[0].cat].length<=  0)   clearTimeout(timer)
     this.setState({move: 0})
+    this.setState({checkedel: this.state.checkedel})
+    this.setState({data:  this.state.data})
      }
 
   }
@@ -275,33 +280,11 @@ class Home extends React.Component {
      }
 
   }
-  checkallel(flag){ 
-    if(flag==false ){
- 
- 
-      this.state.data[this.state.categories.actual[0].cat].map((t, i)=>{
- 
-      if(        this.state.checkedel.set[this.state.categories.actual[0].cat].indexOf(i)==-1)
-        this.state.checkedel.set[this.state.categories.actual[0].cat].push(i);
-        this.setState({checkedel: this.state.checkedel})
- 
-        this.setState({checkall: false})
- 
- 
- 
- 
-    })
-  }else
-  {
-    this.state.checkedel.set[this.state.categories.actual[0].cat]=[]
-    this.setState({checkedel: this.state.checkedel})
-    this.setState({checkall: true})
-  }
-}
+   
   setRec() {
     let v = this.props.params.data;
     let t = v.map((t, i) => {
-      if (this.props.params.id == i) t.title = this.props.params.str
+      if (this.props.params.id === i) t.title = this.props.params.str
       return t
     });
     this.setState({
@@ -314,26 +297,31 @@ class Home extends React.Component {
   }
   checkallel(flag){
     if(flag)
-    { 
-      this.state.data[this.state.categories.actual[0].cat].map((t, i) => {
-       if( this.state.checkedel.set[this.state.categories.actual[0].cat].indexOf(i)==-1)
-       this.state.checkedel.set[this.state.categories.actual[0].cat].push(i)
+    {
+      this.state.data[this.state.categories.actual[0].cat].map((t, i) => {  
+       if( this.state.checkedel.set[this.state.categories.actual[0].cat].indexOf(t.id)===-1)
+       this.state.checkedel.set[this.state.categories.actual[0].cat].push(t.id)
         
       })
+      this.state.checkall[1]=1;
+      this.setState({checkall: this.state.checkall});
       this.setState({checkedel: this.state.checkedel})
     }
     else
     {
       this.state.checkedel.set[this.state.categories.actual[0].cat]=[];
       this.setState({checkedel:this.state.checkedel})
+      this.state.checkall[1]=0;
+      this.setState({checkall: this.state.checkall});
     }
+
   }
 
 
   componentDidMount() {
  
-    if (stop == 0) {
-      const r = this.props.params.id && this.props.params.f == undefined ? this.props.params.id : this.state.i;
+    if (stop === 0) {
+      const r = this.props.params.id && this.props.params.f === undefined ? this.props.params.id : this.state.i;
 
       this.furl(this.state.settings, null, 1, "u", "dd d");
 
@@ -361,16 +349,16 @@ class Home extends React.Component {
     let obj = null
     let el = 0;
 
-    if (this.state.categories.actual[0].cat != category) {
-      obj = this.state.categories.new.filter((t) => t.cat != category)
-      if (obj.length == 0) {
+    if (this.state.categories.actual[0].cat !== category) {
+      obj = this.state.categories.new.filter((t) => t.cat !== category)
+      if (obj.length === 0) {
         el = { cat: this.state.categories.actual[0].cat, l: this.state.data[this.state.categories.actual[0].cat].length };
         this.state.categories.new = [el]
       } else {
         el = { cat: this.state.categories.actual[0].cat, l: this.state.data[this.state.categories.actual[0].cat].length };
         this.state.categories.new = [...obj, el]
       }
-      if (this.state.categories.new.filter((t) => t.cat == category).length == 0) {
+      if (this.state.categories.new.filter((t) => t.cat === category).length === 0) {
 
         this.state.categories.actual[0].cat = category;
         this.state.categories.actual[0].l = this.state.data[category].length
@@ -400,7 +388,7 @@ class Home extends React.Component {
  
   }
   changedata(category, flag, flag1) { 
-    if (flag1 == 1 || flag1 == 2) {
+    if (flag1 === 1 || flag1 === 2) {
 
       this.state.categories.new[0] = category;
       this.setState({ categories: this.state.categories })
@@ -409,7 +397,7 @@ class Home extends React.Component {
 
     let y2 = 0;
     let stop = 0;
-    if (flag == 0 && this.state.data[category] ? this.state.data[category].length : "") {
+    if (flag === 0 && this.state.data[category] ? this.state.data[category].length : "") {
 
 
       let l = this.state.data[category] ? this.state.data[category].length : 0;
@@ -419,23 +407,23 @@ class Home extends React.Component {
 
 
     }
-    if (flag == 2) {
-      if (this.state.data[category] || this.state.categories.actual[0].cat != category) {
+    if (flag === 2) {
+      if (this.state.data[category] || this.state.categories.actual[0].cat !== category) {
 
 
 
-        if (this.state.data[category] == undefined || this.state.data[category] == "")
+        if (this.state.data[category] === undefined || this.state.data[category] === "")
           this.state.data[category] = this.state.data[this.state.categories.actual[0].cat]
 
-        let arr1 = arr.filter((t) => t != "")
+        let arr1 = arr.filter((t) => t !== "")
  
-        if (arr1.length != this.state.data[category].length) {
+        if (arr1.length !== this.state.data[category].length) {
           y = this.state.data[category].filter(f => arr.some(item => item.id === f.id))
           y2 = this.state.data[category].filter(f => !arr.some(item => item.id === f.id))
         }
         else {
-          y = this.state.data[category].filter(f => arr1.some(item => item.id === f.id && item.checked == true))
-          y2 = this.state.data[category].filter(f => arr1.some(item => item.id === f.id && item.checked == false))
+          y = this.state.data[category].filter(f => arr1.some(item => item.id === f.id && item.checked === true))
+          y2 = this.state.data[category].filter(f => arr1.some(item => item.id === f.id && item.checked === false))
         }
         this.state.data[this.state.categories.actual[0].cat] = y2
         this.state.categories.actual[0].l = y2.length
@@ -445,7 +433,7 @@ class Home extends React.Component {
         this.setcategories(category, this.state.categories.actual[0].cat)
         // this.state.categories.actual[0].cat = category
       }
-    } else if (flag == 0 && this.state.data[category] && this.state.data[category].length && stop == 0) {
+    } else if (flag === 0 && this.state.data[category] && this.state.data[category].length && stop === 0) {
 
       this.state.data[this.state.categories.actual[0].cat] =  this.state.data[category].filter(f => !arr.some(item => item.id === f.id))
       this.state.categories.actual[0].l = this.state.data[category].length
@@ -496,8 +484,8 @@ checkall={this.state.checkall}  familyTree={tree.children}
 checkedel={this.state.checkedel.set[this.state.categories.actual[0].cat]}
 setchecked={this.setchecked.bind(this)}
   columns={this.state.columns.map((t, i) => {
-    if (i == this.state.icolumn && this.state.checked) t.col.disp = false;
-    else if (i == this.state.icolumn && this.state.checked == false) t.col.disp = true;
+    if (i === this.state.icolumn && this.state.checked) t.col.disp = false;
+    else if (i === this.state.icolumn && this.state.checked === false) t.col.disp = true;
 
     return t;
   })}
@@ -518,12 +506,12 @@ setchecked={this.setchecked.bind(this)}
     return (
       <div>        <AUrl />
 
-        {this.state.settings == 0 && this.props.params.f == undefined &&
+        {this.state.settings === 0 && this.props.params.f === undefined &&
 
           <div className="LT">
 
             <div className="LTchild">
-              {arr.length == 0 && <Link className="a2" to={"/a/" + this.state.categories.actual[0].cat + "/pagination/settings"} onClick={() => {
+              {arr.length === 0 && <Link className="a2" to={"/a/" + this.state.categories.actual[0].cat + "/pagination/settings"} onClick={() => {
                 this.setState({ config: 1 });
                 this.setState({ settings: 1 })
                 this.setState({ number1: 1 })
@@ -543,10 +531,10 @@ setchecked={this.setchecked.bind(this)}
         }
 
 
-{this.state.settings == 4 && 
+{this.state.settings === 4 && 
 
 <> 
- {this.state.move!=1 &&  
+ {this.state.move!==1 &&  
 <div className="checked" >
   <MoveButton movetodestination={this.movetodestination.bind(this)} movestatus={this.state.move} changemove={() => this.changemove()}  lenel={this.state.checkedel.set[this.state.categories.actual[0].cat].length} />
 <Button changesettings={this.setmove.bind(this)} checkallel={ this.checkallel.bind(this)}  
@@ -592,7 +580,7 @@ i={this.state.i}/>
 
 
 
-        {this.state.settings == 3 &&
+        {this.state.settings === 3 &&
           <div className="LT">
             <div className="TreeNode">
               <Update i={this.state.i} furl={this.furl.bind(this)} acturl={this.state.categories.actual[0].cat}
@@ -610,7 +598,7 @@ i={this.state.i}/>
 
 
         {
-          this.state.settings == 1 &&
+          this.state.settings === 1 &&
 
           <div className="LT select">
 
@@ -637,7 +625,7 @@ i={this.state.i}/>
 
         }
 
-        {this.state.settings == 2 &&
+        {this.state.settings === 2 &&
           <div className="select">
             <Select acturl={this.state.categories.actual[0].cat} changeconfig={(i) => { this.setState({ config: i }) }}
               changecategory={(category, flag, flag1) => {
@@ -649,7 +637,7 @@ i={this.state.i}/>
             />
           </div>
         }
-        { this.state.move!=1 &&  ( this.state.move==false ? treetablemin : treetablemin )}
+        { this.state.move!==1 &&  ( this.state.move===false ? treetablemin : treetablemin )}
 
 
 

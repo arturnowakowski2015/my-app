@@ -25,7 +25,7 @@ const Settings = props => {
             arr.push(t)
 
             ++ii;
-            if (t.name == props.pc) {
+            if (t.name === props.pc) {
                 y = { name: t.name }
                 pname = arr[ii - 2].name
                 wparent = arr[ii - 2]
@@ -53,12 +53,12 @@ const Settings = props => {
             if (yy.children) removeel(yy.children)
 
 
-            if (yy.name == wparent.name) {
+            if (yy.name === wparent.name) {
                 wparent.children && wparent.children.map((t) => {
 
-                    if (t.name == props.pc) {
+                    if (t.name === props.pc) {
                         t.children && t.children.map((tt) => {
-                            if (stop == 0) {
+                            if (stop === 0) {
                                 yy.children.push(tt)
                                 stop = 1;
                             }
@@ -67,10 +67,10 @@ const Settings = props => {
                 })
             }
 
-            if (yy.name == "selected") {
+            if (yy.name === "selected") {
 
                 yy.children.map((t, i) => {
-                    if (t.name == props.pc) {
+                    if (t.name === props.pc) {
                         kk = i;
                     }
                 })
@@ -86,9 +86,9 @@ const Settings = props => {
         nodes.forEach((t) => {
             if (t.children) deleteel(t.children)
 
-            if (t.name == pname)
+            if (t.name === pname)
                 o = t.children.map((tt, i) => {
-                    if (tt.name == props.pc) {
+                    if (tt.name === props.pc) {
                         o = i
                         t.children && t.children.splice(o, 1)
                     }
@@ -103,8 +103,8 @@ const Settings = props => {
 
         nodes.map((t) => {
 
-            if ((kk == 0 || kk != 1) && t.name == props.parent) {
-                if (t.children == null)
+            if ((kk === 0 || kk !== 1) && t.name === props.parent) {
+                if (t.children === null)
                     t.children = [];
 
 
