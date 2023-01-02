@@ -43,6 +43,17 @@ const TreeMove = (props) => {
  
  
       }, [props.changedest])
+      useEffect(()=> {
+        makeidlev(props.actcat, tree.children, 0, 0)
+        for (let ii = 0; ii < 20; ii++) {
+          c = 0;
+          makeids(tree.children, ii)
+    
+        } 
+ 
+ 
+      }, [])
+
     return (
     <div> { props.familyTree.map((t, i) => {
 
@@ -69,7 +80,7 @@ const TreeMove = (props) => {
 
     
           className="p fw-bold"
-          style={{ backgroundColor: "green" }}>{t.name +"::"+ props.pc[t.name] && props.pc[t.name].length }  
+          style={{ backgroundColor: "red" }}>{t.name}   {props.pc[t.name] && props.pc[t.name].length }  
       
     
         </p>
@@ -83,7 +94,7 @@ const TreeMove = (props) => {
 
     
           className={"p fw-bold "}
-          style={{ backgroundColor: t.bgcolor }}>{t.name}  {   props.pc[t.name] && props.pc[t.name].length }  
+          style={{ backgroundColor: t.bgcolor }}>{t.bgcolor}  {   props.pc[t.name] && props.pc[t.name].length }  
       
     
         </p>
@@ -101,7 +112,7 @@ const TreeMove = (props) => {
 
 
             className={"p fw-bold "}
-            style={{ backgroundColor: "red" }}>{t.name}  {   props.pc[t.name] && props.pc[t.name].length }  
+            style={{ backgroundColor: "green" }}>{t.bgcolor}  {   props.pc[t.name] && props.pc[t.name].length }  
 
 
             </p>

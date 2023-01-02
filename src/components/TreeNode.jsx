@@ -34,15 +34,17 @@ const makeids = (nodes, i) => {
   })
 };
 
-const makeidlev = (nodes, i, tt) => {
+const makeidlev = (str, nodes, i, tt) => {
   return nodes && nodes.forEach((t) => {
 
 
     t.depth = tt;
-    if(t.bgcolor!=="yellow")
+    if(t.name==str)
+    t.bgcolor="green";
+    else 
     t.bgcolor = "white";
 
-    if (t.children) { makeidlev(t.children, 0, ++tt); --tt }
+    if (t.children) { makeidlev(str, t.children, 0, ++tt); --tt }
   });
 
 };
@@ -69,13 +71,14 @@ const TreeNode = (props) => {
   const [familyTree, setFamilyTree] = useState(props.familyTree)
 
   useEffect(() => {
-    makeidlev(tree.children, 0, 0)
+ 
+    makeidlev(props.act, tree.children, 0, 0)
     for (let ii = 0; ii < 20; ii++) {
       c = 0;
       makeids(tree.children, ii)
 
     }
-  }, [])
+  }, [props.act])
 
 
  
@@ -542,7 +545,7 @@ let strnew="";
 
 
   let i=0; 
-  return <div className="nodeel" > {props.config === 0 && familyTree.map((t, i) => {
+  return <div className="nodeel" >//{props.act}// {props.config === 0 && familyTree.map((t, i) => {
 
 
 
@@ -593,6 +596,7 @@ let strnew="";
         familyTree={t.children}
         settings={props.settings}
         ac={props.ac}
+        act={props.act}
         pc={props.pc} id={i} depth={props.depth + 1} />}</div>
 
 

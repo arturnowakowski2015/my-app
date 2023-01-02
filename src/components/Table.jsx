@@ -357,7 +357,7 @@ const Table = (props, columns) => {
 
     const d = () => { ttt = 1;; }
     const sortarr = (k, i) => {
-        navigate("searchtext/");
+        navigate(location.pathname);
         setSort(!sort)
         let r = Object.keys(data[0]).filter((t, index) => { return data[0][t] })
 

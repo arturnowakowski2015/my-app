@@ -11,7 +11,7 @@ const MoveButton = (props) => {
     return ( 
         <>
          {props.movestatus===1 && 
-            <div><div onClick={(e)=> {  props.movetodestination()}} >move selected</div>
+            <div><div onClick={(e)=> {  props.movetodestination(1+props.lenel)}} >move selected::::{props.lenel}</div>
             <div>from</div>
             <div className="from">{props.act}</div>
             <div>to</div>

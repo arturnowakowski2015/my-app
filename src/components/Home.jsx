@@ -27,6 +27,7 @@ import UserContext from "../ctx/User";
 function withParams(Component) {
   return (props) => <Component {...props} params={useParams()} />;
 }
+let actdest=0
 let stop = 0;
 let items = [];
 let y = [];
@@ -221,7 +222,8 @@ class Home extends React.Component {
   }
  
  
-  movetodestination(){
+  movetodestination(ii){
+    let u=0;
     const timer =setTimeout(()=>{
 
       this.state.checkedel.set[this.state.categories.actual[0].cat].map((t,i) => {
@@ -232,9 +234,9 @@ class Home extends React.Component {
             this.state.data[this.state.categories.actual[0].cat].findIndex(function(item){
             return item.id === t
           })])
-         // this.setState({data: this.state.data[this.state.categories.actual[0].cat]})
-
-           this.state.data[this.state.categories.actual[0].cat].splice(
+ 
+ 
+           this.state.data[ this.state.categories.actual[0].cat ].splice(
                   this.state.data[this.state.categories.actual[0].cat].findIndex(function(item){
                   return item.id === t
                 }), 1)
@@ -244,17 +246,29 @@ class Home extends React.Component {
  
  
 
-    this.movetodestination( )
-    
+    this.movetodestination(--ii )
+    if(this.state.checkedel.set[this.state.categories.actual[0].cat].length<=  0){
+      actdest=this.state.categories.actual[0].cat
+      this.state.categories.actual[0].cat=this.state.dest.name
+      this.setState({categories: this.state.categories})
+      this.movetodestination( --ii)
+    } 
   }, 150)
-    {
-      if(this.state.checkedel.set[this.state.categories.actual[0].cat].length<=  0)   clearTimeout(timer)
+ 
+      if(ii<=  -1) {
+    this.changedata(this.state.dest.name, 0, 1); 
+   clearTimeout(timer)
+
+
+
+    }
     this.setState({move: 0})
     this.setState({checkedel: this.state.checkedel})
     this.setState({data:  this.state.data})
-     }
-
-  }
+  
+   
+ }
+ 
   delete1( ){ 
 
      const timer =setTimeout(()=>{
@@ -318,7 +332,6 @@ class Home extends React.Component {
 
 
   componentDidMount() {
- 
     if (stop === 0) {
       const r = this.props.params.id && this.props.params.f === undefined ? this.props.params.id : this.state.i;
 
@@ -475,7 +488,7 @@ let treetablemin = <div className="treetablemincont" >aaaaaaaaaaaaaaaa<div class
     settings={this.state.settings}
     ac={this.state.categories.set}
     pc={this.state.data} id={0} depth={0} p={0} pdepth={-1} pid={0}
-
+    act={this.state.categories.actual[0].cat}
     parent={this.state.parent} />
 </div>
 <Table i={this.state.i} data={this.state.data[this.state.categories.actual[0].cat]} 
