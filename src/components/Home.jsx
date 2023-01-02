@@ -242,7 +242,7 @@ class Home extends React.Component {
                 }), 1)
            this.state.checkedel.set[this.state.categories.actual[0].cat].splice(i,1)
         
-      })
+      }) 
  
  
 
