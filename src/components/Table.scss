@@ -1,5 +1,37 @@
  
+@mixin basictable(){
+  border : black solid 1px; 
+  position:absolute;
+  left:980px;
+  top:110px;
+ table{
+     margin:0px 10px 10px 10px;
+   }
+ .tabs{
+   padding-left:10px;
+   display: flex;
+   flex-direction:row;
+   @for $k from 0 through 5 {
+     .tab-#{$k} {
+       @include basictabs();
+       background-color:white;
+       transition: background-color 1s;
+     }
+     .tab-#{$k}-1{
+       @include basictabs();
+        background-color: white;
+        transition: background-color 1s
+     }
+     .tab-#{$k}-0 {
+       @include basictabs();
+       background-color: rgb(0, 255, 229);
+       background-color: red;
+       transition: background-color 1s;
+     }
 
+   }
+}
+}
 @mixin basictabs() { 
   border : black solid 1px;  
   padding: 2px;
@@ -7,39 +39,24 @@
   text-decoration: underline;
   cursor:pointer;
 }
-    .table1{
-         border : black solid 1px; 
-         position:absolute;
-         left:980px;
-         top:110px;
-        table{
-            margin:0px 10px 10px 10px;
-          }
-        .tabs{
-          padding-left:10px;
-          display: flex;
-          flex-direction:row;
-          @for $k from 0 through 5 {
-            .tab-#{$k} {
-              @include basictabs();
-              background-color:white;
-              transition: background-color 1s;
-            }
-            .tab-#{$k}-1{
-              @include basictabs();
-               background-color: white;
-               transition: background-color 1s
-            }
-            .tab-#{$k}-0 {
-              @include basictabs();
-              background-color: rgb(0, 255, 229);
-              background-color: red;
-              transition: background-color 1s;
-            }
-
-          }
-      }
-    }
+.desapeartable{
+  opacity: 0;
+  transition: opacity 1s;
+  @include basictable();
+}
+.pagination{
+  opacity:1;
+  transition: opacity 1s;
+}
+.pd{
+  opacity:0;
+  transition: opacity 1s;
+}
+.table1{
+  opacity: 1;
+  transition: opacity 1s;
+  @include basictable();
+}
   .tablecontainer, .pag{
 
     display: flex;

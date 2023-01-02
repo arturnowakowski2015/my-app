@@ -80,7 +80,7 @@ const TreeMove = (props) => {
 
     
           className="p fw-bold"
-          style={{ backgroundColor: "red" }}>{t.name}   {props.pc[t.name] && props.pc[t.name].length }  
+          style={{ backgroundColor: "blue" }}>{t.name}   {props.pc[t.name] && props.pc[t.name].length }  
       
     
         </p>

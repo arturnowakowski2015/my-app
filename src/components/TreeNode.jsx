@@ -550,9 +550,9 @@ let strnew="";
 
 
     return t && t.bgcolor !== "orange" && <div key={i} onMouseOut={() => { tdepth = []; tid = [] }}
-      onClick={(e) => {
+      onClick={(e) => {        e.stopPropagation()
+setTimeout(()=>{
 
-        e.stopPropagation()
         findgreen(tree.children)
         props.changeintree(t.name, 0, 1);
 
@@ -568,6 +568,8 @@ let strnew="";
         markIn(e, c, tree.children, t.depth, t.id)
         if (marked === 0) markedformer(tree.children)
         props.pc[t.name].length && navigate("/a/" + t.name + "/pagination")
+
+      }, 500)
       }}
 
       onMouseOver={(e) => {

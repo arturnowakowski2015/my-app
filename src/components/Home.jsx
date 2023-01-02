@@ -62,6 +62,8 @@ class Home extends React.Component {
       i: 0,
       number1: 0,
       confirmdelete:false,
+      displ: true,
+      dp:true,
 
 
 
@@ -228,8 +230,7 @@ class Home extends React.Component {
 
       this.state.checkedel.set[this.state.categories.actual[0].cat].map((t,i) => {
  
- 
-          console.log((JSON.stringify(this.state.data[this.state.categories.actual[0].cat][t]))+"::" +t+"::"+i)
+  
           this.state.data[this.state.dest.name].unshift(this.state.data[this.state.categories.actual[0].cat][   
             this.state.data[this.state.categories.actual[0].cat].findIndex(function(item){
             return item.id === t
@@ -251,10 +252,11 @@ class Home extends React.Component {
       actdest=this.state.categories.actual[0].cat
       this.state.categories.actual[0].cat=this.state.dest.name
       this.setState({categories: this.state.categories})
+      ii=-2;
       this.movetodestination( --ii)
     } 
-  }, 150)
- 
+  }, ii*1)
+  console.log(this.state.checkedel.set[this.state.categories.actual[0].cat].length+"  ii   "+ii)
       if(ii<=  -1) {
     this.changedata(this.state.dest.name, 0, 1); 
    clearTimeout(timer)
@@ -289,9 +291,18 @@ class Home extends React.Component {
   }, 50)
      if(this.state.checkedel.set[this.state.categories.actual[0].cat].length<1){
         clearTimeout(timer)
-    this.setState({move: 0})
-     }
+    this.setState({move: 0}) 
+     if(this.state.data[this.state.categories.actual[0].cat].length==0){
+    setTimeout(()=>{
+      
+    actdest=this.state.categories.actual[0].cat
 
+    this.state.categories.actual[0].cat="postponed"
+    this.setState({categories: this.state.categories})
+        this.changedata("postponed", 0, 1); 
+      }, 1000)
+     }
+    }
   }
    
   setRec() {
@@ -400,6 +411,9 @@ class Home extends React.Component {
  
   }
   changedata(category, flag, flag1) { 
+    setTimeout(()=> {
+      this.setState({displ: false})
+    }, 1500)
     if (flag1 === 1 || flag1 === 2) {
 
       this.state.categories.new[0] = category;
@@ -409,6 +423,17 @@ class Home extends React.Component {
 
     let y2 = 0;
     let stop = 0;
+    setTimeout(()=> {
+    this.setState({displ: true})
+  }, 2800)
+  setTimeout(()=>{
+      this.setState({dp: false})
+  }, 500)
+
+  setTimeout(()=>{
+    this.setState({dp: true})
+  }, 2000)
+    setTimeout(()=> {
     if (flag === 0 && this.state.data[category] ? this.state.data[category].length : "") {
 
 
@@ -454,7 +479,7 @@ class Home extends React.Component {
 
     }
  
-
+  }, 1800)
 
 
 
@@ -478,7 +503,8 @@ class Home extends React.Component {
  
 
 
-let treetablemin = <div className="treetablemincont" >aaaaaaaaaaaaaaaa<div className="treetablemin">
+let treetablemin = <div className="treetablemincont" >aaaaaaaaaaaaaaaa
+<div className={ "treetablemin"  }>
  
   <TreeNode changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
     changeparent={(name) => this.setState({ parent: name })}
@@ -490,8 +516,11 @@ let treetablemin = <div className="treetablemincont" >aaaaaaaaaaaaaaaa<div class
     pc={this.state.data} id={0} depth={0} p={0} pdepth={-1} pid={0}
     act={this.state.categories.actual[0].cat}
     parent={this.state.parent} />
-</div>
-<Table i={this.state.i} data={this.state.data[this.state.categories.actual[0].cat]} 
+    </div>
+<div className={ "treetablemin" }>
+<Table
+ changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
+dp={this.state.dp} desapear={ this.state.displ } i={this.state.i} data={this.state.data[this.state.categories.actual[0].cat]} 
 checkall={this.state.checkall}  familyTree={tree.children}
 checkedel={this.state.checkedel.set[this.state.categories.actual[0].cat]}
 setchecked={this.setchecked.bind(this)}
@@ -509,7 +538,7 @@ setchecked={this.setchecked.bind(this)}
   m={this.state.m}
   changem={this.changem.bind(this)}
   ChangePage={this.changePPP.bind(this)}
-/>
+/></div>
  
 </div>
 

@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import {
 
-    Link
+    Link, useLocation
 } from "react-router-dom";
 import { data } from "../data/dummy";
 import "./Pagination.css";
 
 const Pagination = props => {
+    const location = useLocation();
     const [el, setEl] = useState(0)
     const[ ind, setInd]=useState(Math.ceil(props.length/10))
     let url = ""
@@ -18,7 +19,7 @@ const Pagination = props => {
         e.stopPropagation();
         if (0 < i)
             props.ChangePage(i)
-
+            props.changeintree(location.pathname.split("/")[2], 0, 1); 
 
     }
     const setN = (str, v) => {
@@ -52,9 +53,9 @@ const Pagination = props => {
 
             {props.pageNumber.map((Elem, i) => {
                 return ( 
-                    <div className="pagbtn" key={i}>ind.{ind}
+                    <div className="pagbtn" key={i}>ind.{props.limit}
                         {
-                             props.checkall[0]===0 && props.number === i + props.fp ?
+                             props.checkall[0]===0 && props.number === i + props.fp && i<props.limit?
                                 <div><Link style={{backgroundColor:"red"}}   to={"/a/" + props.acturl + "pagination/" + Elem} onClick={(event) => funk(event, Elem)}
 
 
@@ -63,7 +64,9 @@ const Pagination = props => {
                                 </Link>
                                 </div>
                                 :
-                                <div>{i<Math.ceil((props.length ? props.length: 100)/10) && <Link className={ props.oldel===i  ?  "green" : "s"} to={"/a/" + props.acturl + "pagination/" + Elem}
+                                <div>{i<Math.ceil((props.length ? props.length: 100)/10) 
+                                && i<props.limit
+                                && <Link className={ props.oldel===i  ?  "green" : "s"} to={"/a/" + props.acturl + "pagination/" + Elem}
                                  onClick={(event) => {event.preventDefault(); funk(event, Elem)}}
 
 

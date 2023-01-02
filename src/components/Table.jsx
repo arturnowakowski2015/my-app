@@ -14,6 +14,7 @@ import UserContext from "../ctx/User";
 import Tab from "./Tab";
 import { findByLabelText } from "@testing-library/react";
 import { tab } from "@testing-library/user-event/dist/tab";
+import { clear } from "@testing-library/user-event/dist/clear";
 
 
 
@@ -50,7 +51,9 @@ const Table = (props, columns) => {
     const[data1, setData1]=useState([]);
     const[stop, setStop] = useState(0)
     const[sliced, setSliced]=useState([])
+    const[paginationdesapear, setPaginationdesapear]=useState(true);
     const[indextab, setIndextab]=useState(location.pathname.split("/")[2])
+    const [ limit, setLimit] = useState(props.data.length)
     useEffect(() => {
         setPostPerPage(props.postPerPage)
 
@@ -59,7 +62,7 @@ const Table = (props, columns) => {
             removed:{searchtext:[""]},   labels:{searchtext:[""]}
         })
     }, [props.postPerPage]);
-  
+ 
 
     const [searchtext, setSearchtext]=useState({
         new:{searchtext:[""]},  received:{searchtext:[""]}, selected:{searchtext:[""]}, postponed:{searchtext:[""]}, 
@@ -404,10 +407,30 @@ const Table = (props, columns) => {
     console.log("..........                 ....."+JSON.stringify(to[indextab] ))
     setFlagel(!flagel)
  }
+let j =-1;
+
 
 if(data1.length===0)
  pageNumber=[1,2,3,4,5,6]
 
+ const limit1 =( ) =>
+{
+    const timer = setTimeout(()=>{
+        setLimit(limit=>limit+1)
+        limit1( ) 
+       ++j;
+    }, 100); 
+       console.log(j+"-------111111111111111---------"+data.length)
+ 
+    if(data.length==0 && j>6)clearTimeout(timer);
+    else if(data.length!=0 && j>Math.ceil(data.length/10))clearTimeout(timer);
+     //else
+   // if(data!=0 && j>Math.ceil(data/10))clearTimeout(timer)
+}  
+ 
+useEffect(()=>{
+    limit1()
+}, [])
    useEffect(() => { 
     setIndextab(location.pathname.split("/")[2]); 
 
@@ -459,15 +482,15 @@ if(data1.length===0)
  setStop(0)
     pageNumber=[1,2,3,4,5,6,7]
      setFlagel(flagel)
-
-
+        //setLimit(limit=>-1)
+   
   }, [location])
  
- 
+
 const z = <div className="tablecontainer">{ 
     props.checkall[1]===0 && <div className={(countdown===tovalue  ? "s" : "s1") 
 }>
-     {data.length}</div>}
+     {j+":::"+Math.ceil(props.data.length/10)+"::"+sliced.length+"::"+data1.length}</div>}
      
      {props.checkall[1]===1 && <div className={( data.length===0 ? "s" : "s1")}>
      {data.length}</div> }
@@ -481,16 +504,18 @@ const z = <div className="tablecontainer">{
 
 
    
-        <div><div class="pagcon"><div style={{paddingTop:"15px", paddingRight:"20px"}}>found: {  props.data.length}</div>   
+        <div> {j+":::"+Math.ceil(props.data.length/10)+"::"+sliced.length+"::"+data1.length}<div class="pagcon"><div style={{paddingTop:"15px", paddingRight:"20px"}}>found: {  props.data.length}</div>   
         {((props.flagsettings !== 4 && data1.length) || (data1.length===0 && window.location.href.indexOf("searchtext")===-1) 
         || window.location.href.indexOf("searchtext")!==-1 && sliced.length!==0)
-        && data.length > 0 && <Pagination stop={stop} acturl={props.acturl} fp={1} span={span} postPerPage={postPerPage} number={number} 
-        pageNumber={  
-                                                         pageNumber 
-                                                       }
+        && data.length > 0 && <div className={props.dp ? "pagination"  : "pd" } > 
+        
+        
+        <Pagination changeintree={props.changeintree} stop={stop} acturl={props.acturl} fp={1} span={span} postPerPage={postPerPage} number={number} 
+        pageNumber={   pageNumber } limit={limit}
            oldel={oldel} ChangePage={ChangePage} setN={setN} length={
             window.location.href.indexOf("searchtext")!==-1 ? data1.length : (props.data && props.data.length )
            } firstPost={1} tovalue={Math.ceil(tovalue/10)-1} checkall={props.checkall}/>
+           </div>
              }
         
         </div>
@@ -498,7 +523,7 @@ const z = <div className="tablecontainer">{
                 element === 1 ? null
                     :
 
-                    <div className="table1">
+                    <div  className={props.desapear ? "table1" : "desapeartable"}>
                         <div className="tabs">{
                             window.location.href.indexOf("searchtext")!==-1 &&  to[indextab]!==undefined && to[indextab].eltabs.map((t, j) => {
                                 return   <Tab len={data1.length} searchi={searchi} j={j} name={t.name} 

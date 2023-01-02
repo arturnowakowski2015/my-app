@@ -1,9 +1,15 @@
  
- 
+ .treetablemincont{
+    display: flex;
+    flex-direction:row;
+ }
 .treetablemin{
-    position:absolute;
-    left:0px;
-    top:230px;
+  
+    opacity: 1;
+ 
+}
+.desapear{
+    opacity: 0.2;
  
 }
 .checked{
