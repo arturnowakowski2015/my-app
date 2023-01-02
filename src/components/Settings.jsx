@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import CheckboxInput from "./CheckboxInput";
-import Treesettings from "./Treesettings";
+ 
 import { tree } from "../data/dummy"
 
-
+ 
 
 const Settings = props => {
 

@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -756,8 +754,9 @@ let strnew="";
             addtoroot(tree)
                   }} 
 
-                  onDrop={(e) => { 
- 
+                  onDrop={(e) => {
+                    mode = 0; e.stopPropagation(); 
+                    e.preventDefault(); 
                     removeopacity(tree.children, props.depth)
                   }}
 
