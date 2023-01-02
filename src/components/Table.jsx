@@ -341,7 +341,9 @@ const Table = (props, columns) => {
             : <input style={{ marginLeft:"20px",position: "relative", top: "10px" }} 
             type="checkbox" id={row.id} 
             checked={props.checkedel!==undefined && props.checkedel.filter((t) => {return t===row.id  }).length===1 && true}
-            onChange={()=>props.setchecked(row.id, location.pathname.split("/")[2])} />}<div style={{marginLeft:"60px",height:"20px",position:"relative",top:"-20px", cursor: "pointer" ,  textDecoration: "underline" }}
+            onChange={()=>{props.setchecked(row.id, location.pathname.split("/")[2])
+        navigate("/a/"+location.pathname.split("/")[2]+"/pagination/selected")
+    }} />}<div style={{marginLeft:"60px",height:"20px",position:"relative",top:"-20px", cursor: "pointer" ,  textDecoration: "underline" }}
                     onMouseOver={() => {url = "/a/" + props.acturl + "/pagination/" + row.name + "/" + row.id + "/" + row.name + "/1/edit"; setId(row.id); }}
                     onClick={(e) => {
                         dv(url, row[Object.keys(row).filter((t, i) => { return i === 2 && t })],

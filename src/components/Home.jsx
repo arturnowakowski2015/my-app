@@ -8,16 +8,15 @@ import {
    useHistory 
 } from "react-router-dom";
 import "./Home.scss"
-import Deletebutton from "./Deletebutton";
-import Button  from "./Button";
-import TreeMove from "./TreeMove";
+ 
+import Selected from "./Selected"; 
 import Table from "./Table";
 import Settings from "./Settings";
 import Select from "./Select"
 import AUrl from "../AUrl"
 import TreeNode from "./TreeNode";
 import Update from "./Update";
-import MoveButton from "./MoveButton";
+ 
 
  
 import { tree } from '../data/dummy';
@@ -533,48 +532,42 @@ setchecked={this.setchecked.bind(this)}
 
 {this.state.settings === 4 && 
 
-<> 
- {this.state.move!==1 &&  
-<div className="checked" >
-  <MoveButton movetodestination={this.movetodestination.bind(this)} movestatus={this.state.move} changemove={() => this.changemove()}  lenel={this.state.checkedel.set[this.state.categories.actual[0].cat].length} />
-<Button changesettings={this.setmove.bind(this)} checkallel={ this.checkallel.bind(this)}  
- length={this.state.data[this.state.categories.actual[0].cat].length} 
- lenel={this.state.checkedel.set[this.state.categories.actual[0].cat].length} />
-<Deletebutton  move={this.state.move}      actcat={this.state.categories.actual[0].cat} delete1={this.delete1.bind(this)}  pc={this.state.data}  checkall1={this.state.checkall} length={this.state.data[this.state.categories.actual[0].cat].length} 
-i={this.state.i}/>
-</div>
- 
-  }
-
-
-
-  {this.state.move  
-  &&  
+  <Selected 
   
-  < >   <MoveButton movetodestination={this.movetodestination.bind(this)} movestatus={this.state.move} changemove={() => this.changemove()}  lenel={this.state.checkedel.set[this.state.categories.actual[0].cat].length} />
+  dest={this.state.dest}
+  act={this.state.categories.actual[0].cat} movetodestination={this.movetodestination.bind(this)} 
+  movestatus={this.state.move} changemove={() => this.changemove()}  
+  lenel={this.state.checkedel.set[this.state.categories.actual[0].cat].length}
 
-  <TreeMove  style={{paddingTop:"100px"}}  changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
-    changedest={this.changedest.bind(this)}
-    
-    dest={this.state.dest}
-    actcat={this.state.categories.actual[0].cat}
-    move={this.state.move}
+
+  changesettings={this.setmove.bind(this)} checkallel={ this.checkallel.bind(this)}  
+  length={this.state.data[this.state.categories.actual[0].cat].length} 
  
-     changeparent={(name) => this.setState({ parent: name })}
-     config={this.state.config}
-     familyTree={tree.children}
-     changeconfig={(i) => { this.setState({ config: i }) }}
-     settings={this.state.settings}
-     ac={this.state.categories.set}
-     pc={this.state.data} id={0} depth={0} p={0} pdepth={-1} pid={0}
 
-     parent={this.state.parent} /> 
- 
- </>
-}  
+  move={this.state.move}      actcat={this.state.categories.actual[0].cat} delete1={this.delete1.bind(this)} 
+   pc={this.state.data}  checkall1={this.state.checkall}  
+  i={this.state.i}
 
 
- </>
+  changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
+  changedest={this.changedest.bind(this)}
+  
+  
+
+   changeparent={(name) => this.setState({ parent: name })}
+   config={this.state.config}
+   familyTree={tree.children}
+   changeconfig={(i) => { this.setState({ config: i }) }}
+   settings={this.state.settings}
+   ac={this.state.categories} 
+  id={0} depth={0} p={0} pdepth={-1} pid={0}
+
+   parent={this.state.parent}
+
+
+
+
+  />
 }
 
 
