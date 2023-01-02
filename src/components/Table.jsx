@@ -167,8 +167,7 @@ const Table = (props, columns) => {
    
         let r = (props.checkedall===false ?  {firstPost:  props.length-10, lastPost: props.data.length}: 
         {firstPost:  firstPost, lastPost:lastPost})
-        console.log("obj               "+JSON.stringify(r))
-        return  r
+         return  r
        
     }
 
@@ -218,8 +217,7 @@ const Table = (props, columns) => {
 
        let obj = Object.assign({}, makepagination())
 
-     console.log(props.checkall[0]+"  ssss             "+JSON.stringify(props.data.length)) 
-        setSliced(slice=> data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
+         setSliced(slice=> data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
             return           typeof r[row] === "string" &&  r[row].indexOf(searchtext[indextab].searchtext[searchi.new])!==-1 
            })
           }).slice(obj.firstPost, obj.lastPost))
@@ -402,10 +400,9 @@ const Table = (props, columns) => {
         
         setFlagel(!flagel)
     }
- const savetab =(str) =>{    console.log("..............."+JSON.stringify(searchtext[indextab].searchtext[searchtext[indextab].searchtext.length-1] ))
+ const savetab =(str) =>{    
     to[indextab].eltabs.splice(to[indextab].eltabs.length-1, 1, {name:to[indextab].eltabs[to[indextab].eltabs.length-1].name, words:searchtext[indextab].searchtext[searchtext[indextab].searchtext.length-1], saved:1})
-    console.log("..........                 ....."+JSON.stringify(to[indextab] ))
-    setFlagel(!flagel)
+     setFlagel(!flagel)
  }
 let j =-1;
 
@@ -420,8 +417,7 @@ if(data1.length===0)
         limit1( ) 
        ++j;
     }, 100); 
-       console.log(j+"-------111111111111111---------"+data.length)
- 
+  
     if(data.length==0 && j>6)clearTimeout(timer);
     else if(data.length!=0 && j>Math.ceil(data.length/10))clearTimeout(timer);
      //else
@@ -465,8 +461,7 @@ useEffect(()=>{
 
 
    let obj = Object.assign({}, makepagination())
-   console.log("alerm    "+JSON.stringify(obj))
-    setSliced(slice=> props.data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
+     setSliced(slice=> props.data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
         return           typeof r[row] === "string" &&  r[row].indexOf(searchtext[indextab].searchtext[searchi.new])!==-1  })
       }).length ? 
       props.data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
@@ -507,7 +502,8 @@ const z = <div className="tablecontainer">{
         <div> {j+":::"+Math.ceil(props.data.length/10)+"::"+sliced.length+"::"+data1.length}<div class="pagcon"><div style={{paddingTop:"15px", paddingRight:"20px"}}>found: {  props.data.length}</div>   
         {((props.flagsettings !== 4 && data1.length) || (data1.length===0 && window.location.href.indexOf("searchtext")===-1) 
         || window.location.href.indexOf("searchtext")!==-1 && sliced.length!==0)
-        && data.length > 0 && <div className={props.dp ? "pagination"  : "pd" } > 
+        && data.length > 0 && <div className={props.dp ? "pagination"  : "pd" } 
+        transition-style= {props.desapear[0] ? "in:circle:center" : ""}> 
         
         
         <Pagination changeintree={props.changeintree} stop={stop} acturl={props.acturl} fp={1} span={span} postPerPage={postPerPage} number={number} 
@@ -523,7 +519,9 @@ const z = <div className="tablecontainer">{
                 element === 1 ? null
                     :
 
-                    <div  className={props.desapear ? "table1" : "desapeartable"}>
+                    <div  className={props.desapear[1] ? "table1" : "desapeartable"} 
+               
+                    transition-style= {props.desapear[1] ? "in:circle:center" : ""} >..{JSON.stringify(props.desapear[0])}..aaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbaaaa{props.desapear}
                         <div className="tabs">{
                             window.location.href.indexOf("searchtext")!==-1 &&  to[indextab]!==undefined && to[indextab].eltabs.map((t, j) => {
                                 return   <Tab len={data1.length} searchi={searchi} j={j} name={t.name} 

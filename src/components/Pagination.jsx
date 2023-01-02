@@ -14,13 +14,14 @@ const Pagination = props => {
     let url = ""
     let ul = "";
     const funk = (e, i) => {
-        //  ul = window.location.href.slice(window.location.href.lastIndexOf("/"), window.location.length + 1)
-        e.preventDefault();
+       e.preventDefault();
         e.stopPropagation();
         if (0 < i)
-            props.ChangePage(i)
             props.changeintree(location.pathname.split("/")[2], 0, 1); 
+            setTimeout(()=>{
+                            props.ChangePage(i)
 
+        }, 1100)
     }
     const setN = (str, v) => {
 

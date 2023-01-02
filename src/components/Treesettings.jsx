@@ -8,7 +8,7 @@ const Treesettings = (props) => {
     let y = [];
     let kk = 0;
     let wparent = []
-    let wchild = [];
+ 
     let pname = "";
     let c = 0;
     let stop = 0;
@@ -55,7 +55,7 @@ const Treesettings = (props) => {
                 y = { name: t.name }
                 pname = arr[ii - 2].name
                 wparent = arr[ii - 2]
-                wchild = arr[ii - 2].children
+ 
                 removeel(tree.children)
 
             }

@@ -10,7 +10,7 @@
 }
 .desapear{
     opacity: 0.2;
- 
+    transition: opacity 1s;
 }
 .checked{
     width:100px;

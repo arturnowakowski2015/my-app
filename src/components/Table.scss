@@ -48,13 +48,24 @@
   opacity:1;
   transition: opacity 1s;
 }
-.pd{
+.paginationdesapear{
   opacity:0;
   transition: opacity 1s;
 }
 .table1{
   opacity: 1;
-  transition: opacity 1s;
+  @keyframes circle-in-center {
+    from {
+      clip-path: circle(0%);
+    }
+    to {
+      clip-path: circle(125%);
+    }
+  }
+  
+  [transition-style="in:circle:center"] {
+    animation: 2.5s cubic-bezier(.25, 1, .30, 1) circle-in-center both;
+  }
   @include basictable();
 }
   .tablecontainer, .pag{

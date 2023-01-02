@@ -27,6 +27,7 @@ import UserContext from "../ctx/User";
 function withParams(Component) {
   return (props) => <Component {...props} params={useParams()} />;
 }
+let tryb=0;
 let actdest=0
 let stop = 0;
 let items = [];
@@ -52,6 +53,7 @@ class Home extends React.Component {
       dff: -1,
       ending: "",
       str: "sssss",
+      menuel:false,
       urls: [
         "https://jsonplaceholder.typicode.com/posts",
         "https://jsonplaceholder.typicode.com/comments",
@@ -62,7 +64,7 @@ class Home extends React.Component {
       i: 0,
       number1: 0,
       confirmdelete:false,
-      displ: true,
+      displ: [true, true, true, true, true, true],
       dp:true,
 
 
@@ -200,8 +202,7 @@ class Home extends React.Component {
   }
   setchecked(i, actual)
   {    
-    if(this.state.data!==undefined){ 
-               console.log("vvvvvvv                  "+JSON.stringify(this.state.checkedel.set[actual]))
+    if(this.state.data!==undefined){  
         this.state.data[actual].map((t)=>{
           if(t.id===i &&      this.state.checkedel.set[actual].indexOf(i)===-1){ 
             this.state.checkedel.set[actual].push(t.id);
@@ -255,8 +256,7 @@ class Home extends React.Component {
       ii=-2;
       this.movetodestination( --ii)
     } 
-  }, ii*1)
-  console.log(this.state.checkedel.set[this.state.categories.actual[0].cat].length+"  ii   "+ii)
+  }, ii*1) 
       if(ii<=  -1) {
     this.changedata(this.state.dest.name, 0, 1); 
    clearTimeout(timer)
@@ -270,25 +270,25 @@ class Home extends React.Component {
   
    
  }
- 
+
   delete1( ){ 
 
      const timer =setTimeout(()=>{
  
       this.state.checkedel.set[this.state.categories.actual[0].cat].map((t,i) => {
-        if(this.state.data[this.state.categories.actual[0].cat].indexOf(i))
+        if(this.state.data[this.state.categories.actual[0].cat].indexOf(i)  )
         {this.state.data[this.state.categories.actual[0].cat].splice(i, 1)
          // this.setState({data: this.state.data[this.state.categories.actual[0].cat]})
            this.state.checkedel.set[this.state.categories.actual[0].cat].splice(i,1)
-  
-        }
+          this.setState({data: this.state.data})
+        } 
+          
       })
  
- 
-          
+  
     this.delete1( )
     
-  }, 50)
+  }, 210)
      if(this.state.checkedel.set[this.state.categories.actual[0].cat].length<1){
         clearTimeout(timer)
     this.setState({move: 0}) 
@@ -410,10 +410,18 @@ class Home extends React.Component {
     this.setState({dest: this.state.dest});
  
   }
+  changedispl(ii,t, str){
+    const timer = setTimeout(()=> {
+      this.state.displ[ii]=str
+      this.setState({displ: this.state.displ})
+       this.changedispl(++ii, t, str);
+       
+    }, t)
+    if(ii>this.state.displ.length)clearTimeout(timer)
+  }
   changedata(category, flag, flag1) { 
-    setTimeout(()=> {
-      this.setState({displ: false})
-    }, 1500)
+  ii=0;
+    this.changedispl(ii, 0, false)
     if (flag1 === 1 || flag1 === 2) {
 
       this.state.categories.new[0] = category;
@@ -423,16 +431,9 @@ class Home extends React.Component {
 
     let y2 = 0;
     let stop = 0;
-    setTimeout(()=> {
-    this.setState({displ: true})
-  }, 2800)
-  setTimeout(()=>{
-      this.setState({dp: false})
-  }, 500)
-
-  setTimeout(()=>{
-    this.setState({dp: true})
-  }, 2000)
+    ii=0
+  this.changedispl(0,1000, true) 
+ 
     setTimeout(()=> {
     if (flag === 0 && this.state.data[category] ? this.state.data[category].length : "") {
 
@@ -500,11 +501,11 @@ class Home extends React.Component {
   render() {
 
 
- 
+    
 
 
-let treetablemin = <div className="treetablemincont" >aaaaaaaaaaaaaaaa
-<div className={ "treetablemin"  }>
+let treetablemin = <div className="treetablemincont" transition-style={this.state.menuel ? "in:circle:center" : null}>aaaaaaaaaaaaaaaa
+<div className={ "treetablemin"  } >
  
   <TreeNode changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
     changeparent={(name) => this.setState({ parent: name })}
@@ -520,6 +521,7 @@ let treetablemin = <div className="treetablemincont" >aaaaaaaaaaaaaaaa
 <div className={ "treetablemin" }>
 <Table
  changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
+ menuel={this.state.menuel}
 dp={this.state.dp} desapear={ this.state.displ } i={this.state.i} data={this.state.data[this.state.categories.actual[0].cat]} 
 checkall={this.state.checkall}  familyTree={tree.children}
 checkedel={this.state.checkedel.set[this.state.categories.actual[0].cat]}
@@ -545,7 +547,15 @@ setchecked={this.setchecked.bind(this)}
   
 
     return (
-      <div>        <AUrl />
+      <div>        <AUrl changeconfig={(i) => {
+        this.setState({menuel: true});
+        if(i==4){
+          this.setState({config: 1});
+          this.setState({ config: 1 });
+          this.setState({ settings: 1 })
+          this.setState({ number1: 1 });
+        }
+      setTimeout(()=> this.setState({menuel: false}), 1000)}} />
 
         {this.state.settings === 0 && this.props.params.f === undefined &&
 
