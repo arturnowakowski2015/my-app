@@ -35,10 +35,7 @@ body {
    border-radius: 10px 10px 10px 10px;
    cursor: pointer
 }
-.select {
- padding-left: 250px;
- padding-bottom:50px
-}
+
 .border{
   height:20px;
   width:1150px;

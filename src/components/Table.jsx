@@ -490,10 +490,12 @@ const z = <div className="tablecontainer">{
      {props.checkall[1]===1 && <div className={( data.length===0 ? "s" : "s1")}>
      {data.length}</div> }
      <span style={{width: "20px"}}></span>  {(parseInt(firstPost) + parseInt(currentPost.length))-10+ " - "+ (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + (data && data.length)}</div>
-    const el = <div> {z}    
+    const el = <div > {z}    
         {   window.location.href.indexOf("searchtext")!==-1 ? 
-        <Searching i={window.location.href.indexOf("searchtext")} searchtext={ to[indextab].eltabs[searchi.new]!==undefined ? to[indextab].eltabs[searchi.new].words : ""  } searchi={searchi.new}
-        saved={to[indextab]!==undefined && to[indextab].eltabs[to[indextab].eltabs.length-1].saved} len={data1.length} setValue={(es)=> {setValue(es); setStop(stop=>stop+1);setNumber(0);}} savetab={()=>savetab()}/>
+        <div className={props.desapear[3] ? "searchingvisible": "searching"}  transition-style= {props.desapear[3] ? "in:circle:center" : ""}>
+            <Searching i={window.location.href.indexOf("searchtext")} searchtext={ to[indextab].eltabs[searchi.new]!==undefined ? to[indextab].eltabs[searchi.new].words : ""  } searchi={searchi.new}
+                 saved={to[indextab]!==undefined && to[indextab].eltabs[to[indextab].eltabs.length-1].saved} len={data1.length} setValue={(es)=> {setValue(es); setStop(stop=>stop+1);setNumber(0);}} savetab={()=>savetab()}/>
+        </div>
      :
      <div style={{height:"30px"}}></div> }
 
@@ -503,7 +505,7 @@ const z = <div className="tablecontainer">{
         {((props.flagsettings !== 4 && data1.length) || (data1.length===0 && window.location.href.indexOf("searchtext")===-1) 
         || window.location.href.indexOf("searchtext")!==-1 && sliced.length!==0)
         && data.length > 0 && <div className={props.dp ? "pagination"  : "pd" } 
-        transition-style= {props.desapear[0] ? "in:circle:center" : ""}> 
+        transition-style= {props.desapear[1] ? "in:circle:center" : ""}> 
         
         
         <Pagination changeintree={props.changeintree} stop={stop} acturl={props.acturl} fp={1} span={span} postPerPage={postPerPage} number={number} 
@@ -519,9 +521,9 @@ const z = <div className="tablecontainer">{
                 element === 1 ? null
                     :
 
-                    <div  className={props.desapear[1] ? "table1" : "desapeartable"} 
+                    <div  className={props.desapear[2] ? "table1" : "desapeartable"} 
                
-                    transition-style= {props.desapear[1] ? "in:circle:center" : ""} >..{JSON.stringify(props.desapear[0])}..aaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbaaaa{props.desapear}
+                    transition-style= {props.desapear[2] ? "in:circle:center" : ""} >..{JSON.stringify(props.desapear[0])}..aaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbaaaa{props.desapear}
                         <div className="tabs">{
                             window.location.href.indexOf("searchtext")!==-1 &&  to[indextab]!==undefined && to[indextab].eltabs.map((t, j) => {
                                 return   <Tab len={data1.length} searchi={searchi} j={j} name={t.name} 

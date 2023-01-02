@@ -417,11 +417,11 @@ class Home extends React.Component {
        this.changedispl(++ii, t, str);
        
     }, t)
-    if(ii>this.state.displ.length)clearTimeout(timer)
+    if(ii>6)clearTimeout(timer)
   }
   changedata(category, flag, flag1) { 
   ii=0;
-    this.changedispl(ii, 0, false)
+    this.changedispl(1, 0, false)
     if (flag1 === 1 || flag1 === 2) {
 
       this.state.categories.new[0] = category;
@@ -432,7 +432,7 @@ class Home extends React.Component {
     let y2 = 0;
     let stop = 0;
     ii=0
-  this.changedispl(0,1000, true) 
+  this.changedispl(1,1000, true) 
  
     setTimeout(()=> {
     if (flag === 0 && this.state.data[category] ? this.state.data[category].length : "") {
@@ -504,10 +504,11 @@ class Home extends React.Component {
     
 
 
-let treetablemin = <div className="treetablemincont" transition-style={this.state.menuel ? "in:circle:center" : null}>aaaaaaaaaaaaaaaa
-<div className={ "treetablemin"  } >
+let treetablemin = <div className="treetablemincont">aaaaaaaaaaaaaaaa{JSON.stringify(this.state.displ)}
+<div className={ this.state.displ[0] ? "treetablemin" : "treenone"}  transition-style={this.state.displ[0] && this.state.menuel ? "in:circle:center" : null}>
  
   <TreeNode changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
+    displ1={this.state.displ}
     changeparent={(name) => this.setState({ parent: name })}
     config={this.state.config}
     familyTree={tree.children}
@@ -548,15 +549,23 @@ setchecked={this.setchecked.bind(this)}
 
     return (
       <div>        <AUrl changeconfig={(i) => {
-        this.setState({menuel: true});
-        if(i==4){
+ 
+        if(i==1){
           this.setState({config: 1});
-          this.setState({ config: 1 });
+           this.setState({menuel: true})
           this.setState({ settings: 1 })
           this.setState({ number1: 1 });
-        }
-      setTimeout(()=> this.setState({menuel: false}), 1000)}} />
+        } 
+        if(i==2){
+          this.setState({ settings: 0 })
+          this.setState({ config: 0 })
 
+        }
+        ii=0
+      this.changedispl(0, 0, false );
+ii=0
+        this.changedispl(0, 1000, true);}} />
+ 
         {this.state.settings === 0 && this.props.params.f === undefined &&
 
           <div className="LT">
@@ -645,7 +654,7 @@ setchecked={this.setchecked.bind(this)}
         {
           this.state.settings === 1 &&
 
-          <div className="LT select">
+          <div className={this.state.displ[3] ? "deasapearsettings" :  "LT select" }  transition-style= {this.state.displ[3] ? "in:circle:center" : ""}  >
 
 
             <Settings data={this.state.data} columns={this.state.columns} changePPP={this.changePPP.bind(this)}
@@ -682,7 +691,7 @@ setchecked={this.setchecked.bind(this)}
             />
           </div>
         }
-        { this.state.move!==1 &&  ( this.state.move===false ? treetablemin : treetablemin )}
+        {treetablemin }
 
 
 

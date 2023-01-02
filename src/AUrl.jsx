@@ -16,7 +16,8 @@ const AUrl = (props) => {
         props.changeconfig(i)
        }
     return (<div className="s-2">
-<Link className={ "s-1" } to={"/a/"+location.pathname.split("/")[2]+"/pagination/"}  >app</Link>
+<Link className={ "s-1" } to={"/a/"+location.pathname.split("/")[2]+"/pagination/"} 
+onClick={()=>changeconfig(2)} >app</Link>
 <Link className={ "s-2" } to={"/a/"+location.pathname.split("/")[2]+"/pagination/searchtext"} 
  onClick={()=>changeconfig(2)}>searching</Link>
 <Link className={ "s-3" } to={"/a/"+location.pathname.split("/")[2]+"/pagination/calendar"}  >calendar</Link>

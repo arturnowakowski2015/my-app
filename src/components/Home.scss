@@ -8,6 +8,9 @@
     opacity: 1;
  
 }
+.treenone{
+    opacity:0;
+}
 .desapear{
     opacity: 0.2;
     transition: opacity 1s;
@@ -15,3 +18,10 @@
 .checked{
     width:100px;
 }
+.desapearsettings{
+    opacity: 1;
+    transition: opacity 1s;
+}
+.select {
+    opacity: 0; 
+   }

@@ -121,6 +121,7 @@ const TreeNode = (props) => {
    
        }
       }
+ 
      }, [props.act])
 
 
@@ -585,11 +586,11 @@ let strnew="";
 
 
   let i=0; 
-  return <div className="nodeel" > {props.config == 0 && familyTree.map((t, i) => {
+  return <div  > {props.config == 0 && familyTree.map((t, i) => {
 
 
 
-    return t && t.bgcolor != "orange" && <div key={i} onMouseOut={() => { tdepth = []; tid = [] }}
+    return t   && <div key={i} onMouseOut={() => { tdepth = []; tid = [] }}
       onClick={(e) => {        e.stopPropagation()
 
           if(props.pc[t.name].length>0){
@@ -649,10 +650,10 @@ let strnew="";
     {props.config == 1 && familyTree.map((t, i) => {
 
 
-      return <div key={i}
+      return <div key={i} 
 
  
-        style={{ paddingLeft: "10px", paddingTop: "5px" }} >
+        style={{ paddingLeft: "10px", paddingTop: "5px" }} > 
 
 
         {t.name != props.pc[0] && <div className="x" id="f" style={{ opacity: t.opacity, cursor: t.cursor }} 
@@ -736,7 +737,7 @@ let strnew="";
           t.children && <TreeNode changeintree={props.changeintree} config={props.config}
             parent={props.parent}
             changeconfig={props.changeconfig}
-
+ 
             changeparent={props.changeparent}
             familyTree={t.children}
             settings={props.settings}
@@ -773,7 +774,9 @@ let strnew="";
 {props.config == 2 && familyTree.map((t, i) => {
 
 
-return <div key={i}
+return <div key={i} 
+ 
+ 
 
 
   style={{ paddingLeft: "10px", paddingTop: "5px" }} >
@@ -849,7 +852,7 @@ return <div key={i}
     t.children && <TreeNode changeintree={props.changeintree} config={props.config}
       parent={props.parent}
       changeconfig={props.changeconfig}
-
+ 
       changeparent={props.changeparent}
       familyTree={t.children}
       settings={props.settings}
