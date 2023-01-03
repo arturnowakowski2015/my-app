@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import {
 
-    Link, useLocation
+    Link, useLocation,
 } from "react-router-dom";
 import { data } from "../data/dummy";
 import "./Pagination.css";

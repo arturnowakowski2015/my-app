@@ -564,13 +564,14 @@ const z = <div className="tablecontainer">
                     <div  className={props.desapear[3] ? "table1" : "desapeartable"} 
                
                          transition-style= {props.desapear[3] ? "in:circle:center" : ""} > 
-                    <div className="tabs">{
+                    <div className={props.desapear[2] ? "tabs"  : "" } >{
                         window.location.href.indexOf("searchtext")!==-1 &&  to[indextab]!==undefined && 
                         to[indextab].eltabs.map((t, j) => {
                             return   <Tab 
                                         len={data1.length} 
                                         searchi={searchi} 
                                         j={j} 
+                                        displ={props.displ}
                                         name={t.name}                           
                                         setsi={()=>setsi(j, t.words)} />          
                         })

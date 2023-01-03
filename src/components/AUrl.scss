@@ -1,52 +1,73 @@
 @mixin belkaa($k)
 {
- 
   span{
     width:30px;
+    padding-right:20px
   }
-  .title{
-    @if $k==0 {
-      background-color:darkslategray;
-    }
-    @if $k==1 {
-      background-color:rgb(57, 47, 79);
-      color:rgb(187, 138, 48);
-    }
-    @if $k==2 {
-      background-color:rgb(50, 79, 47);
-    }
-   }
  
+   height:30px;    
+   width:100%;
+   display:flex;
+   background-color:black;
+   color:white;
+   flex-direction:row;
+   justify-content: flex-end;
+}
+@mixin underbelka($k)
+{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align:center;
+  color:black;
+  @if $k == 0 {
+  width:20%*$k+30;
+    background-color:aqua
+  }
+  @if $k == 1 {
+    width:20%*$k;
+    background-color:tomato;
 
+  }
+  @if $k == 2 {
+    width:20%*$k;
+    background-color:rgb(70, 92, 133)
+  }    transition: all 1s;
+  
 }
 
-  @for $k from 0 through 5 {
+@for $j from 0 through 5 {
  
-    .belka-#{$k} {
-      height:20px;    
-      width:100%;
-      display:flex;
-  
-      flex-direction:row;
-      justify-content: flex-end;
-      @for $i from 0 to 5{
-        .el-#{$i}{
-          background-color:red;
-          padding-left:20px;  
-        }
+  .topnav-1 {
+
+    @include belkaa($j);
+    .topnav-#{$j}{
+    
+      @include underbelka($j);
+      height:100%; 
+
+    }
+
+    @for $i from 1 to 5{
+      .el-#{$i}{
+        background-color:rgb(73, 51, 51);
+        color:white;
+        padding-left:20px;  
+        padding-right:20px;
+        padding-top:1px;
+        transition: padding-top 1s;
       }
-      @keyframes circle-in-center {
-        from {
-          clip-path: circle(0%);
-        }
-        to {
-          clip-path: circle(125%);
-        }
-      }
-      
-      [transition-style="in:circle:center"] {
-        animation: 2.5s cubic-bezier(.25, 1, .30, 1) circle-in-center both;
+
+      .el-#{$i}-1{
+        background-color:rgb(73, 51, 51);
+        color:rgb(15, 2, 2);
+        padding-left:20px;  
+        padding-right:20px;
+        padding-top:25px;
+        transition: all 1s;
+        
       }
     }
   }
- 
+  
+}

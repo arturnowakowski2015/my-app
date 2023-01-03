@@ -557,7 +557,7 @@ setchecked={this.setchecked.bind(this)}
   
 
     return (
-      <body>        <AUrl displ={this.state.displ} changeconfig={(i) => {
+      <body>        <AUrl st={this.state.displ} changeconfig={(i) => {
  
         if(i==1){
           setTimeout(()=>{

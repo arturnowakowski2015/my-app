@@ -40,7 +40,7 @@
 }
 .desapeartable{
   opacity: 0;
-  transition: opacity 1s;
+  
   @include basictable();
 }
 .pagination{
@@ -49,7 +49,7 @@
 }
 .paginationdesapear{
   opacity:0;
-  transition: opacity 1s;
+ // transition: opacity 1s;
 }
 .pd{
   opacity:0;
@@ -120,6 +120,8 @@
  }
  .red{
    background-color:red;
+   transform: scaleY(1.7) scaleX(1.7);
+   transition: transform 1s;
  }
  .white{
    background-color:white;
