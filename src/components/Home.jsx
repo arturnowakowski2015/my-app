@@ -44,7 +44,7 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: { received:[], new: [], selected: [], opened: [], removed: [], labels: [] },
+      data: { received:[], new: [], selected: [], opened: [], removed: [], labels: [], postponed:[] },
       columns: [],
       strd: [],
       flagsettings: 0,
@@ -85,9 +85,8 @@ class Home extends React.Component {
       m:0,
       ttt:true,
       move:0,
-      dest:{name:"", coordinates:[0,0]}
-
-
+      dest:{name:"", coordinates:[0,0]},
+      checkedcol:[]
 
     };
     this.setRec = this.setRec.bind(this);
@@ -271,38 +270,40 @@ class Home extends React.Component {
    
  }
 
-  delete1( ){ 
-
+  delete1(str, flag ){ 
+if(flag==0){
      const timer =setTimeout(()=>{
  
-      this.state.checkedel.set[this.state.categories.actual[0].cat].map((t,i) => {
-        if(this.state.data[this.state.categories.actual[0].cat].indexOf(i)  )
-        {this.state.data[this.state.categories.actual[0].cat].splice(i, 1)
+      this.state.checkedel.set[str].map((t,i) => {
+        if(this.state.data[str].indexOf(i)  )
+        {this.state.data[str].splice(i, 1)
          // this.setState({data: this.state.data[this.state.categories.actual[0].cat]})
-           this.state.checkedel.set[this.state.categories.actual[0].cat].splice(i,1)
+           this.state.checkedel.set[str].splice(i,1)
           this.setState({data: this.state.data})
         } 
           
       })
  
   
-    this.delete1( )
+    this.delete1(str, flag )
     
   }, 210)
-     if(this.state.checkedel.set[this.state.categories.actual[0].cat].length<1){
+     if(this.state.checkedel.set[str].length<1){
         clearTimeout(timer)
     this.setState({move: 0}) 
-     if(this.state.data[this.state.categories.actual[0].cat].length==0){
-    setTimeout(()=>{
-      
-    actdest=this.state.categories.actual[0].cat
-
-    this.state.categories.actual[0].cat="postponed"
-    this.setState({categories: this.state.categories})
-        this.changedata("postponed", 0, 1); 
-      }, 1000)
-     }
+     if(this.state.checkedel.set[str].length==0){
+       this.state.categories.actual[0].cat=str
+      this.setState({categories: this.state.categories})
+         // 
+ 
+     }}
     }
+    else if(flag==1){ 
+      this.changedata(str, 0, 1); 
+      this.state.dest.name=str;
+      this.setState({dest: this.state.dest})
+    }
+    
   }
    
   setRec() {
@@ -498,13 +499,25 @@ class Home extends React.Component {
   changemove(){
     this.setState({move: 1})
   }
+
+  setcol(e,r){
+    this.setState({columns: this.state.columns.map((t, i) => {  
+ 
+        if (i == r && e) t.col.disp = false;
+        else if (i == r && e == false) t.col.disp = true;
+    
+        return t;
+      })})
+ 
+   
+  }
   render() {
 
 
-    
 
 
-let treetablemin = <div className="treetablemincont">aaaaaaaaaaaaaaaa{JSON.stringify(this.state.displ)}
+
+let treetablemin = <div className="treetablemincont"> 
 <div className={ this.state.displ[0] ? "treetablemin" : "treenone"}  transition-style={this.state.displ[0] && this.state.menuel ? "in:circle:center" : null}>
  
   <TreeNode changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
@@ -527,12 +540,7 @@ dp={this.state.dp} desapear={ this.state.displ } i={this.state.i} data={this.sta
 checkall={this.state.checkall}  familyTree={tree.children}
 checkedel={this.state.checkedel.set[this.state.categories.actual[0].cat]}
 setchecked={this.setchecked.bind(this)}
-  columns={this.state.columns.map((t, i) => {
-    if (i === this.state.icolumn && this.state.checked) t.col.disp = false;
-    else if (i === this.state.icolumn && this.state.checked === false) t.col.disp = true;
-
-    return t;
-  })}
+  columns={this.state.columns}
   flagsettings={this.state.flagsettings} postPerPage={this.state.postPerPage}
   dff={this.state.dff} str={this.props.params.str}
   items={items} furl={this.furl.bind(this)} id={this.state.i} flag={this.state.flag} settingsid={this.state.settings}
@@ -605,10 +613,10 @@ ii=0
   length={this.state.data[this.state.categories.actual[0].cat].length} 
  
 
-  move={this.state.move}      actcat={this.state.categories.actual[0].cat} delete1={this.delete1.bind(this)} 
+  move={this.state.move}     delete1={this.delete1.bind(this)} 
    pc={this.state.data}  checkall1={this.state.checkall}  
   i={this.state.i}
-
+  data={this.state.data}
 
   changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
   changedest={this.changedest.bind(this)}
@@ -658,7 +666,7 @@ ii=0
 
 
             <Settings data={this.state.data} columns={this.state.columns} changePPP={this.changePPP.bind(this)}
-              checkedCol={this.checkedCol.bind(this)}
+              checkedCol={this.setcol.bind(this)}
               length={this.state.data[this.state.categories.actual[0].cat].length}
               flagsettings={this.state.flagsettings} postPerPage={this.state.postPerPage}
               number2={(o) => this.setState({ number1: o })}

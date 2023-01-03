@@ -481,7 +481,7 @@ let strnew="";
  
       tr.length && tr.map((t) => {
         if(typeof elmenu.parentroot.name == "number" && mode==0)
-        {alert(elmenu.parentroot.name+":::::::")
+        { 
           if(elmenu.parentroot.children && elmenu.parentroot.children[0])
           tr.splice(elmenu.parentroot.name+1,1, elmenu.parentroot.children[0])
           else tr.splice(elmenu.parentroot.name+1,1)

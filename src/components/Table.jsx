@@ -167,11 +167,12 @@ const Table = (props, columns) => {
    
         let r = (props.checkedall===false ?  {firstPost:  props.length-10, lastPost: props.data.length}: 
         {firstPost:  firstPost, lastPost:lastPost})
+     
          return  r
-       
+
     }
 
-
+ 
     let ttt = 0;
 
 
@@ -216,15 +217,14 @@ const Table = (props, columns) => {
 
 
        let obj = Object.assign({}, makepagination())
-
-         setSliced(slice=> data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
+          setSliced(slice=> data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
             return           typeof r[row] === "string" &&  r[row].indexOf(searchtext[indextab].searchtext[searchi.new])!==-1 
            })
           }).slice(obj.firstPost, obj.lastPost))
-
+ 
          setFlagel(flagel)
  
-    },[stop, number, props.data])
+    },[stop, number, props.data, props.postPerPage, props.columns])
  
 
 
@@ -523,7 +523,7 @@ const z = <div className="tablecontainer">{
 
                     <div  className={props.desapear[2] ? "table1" : "desapeartable"} 
                
-                    transition-style= {props.desapear[2] ? "in:circle:center" : ""} >..{JSON.stringify(props.desapear[0])}..aaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbaaaa{props.desapear}
+                    transition-style= {props.desapear[2] ? "in:circle:center" : ""} > 
                         <div className="tabs">{
                             window.location.href.indexOf("searchtext")!==-1 &&  to[indextab]!==undefined && to[indextab].eltabs.map((t, j) => {
                                 return   <Tab len={data1.length} searchi={searchi} j={j} name={t.name} 
