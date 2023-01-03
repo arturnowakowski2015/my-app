@@ -21,9 +21,7 @@ const Deletebutton = (props) => {
             setTimeout(()=>props.delete1("", 1), 400)
             setTimeout(()=> navigate("/a/"+props.act+"/pagination/selected"), 900)
        }
-            else {
-                //alert(908)
-                 //setTimeout(()=>props.delete1("", 2), 400)
+            else { 
                  let obj = Object.keys(props.data).filter((t) => {return props.data[t].length>0})
     
                  setTimeout(()=> {navigate("/a/"+obj[0]+"/pagination/selected"); props.delete1(obj[0], 1)}, 200)

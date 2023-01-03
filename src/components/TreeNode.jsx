@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { recits, tree } from '../data/dummy';
-import AnimatedButton from "./AnimatedButton";
+import {   tree } from '../data/dummy';
+ 
 
 import "./TreeNode.scss"
 let c = 0;
@@ -467,7 +467,7 @@ const TreeNode = (props) => {
     })
   }
 let strold="";
-let strnew="";
+ 
   const changeforwards = (nodes, strnew, trs) => {
    nodes.map((t) => { 
       strold=t.name;
