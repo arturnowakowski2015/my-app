@@ -23,11 +23,7 @@ const[el, setEl]=useState(0)
 const[old, setOld]=useState(-1)
 
   return (
-    <div>       
- 
-
-
-        <Router>
+           <Router>
  
 
           <Routes>
@@ -46,9 +42,7 @@ const[old, setOld]=useState(-1)
             </Route>
                </Routes>
 
-        </Router>
- 
-    </div>
+        </Router> 
   );
 }
 

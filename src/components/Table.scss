@@ -2,8 +2,7 @@
 @mixin basictable(){
   border : black solid 1px; 
   position:absolute;
-  left:980px;
-  top:110px;
+ 
  table{
      margin:0px 10px 10px 10px;
    }
@@ -51,6 +50,9 @@
 .paginationdesapear{
   opacity:0;
   transition: opacity 1s;
+}
+.pd{
+  opacity:0;
 }
 .table1{
   opacity: 1;

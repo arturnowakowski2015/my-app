@@ -13,14 +13,14 @@ import Selected from "./Selected";
 import Table from "./Table";
 import Settings from "./Settings";
 import Select from "./Select"
-import AUrl from "../AUrl"
+import AUrl from "./AUrl"
 import TreeNode from "./TreeNode";
 import Update from "./Update";
  
 
  
 import { tree } from '../data/dummy';
-import '../index.css';
+import '../App.scss';
  
 import UserContext from "../ctx/User";
 
@@ -344,6 +344,7 @@ if(flag==0){
 
 
   componentDidMount() {
+    
     if (stop === 0) {
       const r = this.props.params.id && this.props.params.f === undefined ? this.props.params.id : this.state.i;
 
@@ -422,7 +423,7 @@ if(flag==0){
   }
   changedata(category, flag, flag1) { 
   ii=0;
-    this.changedispl(1, 0, false)
+    this.changedispl(2, 0, false)
     if (flag1 === 1 || flag1 === 2) {
 
       this.state.categories.new[0] = category;
@@ -433,7 +434,7 @@ if(flag==0){
     let y2 = 0;
     let stop = 0;
     ii=0
-  this.changedispl(1,1000, true) 
+  this.changedispl(2,500, true) 
  
     setTimeout(()=> {
     if (flag === 0 && this.state.data[category] ? this.state.data[category].length : "") {
@@ -517,8 +518,8 @@ if(flag==0){
 
 
 
-let treetablemin = <div className="treetablemincont"> 
-<div className={ this.state.displ[0] ? "treetablemin" : "treenone"}  transition-style={this.state.displ[0] && this.state.menuel ? "in:circle:center" : null}>
+let treetablemin = <> 
+<div className={ this.state.displ[1] ? "leftcolumn" : "treenone"}  transition-style={this.state.displ[1] && this.state.menuel ? "in:circle:center" : null}>
  
   <TreeNode changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
     displ1={this.state.displ}
@@ -532,7 +533,7 @@ let treetablemin = <div className="treetablemincont">
     act={this.state.categories.actual[0].cat}
     parent={this.state.parent} />
     </div>
-<div className={ "treetablemin" }>
+<div className={ "rightcolumn" }>
 <Table
  changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
  menuel={this.state.menuel}
@@ -551,53 +552,34 @@ setchecked={this.setchecked.bind(this)}
   ChangePage={this.changePPP.bind(this)}
 /></div>
  
-</div>
+</>
 
   
 
     return (
-      <div>        <AUrl changeconfig={(i) => {
+      <body>        <AUrl displ={this.state.displ} changeconfig={(i) => {
  
         if(i==1){
+          setTimeout(()=>{
           this.setState({config: 1});
            this.setState({menuel: true})
           this.setState({ settings: 1 })
           this.setState({ number1: 1 });
+        }, 100)
         } 
         if(i==2){
+          setTimeout(()=>{
           this.setState({ settings: 0 })
           this.setState({ config: 0 })
-
+          this.setState({menuel: true})
+        }, 100)
         }
         ii=0
       this.changedispl(0, 0, false );
 ii=0
         this.changedispl(0, 1000, true);}} />
  
-        {this.state.settings === 0 && this.props.params.f === undefined &&
-
-          <div className="LT">
-
-            <div className="LTchild">
-              {arr.length === 0 && <Link className="a2" to={"/a/" + this.state.categories.actual[0].cat + "/pagination/settings"} onClick={() => {
-                this.setState({ config: 1 });
-                this.setState({ settings: 1 })
-                this.setState({ number1: 1 })
-              }}>settings</Link>
-              }
-              {arr.length > 0 &&
-                <div>
- 
-                </div>
-              }
-
-
-
-            </div>
-
-          </div>
-        }
-
+         
 
 {this.state.settings === 4 && 
 
@@ -662,7 +644,7 @@ ii=0
         {
           this.state.settings === 1 &&
 
-          <div className={this.state.displ[3] ? "deasapearsettings" :  "LT select" }  transition-style= {this.state.displ[3] ? "in:circle:center" : ""}  >
+          <div className={this.state.displ[4] ? "deasapearsettings" :  "LT select" }  transition-style= {this.state.displ[4] ? "in:circle:center" : ""}  >
 
 
             <Settings data={this.state.data} columns={this.state.columns} changePPP={this.changePPP.bind(this)}
@@ -699,11 +681,11 @@ ii=0
             />
           </div>
         }
-        {treetablemin }
+        {this.state.move!=1 && treetablemin }
 
 
 
-      </div >)
+      </body >)
         
   }
 }

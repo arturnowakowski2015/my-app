@@ -1,27 +1,33 @@
- 
- .treetablemincont{
-    display: flex;
-    flex-direction:row;
- }
-.treetablemin{
+* {
+    box-sizing: border-box;
+  }
   
-    opacity: 1;
- 
-}
-.treenone{
+  body {
+    font-family: Arial;
+    padding: 10px;
+    background: #f1f1f1;
+  }
+
+  .topnav {
+    overflow: hidden;
+    background-color: #333;
+  }
+  
+  .leftcolumn {   
+    padding-top:30px;
+    float: left;
+    width: 18%;
+  }
+  .rightcolumn {
+    padding-top:30px;
+    float: left;
+    width: 82%;
+  
+    padding-left: 10px;
+  }
+  .treenone{
     opacity:0;
+    padding-top:30px;
+    float: left;
+    width: 18%;
 }
-.desapear{
-    opacity: 0.2;
-    transition: opacity 1s;
-}
-.checked{
-    width:100px;
-}
-.desapearsettings{
-    opacity: 1;
-    transition: opacity 1s;
-}
-.select {
-    opacity: 0; 
-   }

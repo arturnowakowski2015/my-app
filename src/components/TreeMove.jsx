@@ -58,18 +58,11 @@ const TreeMove = (props) => {
     <div> { props.familyTree.map((t, i) => {
 
 
-    return <div key={i}
-    
-    
-      style={{ paddingLeft: "10px", paddingTop: "5px" }} >{"depth:"+t.depth+"  id:"+ 
-      t.id+":::"+
-      JSON.stringify(destination)}
+    return <div key={i}   
+      style={{ paddingLeft: "10px", paddingTop: "5px", width:"150px" }} >  
     
     
       {t.name !== props.pc[0] && <div   style={{ opacity: t.opacity, cursor: t.cursor }}
-
-      
-    
       > 
     
        {destination.coordinates[0]===t.depth && destination.coordinates[1]===i? <p id="text" onClick={(e) => {
@@ -94,7 +87,7 @@ const TreeMove = (props) => {
 
     
           className={"p fw-bold "}
-          style={{ backgroundColor: t.bgcolor }}>{t.bgcolor}  {   props.pc[t.name] && props.pc[t.name].length }  
+          style={{ backgroundColor: t.bgcolor }}>{t.name}  {   props.pc[t.name] && props.pc[t.name].length }  
       
     
         </p>

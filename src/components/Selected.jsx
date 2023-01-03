@@ -3,7 +3,7 @@ import MoveButton from "./MoveButton"
 import Button from "./Button";
 import Deletebutton from "./Deletebutton";
 import TreeMove from "./TreeMove";
-import {tree} from "../data/dummy"
+import "./Selected.scss"
 
 const Selected = (props) => {
     return (
@@ -22,9 +22,11 @@ const Selected = (props) => {
   {props.move  
   &&  
   
-  < >   <MoveButton {...props} />
-
-  <TreeMove  style={{paddingTop:"100px"}} {...props} /> 
+  < >   
+  <MoveButton {...props} />
+    <div className="treemove">
+  <TreeMove {...props} /> 
+  </div>
  
  </>
 }  

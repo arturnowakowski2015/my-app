@@ -481,38 +481,78 @@ useEffect(()=>{
    
   }, [location])
  
-
-const z = <div className="tablecontainer">{ 
-    props.checkall[1]===0 && <div className={(countdown===tovalue  ? "s" : "s1") 
-}>
-     {j+":::"+Math.ceil(props.data.length/10)+"::"+sliced.length+"::"+data1.length}</div>}
+const setsi = (j,t) => {
+    
+    setSearchi({old:searchi.old, new:j});  
+    setStop(stop=>stop+1);
+     setNumber(0);
+     navigate("searchtext/"+t);
+}
+const z = <div className="tablecontainer">
+    { 
+          props.checkall[1]===0 && 
+            <div className={(countdown===tovalue  ? "s" : "s1") }>
+                {j+":::"+Math.ceil(props.data.length/10)+"::"+sliced.length+"::"+data1.length}</div>
+    }
      
-     {props.checkall[1]===1 && <div className={( data.length===0 ? "s" : "s1")}>
-     {data.length}</div> }
-     <span style={{width: "20px"}}></span>  {(parseInt(firstPost) + parseInt(currentPost.length))-10+ " - "+ (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + (data && data.length)}</div>
+     {
+     props.checkall[1]===1 &&
+             <div className={( data.length===0 ? "s" : "s1")}> {data.length}</div> 
+    }
+     <span style={{width: "20px"}}></span>  
+     {
+        (parseInt(firstPost) + parseInt(currentPost.length))-10+ " - "+ (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + (data && data.length)
+    }
+    </div>
+
+
+
     const el = <div > {z}    
-        {   window.location.href.indexOf("searchtext")!==-1 ? 
-        <div className={props.desapear[3] ? "searchingvisible": "searching"}  transition-style= {props.desapear[3] ? "in:circle:center" : ""}>
-            <Searching i={window.location.href.indexOf("searchtext")} searchtext={ to[indextab].eltabs[searchi.new]!==undefined ? to[indextab].eltabs[searchi.new].words : ""  } searchi={searchi.new}
-                 saved={to[indextab]!==undefined && to[indextab].eltabs[to[indextab].eltabs.length-1].saved} len={data1.length} setValue={(es)=> {setValue(es); setStop(stop=>stop+1);setNumber(0);}} savetab={()=>savetab()}/>
-        </div>
-     :
-     <div style={{height:"30px"}}></div> }
+                 {   
+                 window.location.href.indexOf("searchtext")!==-1 
+                 ? 
+                     <div className={props.desapear[4] ? "searchingvisible": "searching"}  transition-style= {props.desapear[4] ? "in:circle:center" : ""}>
+                     <Searching 
+                            i={window.location.href.indexOf("searchtext")} 
+                            searchtext={ to[indextab].eltabs[searchi.new]!==undefined ? to[indextab].eltabs[searchi.new].words : ""  } 
+                            searchi={searchi.new}
+                            saved={to[indextab]!==undefined && to[indextab].eltabs[to[indextab].eltabs.length-1].saved} 
+                            len={data1.length}
+                             setValue={(es)=> {setValue(es); 
+                             setStop(stop=>stop+1);setNumber(0);}} 
+                             savetab={()=>savetab()}
+                        />
+                </div>
+                :
+                <div style={{height:"30px"}}></div> 
+            }
 
 
    
-        <div> {j+":::"+Math.ceil(props.data.length/10)+"::"+sliced.length+"::"+data1.length}<div class="pagcon"><div style={{paddingTop:"15px", paddingRight:"20px"}}>found: {  props.data.length}</div>   
-        {((props.flagsettings !== 4 && data1.length) || (data1.length===0 && window.location.href.indexOf("searchtext")===-1) 
-        || window.location.href.indexOf("searchtext")!==-1 && sliced.length!==0)
-        && data.length > 0 && <div className={props.dp ? "pagination"  : "pd" } 
-        transition-style= {props.desapear[1] ? "in:circle:center" : ""}> 
+        <div>
+            <div class="pagcon">
+                <div style={{paddingTop:"15px", paddingRight:"20px"}}>found: {  props.data.length}</div>   
+                    {((props.flagsettings !== 4 && data1.length) ||
+                    (data1.length===0 && window.location.href.indexOf("searchtext")===-1) 
+                    || window.location.href.indexOf("searchtext")!==-1 && sliced.length!==0)
+                    && data.length > 0 && 
+                    <div className={props.desapear[2] ? "pagination"  : "pd" } 
+                             transition-style= {props.desapear[2] ? "in:circle:center" : ""}
+                    > 
+                    
         
-        
-        <Pagination changeintree={props.changeintree} stop={stop} acturl={props.acturl} fp={1} span={span} postPerPage={postPerPage} number={number} 
-        pageNumber={   pageNumber } limit={limit}
-           oldel={oldel} ChangePage={ChangePage} setN={setN} length={
-            window.location.href.indexOf("searchtext")!==-1 ? data1.length : (props.data && props.data.length )
-           } firstPost={1} tovalue={Math.ceil(tovalue/10)-1} checkall={props.checkall}/>
+                    <Pagination
+                         changeintree={props.changeintree} stop={stop} acturl={props.acturl} fp={1} span={span} postPerPage={postPerPage} number={number} 
+                         pageNumber={   pageNumber } 
+                         limit={limit}
+                        oldel={oldel}
+                         ChangePage={ChangePage} 
+                         setN={setN} 
+                         length={ window.location.href.indexOf("searchtext")!==-1 ? data1.length : (props.data && props.data.length )}
+                         firstPost={1} 
+                         tovalue={Math.ceil(tovalue/10)-1}
+                         checkall={props.checkall}
+                    />
            </div>
              }
         
@@ -521,37 +561,33 @@ const z = <div className="tablecontainer">{
                 element === 1 ? null
                     :
 
-                    <div  className={props.desapear[2] ? "table1" : "desapeartable"} 
+                    <div  className={props.desapear[3] ? "table1" : "desapeartable"} 
                
-                    transition-style= {props.desapear[2] ? "in:circle:center" : ""} > 
-                        <div className="tabs">{
-                            window.location.href.indexOf("searchtext")!==-1 &&  to[indextab]!==undefined && to[indextab].eltabs.map((t, j) => {
-                                return   <Tab len={data1.length} searchi={searchi} j={j} name={t.name} 
-                                
-                                setsi={(e) => {
-                                    
-                              
-                                    setSearchi({old:searchi.old, new:j});  
-                                setStop(stop=>stop+1)
-              
-                                 
-                                setNumber(0);
-
-
-
-                                                 navigate("searchtext/"+t.words);}} />          
-                            })
-                        }
-                        </div>
+                         transition-style= {props.desapear[3] ? "in:circle:center" : ""} > 
+                    <div className="tabs">{
+                        window.location.href.indexOf("searchtext")!==-1 &&  to[indextab]!==undefined && 
+                        to[indextab].eltabs.map((t, j) => {
+                            return   <Tab 
+                                        len={data1.length} 
+                                        searchi={searchi} 
+                                        j={j} 
+                                        name={t.name}                           
+                                        setsi={()=>setsi(j, t.words)} />          
+                        })
+                    }
+                    </div>
                         <table>
                         <thead className="th">
                             {data && data[0] ? buildHeader(Object.keys(data && data[0]),data && data.columns) : null}
                         </thead>
                         <tbody>{
                             view === 1 ? 
-                              currentPost.length >= 0 && data  && data1.length===data.length ? sliced.map(buildRow) : stop===0 && currentPost && currentPost.map(buildRow) 
-                                ? stop===0 && currentPost && currentPost.map(buildRow) : sliced.map(buildRow) :
-                                <tr><td>dddddddddddd</td></tr>  
+                              currentPost.length >= 0 && data  && data1.length===data.length 
+                              ? sliced.map(buildRow) 
+                              : stop===0 && currentPost && currentPost.map(buildRow) 
+                            ? stop===0 && currentPost && currentPost.map(buildRow) 
+                            : sliced.map(buildRow) 
+                            : <tr><td>dddddddddddd</td></tr>  
                         }</tbody>
                     </table>
                     </div>
@@ -561,15 +597,10 @@ const z = <div className="tablecontainer">{
     </div>;
 
     return (
-
-
-
-        <>
-            {flagel === true ?
-                el : el
-            }
-
- 
+           <>
+               {flagel === true ?
+                 el : el
+              }
         </>
 
     )

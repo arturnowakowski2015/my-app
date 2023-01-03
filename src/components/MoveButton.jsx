@@ -13,11 +13,11 @@ const MoveButton = (props) => {
     return ( 
         <>
          {props.movestatus===1 && 
-            <div><div onClick={(e)=> {  props.movetodestination(1+props.lenel);
-                navigate("/a/"+props.dest.name+"/pagination")}} >move selected::::{props.lenel}</div>
-            <div>from</div>
+            <div className="container"><div className="moveto" onClick={(e)=> {  props.movetodestination(1+props.lenel);
+                navigate("/a/"+props.dest.name+"/pagination")}} >move selected<span></span>{props.lenel}</div>
+            <div><span></span>from<span></span></div>
             <div className="from">{props.act}</div>
-            <div>to</div>
+            <div><span></span>to<span></span></div>
             <div className="to">{props.dest && props.dest.name}</div></div>  }
          {props.movestatus!==1 && <div onClick={(e)=> {move()}} >choose destination</div>  }
         </>

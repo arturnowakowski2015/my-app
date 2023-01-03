@@ -1,0 +1,52 @@
+@mixin belkaa($k)
+{
+ 
+  span{
+    width:30px;
+  }
+  .title{
+    @if $k==0 {
+      background-color:darkslategray;
+    }
+    @if $k==1 {
+      background-color:rgb(57, 47, 79);
+      color:rgb(187, 138, 48);
+    }
+    @if $k==2 {
+      background-color:rgb(50, 79, 47);
+    }
+   }
+ 
+
+}
+
+  @for $k from 0 through 5 {
+ 
+    .belka-#{$k} {
+      height:20px;    
+      width:100%;
+      display:flex;
+  
+      flex-direction:row;
+      justify-content: flex-end;
+      @for $i from 0 to 5{
+        .el-#{$i}{
+          background-color:red;
+          padding-left:20px;  
+        }
+      }
+      @keyframes circle-in-center {
+        from {
+          clip-path: circle(0%);
+        }
+        to {
+          clip-path: circle(125%);
+        }
+      }
+      
+      [transition-style="in:circle:center"] {
+        animation: 2.5s cubic-bezier(.25, 1, .30, 1) circle-in-center both;
+      }
+    }
+  }
+ 

@@ -6,7 +6,7 @@ import {   tree } from '../data/dummy';
 
 import "./TreeNode.scss"
 let c = 0;
-let p = 0
+ 
 let tdepth = [];
 let tid = [];
 let node = "";
@@ -14,7 +14,7 @@ let mode = 0;
 let mdepth = [];
 let mid = []
 let parentnode = {};
-let modesplice = 0;
+ 
 let arr = [];
 let root = 0;
 let elmenu = {
@@ -244,27 +244,7 @@ const TreeNode = (props) => {
   }
 
 
-  const markparent = (e, nodes, depth, id) => {
-
-    y = nodes && nodes.map((t) => {
-
-      if (t.depth == depth && t.id == id) {
-        parentnode.name = t.name;
-        parentnode.depth = t.depth;
-        parentnode.id = t.id
-        t.bgcolor = "red";
-      }
-      else if (t.bgcolor != "green") t.bgcolor = "white"
-
-      markparent(e, t.children, depth, id)
-
-      return t;
-    })
-
-    p = 1
-    return y;
-    tdepth = []; tid = [];
-  }
+ 
   const reset = (nodes) => {
     let y = nodes.map((t) => {
       if (t.children) reset(t.children);
@@ -588,7 +568,8 @@ let strold="";
 
 
 
-    return t   && <div key={i} onMouseOut={() => { tdepth = []; tid = [] }}
+    return t && !t.line  && <div key={i} onMouseOut={() => { tdepth = []; tid = [] }}
+    style={{paddingLeft: "10px"}}
       onClick={(e) => {        e.stopPropagation()
 
           if(props.pc[t.name].length>0){
