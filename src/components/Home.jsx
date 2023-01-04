@@ -134,8 +134,8 @@ class Home extends React.Component {
         this.setState({
           columns: Object.keys(response[0]).map((t, i) => {
 
-            let d = { col: { title: "", disp: true } };
-            d.col.title = null;
+            let d = { col: { title: t, disp: true } };
+
 
             return d;
 
@@ -434,7 +434,7 @@ if(flag==0){
     let y2 = 0;
     let stop = 0;
     ii=0
-  this.changedispl(2,500, true) 
+  this.changedispl(2,400, true) 
  
     setTimeout(()=> {
     if (flag === 0 && this.state.data[category] ? this.state.data[category].length : "") {
@@ -577,7 +577,7 @@ setchecked={this.setchecked.bind(this)}
         ii=0
       this.changedispl(0, 0, false );
 ii=0
-        this.changedispl(0, 1000, true);}} />
+        this.changedispl(0, 200, true);}} />
  
          
 
@@ -644,7 +644,8 @@ ii=0
         {
           this.state.settings === 1 &&
 
-          <div className={this.state.displ[4] ? "deasapearsettings" :  "LT select" }  transition-style= {this.state.displ[4] ? "in:circle:center" : ""}  >
+          <div className={this.state.displ[4] ? "desappearsettings" :  "LT select" } 
+           transition-style= {this.state.displ[4] ? "in:circle:center" : ""}  >
 
 
             <Settings data={this.state.data} columns={this.state.columns} changePPP={this.changePPP.bind(this)}
@@ -653,11 +654,9 @@ ii=0
               flagsettings={this.state.flagsettings} postPerPage={this.state.postPerPage}
               number2={(o) => this.setState({ number1: o })}
             />
-            <Link className="a2" to={"/a/" + this.state.categories.actual[0].cat + "/pagination"} onClick={() => {
-              this.setState({ settings: 0 });
-              this.setState({ config: 0 })
-            }}>back to main</Link>
-            <Link className="a2 select" to={"/a/" + this.state.categories.actual[0].cat + "/pagination/url"} onClick={() => this.setState({ settings: 2 })}>change database</Link>
+ 
+            <Link  to={"/a/" + this.state.categories.actual[0].cat + "/pagination/url"} 
+                onClick={() => this.setState({ settings: 2 })}>change database</Link>
 
             <div className="border"></div>
 

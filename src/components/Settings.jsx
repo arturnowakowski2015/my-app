@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import CheckboxInput from "./CheckboxInput";
  
 import { tree } from "../data/dummy"
-
+import "./Settings.scss"
  
 
 const Settings = props => {
@@ -119,11 +119,11 @@ const Settings = props => {
     }
 
     return (
-        <div >
+        <div className="settings">
             {
                 props.columns.map((t, i) => {
-                    return <CheckboxInput key={i} label={t.col.name} name={t.col.name} checked={t.col.disp}
-                        value={i} checkedCol={props.checkedCol} />
+                    return <CheckboxInput key={i} label={t.col.name} name={t.col.title} checked={t.col.disp}
+                        value={i} checkedCol={props.checkedCol} /> 
                 })
             }
 

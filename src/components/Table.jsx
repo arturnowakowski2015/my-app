@@ -249,7 +249,7 @@ const Table = (props, columns) => {
                             chevron && ii === i ? <i className="fa fa-chevron-up"></i> : chevron === false && ii === i ?
                                 <i className="fa fa-chevron-down"></i> : null
                         }
-                        c{k}</div></th>) : null
+                            {k}</div></th>) : null
         })
 
         col.shift();

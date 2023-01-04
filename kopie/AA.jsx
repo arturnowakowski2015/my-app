@@ -1,3 +1,79 @@
+const removeprobefromroot = (nodes) => {
+  nodes.children.map((t,i) => {
+    if(t.name==elmenu.parentformer.name){
+      let u =t.children.filter((tt, ii) => {return tt && (tt.name!==elmenu.child.name) })
+      t.children=u
+    yy=0;
+    }
+  })
+  if(nodes.children.filter((t)=>{
+    return t.name==elmenu.child.name
+  }).length==0)
+   nodes.children.splice(1, 0, {name: elmenu.child.name})
+   else if(nodes.children.filter((t)=>{
+    return t.name==elmenu.child.name
+  }).length==1){
+
+    nodes.children.splice(1,0, {name: elmenu.child.name})
+  }
+  makeidlev(tree.children, 0, 0)
+  for (let ii = 0; ii < 20; ii++) {
+    c = 0;
+    makeids(tree.children, ii)
+
+  }
+  setFamilyTree(props.familyTree)
+  props.changeconfig(2)
+}
+const removeel = (nodes) => {
+  nodes.children.splice(1,1)
+  makeidlev(tree.children, 0, 0)
+  for (let ii = 0; ii < 20; ii++) {
+    c = 0;
+    makeids(tree.children, ii)
+
+  }
+  setFamilyTree(props.familyTree)
+  props.changeconfig(2)
+}
+
+
+
+
+
+{
+  t.line && root == 0 && <div id="ff" draggable={true} onDragOver={(e) => {
+    
+    e.preventDefault();
+    e.dataTransfer.getData("text");
+
+     removeprobe(tree, root, "root");
+    mode=0;
+    addtoroot(tree)
+          }} 
+
+          onDrop={(e) => {
+            mode = 0; e.stopPropagation(); 
+            e.preventDefault();
+
+             removeopacity(tree.children, props.depth)
+          }}
+
+    style={{ marginTop: "-30px", height: "50px", width: "100%", backgroundColor: "red" }} >##  ROOT</div>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
