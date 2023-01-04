@@ -1,7 +1,9 @@
+
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import {   tree } from '../data/dummy';
+import {  tree } from '../data/dummy';
  
 
 import "./TreeNode.scss"
@@ -244,7 +246,27 @@ const TreeNode = (props) => {
   }
 
 
+  const markparent = (e, nodes, depth, id) => {
+
+    y = nodes && nodes.map((t) => {
+
+      if (t.depth == depth && t.id == id) {
+        parentnode.name = t.name;
+        parentnode.depth = t.depth;
+        parentnode.id = t.id
+        t.bgcolor = "red";
+      }
+      else if (t.bgcolor != "green") t.bgcolor = "white"
+
+      markparent(e, t.children, depth, id)
+
+      return t;
+    })
+
  
+    return y;
+    tdepth = []; tid = [];
+  }
   const reset = (nodes) => {
     let y = nodes.map((t) => {
       if (t.children) reset(t.children);
@@ -447,7 +469,7 @@ const TreeNode = (props) => {
     })
   }
 let strold="";
- 
+let strnew="";
   const changeforwards = (nodes, strnew, trs) => {
    nodes.map((t) => { 
       strold=t.name;
@@ -458,14 +480,13 @@ let strold="";
   }
 
   const removeopacity = (tr, depth) => {
-
-      tr.length && tr.map((t) => { 
+ 
+      tr.length && tr.map((t) => {
         if(typeof elmenu.parentroot.name == "number" && mode==0)
-        { 
+        {alert(elmenu.parentroot.name+":::::::")
           if(elmenu.parentroot.children && elmenu.parentroot.children[0])
           tr.splice(elmenu.parentroot.name+1,1, elmenu.parentroot.children[0])
-          else 
-           tr.splice(elmenu.parentroot.name+1,1) 
+          else tr.splice(elmenu.parentroot.name+1,1)
           mode=1
           elmenu.parentroot.name="";
         }
@@ -562,43 +583,14 @@ let strold="";
     props.changeconfig(1)
 
   }
-  let ll=0;
-  const removeproberoot = (tr) => {
- 
-      tr.children.map((t) => {if(t.name==elmenu.parentformer.name){
-        let obj = t.children.filter((tt)=>{return tt.name!==elmenu.child.name})
-        t.children=obj;
-      }})
- 
-        if(elmenu.parentroot.name!=undefined){
-         tr.children.splice(1, 0, {name:elmenu.child.name})
-    }
-    
-    }  
-  
-    const removewithout = (tr) => {
-       if(elmenu.parentroot.children)
-         tr.children.splice(elmenu.parentroot.name+2, 1,elmenu.parentroot.children[0]  )
-         else
-         tr.children.splice(elmenu.parentroot.name+2, 1)
-      makeidlev(tree.children, 0, 0)
-      for (let ii = 0; ii < 20; ii++) {
-        c = 0;
-        makeids(tree.children, ii)
-  
-      }
-      setFamilyTree(props.familyTree)
-      props.changeconfig(1)
-  
-    }
+
 
   let i=0; 
-  return <div  >{props.config} {props.config == 0 && familyTree.map((t, i) => {
+  return <div  > {props.config == 0 && familyTree.map((t, i) => {
 
 
 
-    return t && !t.line  && <div key={i} onMouseOut={() => { tdepth = []; tid = [] }}
-    style={{paddingLeft: "10px"}}
+    return t   && <div key={i} onMouseOut={() => { tdepth = []; tid = [] }}
       onClick={(e) => {        e.stopPropagation()
 
           if(props.pc[t.name].length>0){
@@ -734,8 +726,8 @@ let strold="";
 
 
             className="p fw-bold"
-            style={{ backgroundColor: t.bgcolor }}>{t.name}...{t.depth}..{t.id}.
-   
+            style={{ backgroundColor: t.bgcolor }}>{t.name}.1...
+            {pcl(t.name) != 0 ? pcl(t.name) : ""}
 
           </p>
         </div>
@@ -759,26 +751,15 @@ let strold="";
             e.preventDefault();
             e.dataTransfer.getData("text");
 
-             removeproberoot(tree);
+             removeprobe(tree, root, "root");
             mode=0;
             addtoroot(tree)
                   }} 
 
-                  onDrop={(e) => {
-                    mode = 0; e.stopPropagation(); 
-                    e.preventDefault();  
-                    if(typeof elmenu.parentroot.name == "string") 
-                      removeopacity(tree.children)
-                      else removewithout(tree)
-                  }}
-
+                  onDrop={(e) => { 
  
-              
-              
-
-
-
-
+                    removeopacity(tree.children, props.depth)
+                  }}
 
             style={{ marginTop: "-30px", height: "50px", width: "100%", backgroundColor: "red" }} >##  ROOT</div>
         }</div>
@@ -801,14 +782,14 @@ return <div key={i}
   style={{ paddingLeft: "10px", paddingTop: "5px" }} >
 
 
-  {t.name != props.pc[0] && <div className="x" id="f" style={{ opacity: t.opacity, cursor: t.cursor }} draggable="true"
-   onMouseDown={(e) => {
+  {t.name != props.pc[0] && <div className="x" id="f" style={{ opacity: t.opacity, cursor: t.cursor }} draggable="true" onMouseDown={(e) => {
 
     zrobopacity(e, t.name, props.depth - 1, props.id)
     if (e.dataTransfer)
       e.dataTransfer.setData("text", e.target.id)
-  }}
 
+
+  }}
 
     onDragOver={(e) => {
 
@@ -860,7 +841,8 @@ return <div key={i}
 
 
       className="p fw-bold"
-      style={{ backgroundColor: t.bgcolor }}>{t.name}{t.name}...{t.depth}..{t.id}.
+      style={{ backgroundColor: t.bgcolor }}>{t.name}....
+      {pcl(t.name) != 0 ? pcl(t.name) : ""}
 
     </p>
   </div>
@@ -893,9 +875,7 @@ return <div key={i}
               mode = 0; e.stopPropagation(); 
               e.preventDefault();
  
-              if(typeof elmenu.parentroot.name == "string") 
-                removeopacity(tree.children)
-                else removewithout(tree)
+               removeopacity(tree.children, props.depth)
             }}
 
       style={{ marginTop: "-30px", height: "50px", width: "100%", backgroundColor: "red" }} >##  ROOT</div>
