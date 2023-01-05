@@ -2,7 +2,7 @@ import React from "react";
 import MoveButton from "./MoveButton"
 import Button from "./Button";
 import Deletebutton from "./Deletebutton";
-import TreeMove from "./TreeMove";
+import TreeMove from "./Tree/TreeMove";
 import "./Selected.scss"
 
 const Selected = (props) => {

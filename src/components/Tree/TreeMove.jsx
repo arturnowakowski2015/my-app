@@ -1,6 +1,6 @@
 import React, {useState}     from "react";
 import { useEffect } from "react";
-import {tree} from "../data/dummy"
+import {tree} from "../../data/dummy"
 import "./TreeMove.scss";
 let c=0;
 const makeids = (nodes, i) => {
