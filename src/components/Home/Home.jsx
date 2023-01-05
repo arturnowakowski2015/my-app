@@ -66,8 +66,8 @@ class Home extends React.Component {
       confirmdelete:false,
       displ: [true, true, true, true, true, true],
       dp:true,
-      treetable:[true, false,false],
-
+      treetable:[false, false,true],
+ 
 
       checkedel:{ actual: [{ cat: "new", l: 0 }],  set: {"received":[], "new":[], "selected":[], "postponed":[], "removed":[], "labels":[]} },
       checked: true,
@@ -518,10 +518,12 @@ if(flag==0){
  
 
 
-let treetablemin = <div style={{paddingLeft:"400px"}}> 
- {this.state.treetable[1]==true && <div className={ this.state.displ[1] ? "leftcolumn" : "treenone"}  transition-style={this.state.displ[1] && this.state.menuel ? "in:circle:center" : null}>
+let treetablemin = <div className={ this.state.treetable[0]==false && this.state.treetable[1]==false ? "treetablecon1" : "treetablecon"} > 
+ {( this.state.treetable[0]==false &&
+
+this.state.treetable[1]==true   || this.state.treetable[2]==true ) && <div className={ this.state.displ[1] ? "leftcolumn" : "treenone"}  transition-style={this.state.displ[1] && this.state.menuel ? "in:circle:center" : null}>
  
- <TreeNode changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
+ <div ><TreeNode changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
   pid={-1}
     displ1={this.state.displ}
     changeparent={(name) => this.setState({ parent: name })}
@@ -534,13 +536,13 @@ let treetablemin = <div style={{paddingLeft:"400px"}}>
     act={this.state.categories.actual[0].cat}
     parent={this.state.parent} />
     </div>
+    </div>
   }
  
 
+{ (this.state.treetable[0]==true &&
 
-
-
-{this.state.treetable[1]==false && <div className={ "rightcolumn" }>
+this.state.treetable[1]==false || this.state.treetable[2]==true  )  && <div className={ "rightcolumn" }>
 <Table
  changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
  menuel={this.state.menuel}
@@ -567,7 +569,7 @@ setchecked={this.setchecked.bind(this)}
       <body>        <AUrl st={this.state.displ} changeconfig={(i,ii) => {
  
         if(i==1){
-          this.setState({treetable:[true, true, false]})
+          this.setState({treetable:[true, false,false]})
           setTimeout(()=>{
           this.setState({config: 1});
            this.setState({menuel: true})
@@ -575,7 +577,7 @@ setchecked={this.setchecked.bind(this)}
           this.setState({ number1: 1 });
         }, 100)
         } 
-        if(i==2){
+        if(i==2){          this.setState({treetable:[false, false,true]})
           setTimeout(()=>{
           this.setState({ settings: 0 })
           this.setState({ config: 0 })
@@ -583,9 +585,9 @@ setchecked={this.setchecked.bind(this)}
         }, 100)
         }
         ii=0
-      this.changedispl(0, 0, false );
+      this.changedispl(0, 10, false );
 ii=0
-        this.changedispl(0, 200, true);}} />
+        this.changedispl(0, 300, true);}} />
  
          
 
@@ -650,14 +652,14 @@ ii=0
 
 
         {
-          this.state.settings === 1 &&  
+         ( this.state.settings === 1 &&  this.state.treetable[0]==true &&
 
-          this.state.treetable[1]==false ?
+          this.state.treetable[1]==false )?
 
           <div className={this.state.displ[4] ? "desappearsettings" :  "LT select" } 
            transition-style= {this.state.displ[4] ? "in:circle:center" : ""}  >
 
-<Treetablebutton title={"tree setup"} treetable={this.state.treetable} on={(tab)=>this.setState({treetable:tab})}/>
+<Treetablebutton title={"tree setup"} treetable={this.state.treetable} on={(tab)=>this.setState({treetable:[false, true, false]})}/>
 
             <Settings data={this.state.data} columns={this.state.columns} changePPP={this.changePPP.bind(this)}
               checkedCol={this.setcol.bind(this)}
@@ -672,13 +674,14 @@ ii=0
             <div className="border"></div>
           </div>
           : 
-          this.state.settings === 1 &&  
+         ( this.state.settings === 1 &&   this.state.treetable[0]==false &&
 
-          this.state.treetable[1]==true ?
+          this.state.treetable[1]==true)  ?    
+          
           <div className={this.state.displ[4] ? "desappearsettings" :  "LT select" } 
           transition-style= {this.state.displ[4] ? "in:circle:center" : ""}  >
 
-              <Treetablebutton title={"table setup"} treetable={this.state.treetable} on={(tab)=>this.setState({treetable:tab})}/>
+              <Treetablebutton title={"table setup"} treetable={this.state.treetable} on={(tab)=>this.setState({treetable:[true, false, false]})}/>
               <div className="title">drag and drop elements on new place</div>
               </div>
           :
@@ -697,7 +700,7 @@ ii=0
             />
           </div>
         }
-        {this.state.move!=1 && this.state.treetable[0] && treetablemin }
+        {this.state.move!=1 &&  treetablemin }
 
 
 

@@ -558,7 +558,7 @@ const setsi = (j,t) => {
 }
 const z = <div className="tablecontainer">
     { 
-          props.checkall[1]===0 && 
+          props.checkall[1]===0 && props.desapear[2] &&
             <div className={(countdown===tovalue  ? "s" : "s1") }>
                 {countdown}</div>
     }
