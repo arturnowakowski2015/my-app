@@ -5,15 +5,15 @@ import {
   Routes,
   Route, Link
 } from "react-router-dom";
-import Settings from "./components/Settings";
-import Selected from './components/Selected';
-import Select from './components/Select';
+import Settings from "./components/Settings/Settings";
+import Selected from './components/Selected/Selected';
+import Select from './components/Different/Select';
 import AppProvider from "./ctx/AppProvider";
-import Home from "./components/Home";
-import Update from "./components/Update";
+import Home from "./components/Home/Home";
+import Update from "./components/Different/Update";
  
-import Searching from "./components/Searching";
-import Table from "./components/Table";
+import Searching from "./components/Different/Searching";
+import Table from "./components/Table/Table"; 
 
 import "./App.scss"
 

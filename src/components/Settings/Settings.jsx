@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import CheckboxInput from "./CheckboxInput";
+import CheckboxInput from "../Checkboxes/CheckboxInput";
  
-import { tree } from "../data/dummy"
+import { tree } from "../../data/dummy"
 import "./Settings.scss"
  
 

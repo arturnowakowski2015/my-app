@@ -1,8 +1,8 @@
 import React from "react";
-import MoveButton from "./MoveButton"
-import Button from "./Button";
-import Deletebutton from "./Deletebutton";
-import TreeMove from "./Tree/TreeMove";
+import MoveButton from "../Buttons/MoveButton"
+import Button from "../Buttons/Button";
+import Deletebutton from "../Buttons/Deletebutton";
+import TreeMove from "../Tree/TreeMove";
 import "./Selected.scss"
 
 const Selected = (props) => {
@@ -17,7 +17,7 @@ const Selected = (props) => {
  
   }
 
-
+ 
 
   {props.move  
   &&  

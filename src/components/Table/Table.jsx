@@ -7,11 +7,11 @@ import {
     useNavigate , useLocation
 } from "react-router-dom";
 import Pagination from "./Pagination"
-import Searching from "./Searching";
-import Update from "./Update";
+import Searching from "../Different/Searching";
+import Update from "../Different/Update";
 import "./Table.scss"
-import UserContext from "../ctx/User";
-import Tab from "./Tab";
+ 
+import Tab from "../Different/Tab";
 import { findByLabelText } from "@testing-library/react";
 import { tab } from "@testing-library/user-event/dist/tab";
 import { clear } from "@testing-library/user-event/dist/clear";

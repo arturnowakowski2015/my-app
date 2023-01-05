@@ -9,20 +9,20 @@ import {
 } from "react-router-dom";
 import "./Home.scss"
  
-import Selected from "./Selected"; 
-import Table from "./Table";
-import Settings from "./Settings";
-import Select from "./Select"
-import AUrl from "./AUrl"
-import TreeNode from "./Tree/TreeNode";
-import Update from "./Update";
+import Selected from "../Selected/Selected"; 
+import Table from "../Table/Table";
+import Settings from "../Settings/Settings";
+import Select from "../Different/Select"
+import AUrl from "../Navbar/AUrl"
+import TreeNode from "../Tree/TreeNode";
+import Update from "../Different/Update";
  
 
+  
+import { tree } from '../../data/dummy';
+import '../../App.scss';
  
-import { tree } from '../data/dummy';
-import '../App.scss';
- 
-import UserContext from "../ctx/User";
+import UserContext from "../../ctx/User";
 
 function withParams(Component) {
   return (props) => <Component {...props} params={useParams()} />;

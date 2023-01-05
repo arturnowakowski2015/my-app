@@ -4,7 +4,7 @@ import {
 
     Link, useLocation,
 } from "react-router-dom";
-import { data } from "../data/dummy";
+import { data } from "../../data/dummy";
 import "./Pagination.css";
 
 const Pagination = props => {

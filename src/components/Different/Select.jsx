@@ -6,7 +6,7 @@ import {
     Link,
     useNavigate
 } from "react-router-dom";
-import Table from "./Table";
+import Table from "../Table/Table";
 
 
 const Select = (props) => {
