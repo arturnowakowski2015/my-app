@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import {
 
-    Link, useLocation,
+    Link, useLocation,useNavigate
 } from "react-router-dom";
 import { data } from "../../data/dummy";
 import "./Pagination.css";
 
 const Pagination = props => {
+    const navigate = useNavigate();
     const location = useLocation();
     const [el, setEl] = useState(0)
     const[ ind, setInd]=useState(Math.ceil(props.length/10))
@@ -20,6 +21,7 @@ const Pagination = props => {
             props.changeintree(location.pathname.split("/")[2], 0, 1); 
             setTimeout(()=>{
                             props.ChangePage(i)
+          //  navigate("/a/"+location.pathname.split("/")[2]+"/pagination/"+i)
 
         }, 1100)
     }
@@ -54,25 +56,27 @@ const Pagination = props => {
 
             {props.pageNumber.map((Elem, i) => {
                 return ( 
-                    <div className="pagbtn" key={i}>ind.{props.limit}
+                    <div className="pagbtn" key={i}>
                         {
                              props.checkall[0]===0 && props.number === i + props.fp && i<props.limit?
-                                <div><Link style={{backgroundColor:"red"}}   to={"/a/" + props.acturl + "pagination/" + Elem} onClick={(event) => funk(event, Elem)}
+                                <div><div style={{backgroundColor:"red"}}   onClick={(event) => { funk(event, Elem)}}
 
 
                                 >
-                                    #
-                                </Link>
+                                   1 #
+                                </div>
                                 </div>
                                 :
                                 <div>{i<Math.ceil((props.length ? props.length: 100)/10) 
                                 && i<props.limit
-                                && <Link className={ props.oldel===i  ?  "green" : "s"} to={"/a/" + props.acturl + "pagination/" + Elem}
-                                 onClick={(event) => {event.preventDefault(); funk(event, Elem)}}
+                                && <div className={ props.oldel===i  ?  "green" : "s"}  
+                                 onClick={(event) => { event.preventDefault(); funk(event, Elem);
+                                navigate("/a/"+location.pathname.split("/")[2]+"/pagination/" + 
+                                +i+"/"+props.countdown)}}
 
 
                                 >{   Elem}
-                                </Link>}
+                                </div>}
                                 </div>
                         }
                     </div>

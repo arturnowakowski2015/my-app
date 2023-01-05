@@ -423,7 +423,7 @@ if(flag==0){
   }
   changedata(category, flag, flag1) { 
   ii=0;
-    this.changedispl(2, 0, false)
+    this.changedispl(3, 0, false)
     if (flag1 === 1 || flag1 === 2) {
 
       this.state.categories.new[0] = category;
@@ -434,7 +434,7 @@ if(flag==0){
     let y2 = 0;
     let stop = 0;
     ii=0
-  this.changedispl(2,400, true) 
+  this.changedispl(3,400, true) 
  
     setTimeout(()=> {
     if (flag === 0 && this.state.data[category] ? this.state.data[category].length : "") {

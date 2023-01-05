@@ -295,8 +295,11 @@ const Table = (props, columns) => {
  
             countdown<tovalue && setCountdown(countdown +1);
             countdown>tovalue && setCountdown(countdown -1);
+
             if(countdown%postPerPage===0 && countdown/postPerPage>0 && countdown<tovalue){setNumber(number=>number+1);setCountdown(countdown +1);}
             if(countdown%postPerPage===0 && countdown/postPerPage>0 && countdown>tovalue ) {setNumber(number=>number-1); setCountdown(countdown -1);}
+
+            navigate("/a/"+location.pathname.split("/")[2]+"/pagination/"+number+"/"+countdown)
      }, 50);
         return () => {
 
@@ -317,8 +320,8 @@ const Table = (props, columns) => {
                 <td onClick={(e) => {setName(row[k]);setCountdown(oldindex); setTovalue(firstPost+i); setNumber(oldnumber);
                     setOldel((parseInt(firstPost) + parseInt(currentPost.length))/10-1) ;}}
                  className={    countdown===firstPost+i    ? "red"  : "white" + 
-                 (  green===firstPost+i && countdown===tovalue && " green") + ( green===firstPost+i && " green") 
-                +(props.data.length===0 )} key={j}
+                 (   green===firstPost+i && " green") 
+                } key={j}
                  onMouseOver={() => {;setGreen(firstPost+i);  url = "/" + row.id + "/edit"; setId(row.id);
                   }} ><div className="div1">{row[k]}</div></td >
                 : typeof row[k] !== "object" && props.columns[j] && props.columns[j].col.disp === true
@@ -358,7 +361,7 @@ const Table = (props, columns) => {
 
     const d = () => { ttt = 1;; }
     const sortarr = (k, i) => {
-        navigate(location.pathname);
+        navigate("/a/"+location.pathname.split("/")[2]+"/pagination"+"/"+number+"/"+countdown);
         setSort(!sort)
         let r = Object.keys(data[0]).filter((t, index) => { return data[0][t] })
 
@@ -479,8 +482,64 @@ useEffect(()=>{
      setFlagel(flagel)
         //setLimit(limit=>-1)
    
-  }, [location])
+  }, [location.pathname.split("/")[2]])
  
+
+  useEffect(() => { 
+    setIndextab(location.pathname.split("/")[2]); 
+
+    const arr = [];
+    let lastPost = 0;
+    let firstPost = 0;
+
+    if (props.number1 === 0) {
+        lastPost = number * postPerPage;
+        firstPost = lastPost - postPerPage;
+    } else {
+
+        lastPost = number * postPerPage;
+        firstPost = lastPost - postPerPage;
+        if (firstPost > data.length) {
+            firstPost = 0;
+            setNumber(Math.floor(data1.length / postPerPage))
+
+        }
+    }
+    if (firstPost < 0) {
+        firstPost = 0;
+
+    }
+
+  
+    setData1(data1=> props.data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
+      return           typeof r[row] === "string" &&  r[row].indexOf(searchtext[indextab].searchtext[searchi.new])!==-1 
+     })
+    }))
+   // currentPost= data1.slice(firstPost, lastPost)
+
+
+   let obj = Object.assign({}, makepagination())
+     setSliced(slice=> props.data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
+        return           typeof r[row] === "string" &&  r[row].indexOf(searchtext[indextab].searchtext[searchi.new])!==-1  })
+      }).length ? 
+      props.data.filter((r) => {return Object.keys(data[0]).some((row)  => {  
+        return           typeof r[row] === "string" &&  r[row].indexOf(searchtext[indextab].searchtext[searchi.new])!==-1 
+       })
+      }).slice(obj.firstPost, obj.lastPost) :
+      props.data.filter((r) => {return r}).slice(obj.firstPost, obj.lastPost)
+      ) 
+  
+   
+  }, [sort])
+
+
+
+
+
+
+
+
+
 const setsi = (j,t) => {
     
     setSearchi({old:searchi.old, new:j});  
@@ -492,7 +551,7 @@ const z = <div className="tablecontainer">
     { 
           props.checkall[1]===0 && 
             <div className={(countdown===tovalue  ? "s" : "s1") }>
-                {j+":::"+Math.ceil(props.data.length/10)+"::"+sliced.length+"::"+data1.length}</div>
+                {number}</div>
     }
      
      {
@@ -552,6 +611,7 @@ const z = <div className="tablecontainer">
                          firstPost={1} 
                          tovalue={Math.ceil(tovalue/10)-1}
                          checkall={props.checkall}
+                         countdown={countdown}
                     />
            </div>
              }

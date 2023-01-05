@@ -31,7 +31,7 @@ const[old, setOld]=useState(-1)
 
 
             <Route exact path="/a/:elem/pagination" element={<Home />} >
-              <Route path=":id" element={<Table /> } />
+              <Route path=":id/:ii" element={<Table /> } />
               <Route exact path="settings" element={<Settings />} />
               <Route path="selected" element={<Selected />} />
               <Route path="searchtext" element={<Table />} >
