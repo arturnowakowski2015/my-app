@@ -403,7 +403,11 @@ const Table = (props, columns) => {
          setSearchi({new: to[indextab].eltabs.length-1, old:searchi-1})  
         setTo(to);
         
-        setFlagel(!flagel)
+        setFlagel(!flagel) 
+        navigate("/a/"+location.pathname.split("/")[2]+"/pagination/"+number+"/"+countdown+"/"+
+                
+        (location.pathname.split("/")[6]!=undefined ? location.pathname.split("/")[6]+ "/"+
+        searchtext[indextab].searchtext[searchi.new!=0 ? searchi.new : 1]  : ""))
     }
  const savetab =(str) =>{    
     to[indextab].eltabs.splice(to[indextab].eltabs.length-1, 1, {name:to[indextab].eltabs[to[indextab].eltabs.length-1].name, words:searchtext[indextab].searchtext[searchtext[indextab].searchtext.length-1], saved:1})
@@ -546,8 +550,11 @@ const setsi = (j,t) => {
     
     setSearchi({old:searchi.old, new:j});  
     setStop(stop=>stop+1);
-     setNumber(0);
-     navigate("searchtext/"+t);
+    // setNumber(0); 
+     navigate("/a/"+location.pathname.split("/")[2]+"/pagination/"+number+"/"+countdown+"/"+
+                
+     (location.pathname.split("/")[6]!=undefined ? location.pathname.split("/")[6]+ "/"+t: ""))
+
 }
 const z = <div className="tablecontainer">
     { 
