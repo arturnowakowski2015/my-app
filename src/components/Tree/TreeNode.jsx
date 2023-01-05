@@ -1,4 +1,4 @@
-
+ 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -291,9 +291,8 @@ const TreeNode = (props) => {
             t.children = []
          
           if (t.children.filter((tt) => tt.name == elmenu.child.name).length == 0 && mode == 0)
-            if (t.name == elmenu.parentold.name && mode == 0){console.log(":::::::::::::                 "+elmenu.parentold.name)
-              t.children.unshift({ name: elmenu.child.name, depth: 0, id: 0, bgcolor: "white", opacity: 0.4 })
-        }
+            if (t.name == elmenu.parentold.name && mode == 0)
+              t.children.unshift({ name: elmenu.child.name, depth: 3, id: 0, bgcolor: "white", opacity: 0.4 })
             else
               t.children.unshift({ name: elmenu.child.name, depth: 0, id: 0, bgcolor: "orange" })
 
@@ -353,7 +352,8 @@ const TreeNode = (props) => {
       if(t.depth==0)
         arr.push(t.name)
       if (t.name == str) {
-         elmenu.child.name = str; t.opacity = 0.4;
+
+        elmenu.child.name = str; t.opacity = 0.4;
         elmenu.child.depth = t.depth;
         elmenu.child.id = t.id;
         t.cursor = "pointer"
@@ -418,7 +418,7 @@ const TreeNode = (props) => {
  
     tr.length && tr.map((t) => {
       if(typeof elmenu.parentroot.name == "number" && mode==0)
-      { 
+      {  
         if(elmenu.parentroot.children && elmenu.parentroot.children[0])
         tr.splice(elmenu.parentroot.name+1,1, elmenu.parentroot.children[0])
         else tr.splice(elmenu.parentroot.name+1,1)
@@ -434,8 +434,9 @@ const TreeNode = (props) => {
 
         if (elmenu.child.children ){
           findchild(t.children);
-          if(is) {
+          if(is) {alert(2)
            t.children.splice(y, 1, {name: elmenu.child.name, children: elmenu.child.children })
+
            if(t.children)changeforwards(t.children, elmenu.child.children[0].name, elmenu.child.children)
           }
         }
@@ -459,7 +460,7 @@ const TreeNode = (props) => {
      e.stopPropagation()
     
       addel(tree.children);
- 
+     // removeprobe(tree.children, 1, 1)
  
     setFamilyTree(props.familyTree)
     props.changeconfig(2)
@@ -473,40 +474,43 @@ const TreeNode = (props) => {
 let strold="";
 let strnew="";
   const changeforwards = (nodes, strnew, trs) => {
-   nodes.map((t) => { 
+
+   nodes.map((t) => {     
       strold=t.name;
       t.name=trs.name
+ 
       if(trs.children!=undefined)t.children=trs.children[0]
+
       if(t.children && trs.children!=undefined)changeforwards(t.children, strold, trs.children[0])
     })
   }
 
   const removeopacity = (e, tr, depth) => {
- 
+
       tr && tr.length && tr.map((t) => {
         if(typeof elmenu.parentroot.name == "number" && mode==0)
-        {   
-          if(e.target.id=="ffselected"){   
+        {  
+          if(e.target.id=="ffselected"){ 
           if(elmenu.parentroot.children && elmenu.parentroot.children[0])
           tr.splice(elmenu.parentroot.name+2,1, elmenu.parentroot.children[0])
           else tr.splice(elmenu.parentroot.name+2,1)
           }
-          else if(e.target.id=="f"){  
+          else if(e.target.id ){ alert(9) 
+            if(elmenu.parentroot.children && elmenu.parentroot.children[0]){
+            tr.splice(elmenu.parentroot.name+1,1, elmenu.parentroot.children[0])}
+            else {tr.splice(elmenu.parentroot.name+1,1);alert(90)
+            }
+          }
+          else if(e.target.id=="text"){ 
             if(elmenu.parentroot.children && elmenu.parentroot.children[0])
             tr.splice(elmenu.parentroot.name+1,1, elmenu.parentroot.children[0])
+           
             else tr.splice(elmenu.parentroot.name+1,1)
-          }
-          else if(e.target.id=="text"){   
-            if(elmenu.parentroot.children && elmenu.parentroot.children[0]){ 
-            tr.splice(elmenu.parentroot.name+1,1, elmenu.parentroot.children[0])
-            }
-            else{  
-             tr.splice(elmenu.parentroot.name+1,1) 
-          }
+
           }
           mode=1
           elmenu.parentroot.name="";
-        }  
+        }
         if(t.bgcolor=="yellow")
         t.bgcolor="white";
         if (t.name == elmenu.parentold.name) {
@@ -519,22 +523,37 @@ let strnew="";
             findchild(t.children);
             if(is) {
              t.children.splice(y, 1, {name: elmenu.child.name, children: elmenu.child.children })
+             alert(JSON.stringify(t))
              if(t.children)changeforwards(t.children, elmenu.child.children[0].name, elmenu.child.children)
+ 
             }
+       
           }
           else { t.children.splice(y, 1)}
           y=-1
         }
         if (t.children){++q; removeopacity(e, t.children)}
       })
-      if(tr[0]!=undefined && tr[0].name==null && !tr[0].line){ 
-          let u = tr[0].children
-          delete tr[0].children
-          tr[0].name=elmenu.child.children[0].name
-          tr[0].children=[]
-          tr[0].children=u[0].children 
-       } 
- 
+     if(tr[0]!=undefined && tr[0].name==null && !tr[0].line){
+      alert("   pmm   o   "+JSON.stringify(elmenu) )
+        let u = tr[0].children
+        delete tr[0].children
+        tr[0].name=elmenu.child.children[0].name
+        tr[0].children=[]
+        tr[0].children=u[0].children
+        alert( JSON.stringify(tr) + "   b          "+JSON.stringify(u) )
+     } 
+      elmenu.parent.name="";
+      elmenu.parent.depth=null;
+      elmenu.parent.id=null;
+      elmenu.child.name="";
+      elmenu.child.depth=null;
+      elmenu.child.id=null;
+      elmenu.parentold.name="";
+      elmenu.parentold.depth=null;
+      elmenu.parentold.id=null;
+      elmenu.parentformer.name="";
+      elmenu.parentroot.name="";
       makeidlev(tree.children, 0, 0)
       q=0;
     for (let ii = 0; ii < 20; ii++) {
@@ -548,7 +567,65 @@ let strnew="";
 
   }
  
+  const removeprobe = (nodes, r, remchild) => {
+    if (r == 0 && remchild!="root") {
+
+      nodes.map((t, i) => {
+        if (t.name == elmenu.child.name){ yy = i
  
+      if (yy > -1)
+        nodes.splice(yy, 1)
+      mode = 1
+        }
+      })
+
+    }
+    if(remchild=="root")
+    {     
+    let yy=0;
+    nodes.children.map((t)=>{
+      if(t.name==elmenu.parentformer.name)
+      {
+        t.children && t.children.map((tt, i) => {
+          if(tt.name==elmenu.child.name)
+            yy=i;
+        })
+ 
+        t.children && t.children.splice(yy, 1)
+      }
+    })
+    if(typeof elmenu.parentroot.name == "number") 
+    {
+      if(q==0){
+        tree.children.splice(1, 0, {name: elmenu.child.name})
+        q=1;
+      }
+    }
+      makeidlev(tree.children, 0, 0)
+      for (let ii = 0; ii < 20; ii++) {
+        c = 0;
+        makeids(tree.children, ii)
+
+      }
+    setFamilyTree(props.familyTree)
+    props.changeconfig(1)
+    mode=1;
+    }
+
+    remchild!="root" && nodes.map((t) => {
+ 
+
+
+      if (t.children) removeprobe(t.children, r, remchild)
+      makeidlev(tree.children, 0, 0)
+      for (let ii = 0; ii < 20; ii++) {
+        c = 0;
+        makeids(tree.children, ii)
+
+      }
+    })
+
+  }
   const addroot = (e, tt) => {
 
     e.stopPropagation();
@@ -573,7 +650,7 @@ let strnew="";
 
 
 
-    return t && !t.line  && <div style={{paddingLeft:"10px"}} key={i} onMouseOut={() => { tdepth = []; tid = [] }}
+    return t   && <div key={i} onMouseOut={() => { tdepth = []; tid = [] }}
       onClick={(e) => {        e.stopPropagation()
 
           if(props.pc[t.name].length>0){
@@ -654,7 +731,6 @@ let strnew="";
         }}
         
         onMouseDown={(e) => { 
-          elmenu.parentold.name=""
           zrobopacity(e, t.name, props.depth - 1, props.pid)   
           if (e.dataTransfer)
             e.dataTransfer.setData("text", e.target.id)
@@ -673,7 +749,8 @@ let strnew="";
             if (e.target.id == "ff")
               t.opacity = 0.1
              if (t.name != elmenu.child.name) {
-         
+              
+               removeprobe(tree.children, 1, 0);
               if (mode == 0) {
 
                 onDragOver1(tree.children, t.name, props.depth, props.id);
@@ -696,7 +773,8 @@ let strnew="";
             e.preventDefault(); 
        
                     q=0
-            removeopacity(e, tree.children) 
+            removeopacity(e, tree.children)
+ 
 
           }}
 
@@ -746,7 +824,8 @@ let strnew="";
             
             e.preventDefault();
             e.dataTransfer.getData("text");
- 
+
+             removeprobe(tree, root, "root");
             mode=0;
             addtoroot(tree)
                   }} 
@@ -791,7 +870,6 @@ return <div key={i}
   }}
   
   onMouseDown={(e) => { 
-    elmenu.parentold.name=""
     zrobopacity(e, t.name, props.depth - 1, props.pid)   
     if (e.dataTransfer)
       e.dataTransfer.setData("text", e.target.id)
@@ -808,7 +886,8 @@ return <div key={i}
       if (e.target.id == "ff")
         t.opacity = 0.1
        if (t.name != elmenu.child.name) {
-         
+        
+         removeprobe(tree.children, 1, 0);
         if (mode == 0) {
 
           onDragOver1(tree.children, t.name, props.depth, props.id);
@@ -844,8 +923,7 @@ return <div key={i}
     
     }}
 
-
-  > drag'n'drop
+  >drag'n'drop
           <p id="text"
 
 
@@ -873,7 +951,8 @@ style={{ backgroundColor: t.bgcolor }}>{t.name}
       
       e.preventDefault();
       e.dataTransfer.getData("text");
- 
+
+       removeprobe(tree, root, "root");
       mode=0;
       addtoroot(tree)
             }} 
