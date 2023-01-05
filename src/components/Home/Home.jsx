@@ -66,9 +66,10 @@ class Home extends React.Component {
       confirmdelete:false,
       displ: [true, true, true, true, true, true],
       dp:true,
-
-
-
+      displaytree:[true, false, false],
+      displaytable:[true,false, false],
+      treeclass:["leftcolumn" ,"displaytree","treenone"],
+      tableclass:["rightcolumn", "displaytable", "tablenone"],
       checkedel:{ actual: [{ cat: "new", l: 0 }],  set: {"received":[], "new":[], "selected":[], "postponed":[], "removed":[], "labels":[]} },
       checked: true,
       icolumn: -1,
@@ -515,11 +516,14 @@ if(flag==0){
   render() {
 
 
+ 
+let treetablemin = <div className="treetable"> 
+
+ 
 
 
-
-let treetablemin = <> 
-<div className={ this.state.displ[1] ? "leftcolumn" : "treenone"}  transition-style={this.state.displ[1] && this.state.menuel ? "in:circle:center" : null}>
+<div className={this.state.displ[0] ? this.state.treeclass[this.state.displaytree.indexOf(true)] 
+: this.state.treeclass[2] }  transition-style={this.state.displ[1] && this.state.menuel ? "in:circle:center" : null}>
  
   <TreeNode changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
   pid={-1}
@@ -532,9 +536,12 @@ let treetablemin = <>
     ac={this.state.categories.set}
     pc={this.state.data} id={0} depth={0} p={0} pdepth={-1} 
     act={this.state.categories.actual[0].cat}
-    parent={this.state.parent} />
+    parent={this.state.parent} 
+      displaytree={this.state.displaytree}/>
+  
     </div>
-<div className={ "rightcolumn" }>
+<div className={this.state.displ[0] ? this.state.tableclass[ this.state.displaytable.indexOf(true)]  :
+this.state.tableclass[2] }>
 <Table
  changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
  menuel={this.state.menuel}
@@ -551,29 +558,36 @@ setchecked={this.setchecked.bind(this)}
   m={this.state.m}
   changem={this.changem.bind(this)}
   ChangePage={this.changePPP.bind(this)}
+  displaytree={this.state.displaytree}
 /></div>
  
-</>
-
-  
+</div>
+ 
 
     return (
-      <body>        <AUrl st={this.state.displ} changeconfig={(i) => {
+      <body>        <AUrl st={this.state.displ} changeconfig={(i, ii) => {
  
         if(i==1){
+
           setTimeout(()=>{
           this.setState({config: 1});
            this.setState({menuel: true})
           this.setState({ settings: 1 })
           this.setState({ number1: 1 });
-        }, 100)
+          this.setState({displaytree: [false, true, false]})
+          this.setState({displaytable: [false, false, true]})
+        }, 100) 
+         //     
         } 
         if(i==2){
           setTimeout(()=>{
           this.setState({ settings: 0 })
           this.setState({ config: 0 })
           this.setState({menuel: true})
+          this.setState({displaytree: [true, false, false]})
+          this.setState({displaytable: [true, false, false]})
         }, 100)
+      //  this.setState({displaytree: 0})
         }
         ii=0
       this.changedispl(0, 0, false );

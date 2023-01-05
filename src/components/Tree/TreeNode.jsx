@@ -573,7 +573,7 @@ let strnew="";
 
 
 
-    return t && !t.line  && <div key={i} onMouseOut={() => { tdepth = []; tid = [] }}
+    return t && !t.line  && <div style={{paddingLeft:"10px"}} key={i} onMouseOut={() => { tdepth = []; tid = [] }}
       onClick={(e) => {        e.stopPropagation()
 
           if(props.pc[t.name].length>0){

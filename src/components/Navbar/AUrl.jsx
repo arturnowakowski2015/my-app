@@ -36,12 +36,13 @@ const AUrl = (props) => {
             <Link 
                   className={item[1] ? "el-2" : "el-2-1"} 
                   to={"/a/"+location.pathname.split("/")[2]+"/pagination/"+
-                  (location.pathname.split("/")[4]!=undefined && location.pathname.split("/")[4]!="" ? location.pathname.split("/")[4] : 1)+"/1/searchtext"} 
+                  (location.pathname.split("/")[4]!=undefined && location.pathname.split("/")[4]!="" ?
+                   location.pathname.split("/")[4] : 1)+"/1/searchtext"} 
                   onClick={()=>{ item.indexOf(false)!=1 && changeconfig(2, 1)}}>searching</Link> 
             <Link 
                  className={item[2] ? "el-3" : "el-3-1"} 
                 to={"/a/"+location.pathname.split("/")[2]+"/pagination/"+
-                (location.pathname.split("/")[4]!=undefined ? location.pathname.split("/")[4] : 1)+"/1/settings"} 
+                (location.pathname.split("/")[4]!=undefined  && location.pathname.split("/")[4]!="" ? location.pathname.split("/")[4] : 1)+"/1/settings"} 
                 onClick={()=>{ item.indexOf(false)!=2 && changeconfig(1, 2)}}>settings
             </Link>
         </div>)
