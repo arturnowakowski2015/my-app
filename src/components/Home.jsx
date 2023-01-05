@@ -522,6 +522,7 @@ let treetablemin = <>
 <div className={ this.state.displ[1] ? "leftcolumn" : "treenone"}  transition-style={this.state.displ[1] && this.state.menuel ? "in:circle:center" : null}>
  
   <TreeNode changeintree={(category, flag, flag1) => {  this.changedata(category, flag, flag1);   }}
+  pid={-1}
     displ1={this.state.displ}
     changeparent={(name) => this.setState({ parent: name })}
     config={this.state.config}

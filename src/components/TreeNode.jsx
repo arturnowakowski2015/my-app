@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,7 +7,7 @@ import {  tree } from '../data/dummy';
 
 import "./TreeNode.scss"
 let c = 0;
- 
+let q=0;
 let tdepth = [];
 let tid = [];
 let node = "";
@@ -47,6 +46,7 @@ const makeidlev1 = (str,nodes, i, tt) => {
       else
     t.bgcolor = "white";
 
+
     if (t.children) { makeidlev1(str, t.children, 0, ++tt); --tt }
   });
 
@@ -61,7 +61,8 @@ const makeidlev = (nodes, i, tt) => {
     t.depth = tt;
     if(t.bgcolor!="yellow")
     t.bgcolor = "white";
-
+    if(t.children && t.children.length==0)
+    delete t.children
     if (t.children) { makeidlev(t.children, 0, ++tt); --tt }
   });
 
@@ -284,10 +285,11 @@ const TreeNode = (props) => {
   const addel = (nodes) => {
 
     if (mode == 0)
-      nodes.map((t, i) => {
-        if (t.name == elmenu.parent.name && mode == 0 && elmenu.child.name != t.name) {
+      nodes.map((t, i) => { 
+        if (t.name == elmenu.parent.name && mode == 0 && elmenu.child.name != t.name) {    
           if (t.children == null && mode == 0)
             t.children = []
+         
           if (t.children.filter((tt) => tt.name == elmenu.child.name).length == 0 && mode == 0)
             if (t.name == elmenu.parentold.name && mode == 0)
               t.children.unshift({ name: elmenu.child.name, depth: 3, id: 0, bgcolor: "white", opacity: 0.4 })
@@ -359,6 +361,7 @@ const TreeNode = (props) => {
         if(t.depth==0){
           elmenu.parentroot.name=i-1
           elmenu.parentroot.children=t.children;
+   console.log("eeeeeeeee           "+elmenu.parentroot.name)
         }
 
       } 
@@ -371,7 +374,7 @@ const TreeNode = (props) => {
       
       if (t.children) { makeopacity(t.children, str, d, id); }
         setFamilyTree(familyTree);
-        props.changeconfig(1)
+        props.changeconfig(2)
     })
 
   }
@@ -399,7 +402,7 @@ const TreeNode = (props) => {
     nodes.map((t) => {
 
       if (str == t.name && t.bgcolor == "white") {
-        if (t.children.filter((tt) => {
+        if (t.children && t.children.filter((tt) => {
           return tt.name == elmenu.child.name && tt.opacity != 0.4
         }).length == 1) {
           t.children.shift()
@@ -479,22 +482,29 @@ let strnew="";
     })
   }
 
-  const removeopacity = (tr, depth) => {
- 
-      tr.length && tr.map((t) => {
+  const removeopacity = (e, tr, depth) => {
+      console.log("e                    "+q)
+      tr && tr.length && tr.map((t) => {
         if(typeof elmenu.parentroot.name == "number" && mode==0)
-        {alert(elmenu.parentroot.name+":::::::")
+        { 
+          if(e.target.id=="ff"){ 
           if(elmenu.parentroot.children && elmenu.parentroot.children[0])
-          tr.splice(elmenu.parentroot.name+1,1, elmenu.parentroot.children[0])
-          else tr.splice(elmenu.parentroot.name+1,1)
+          tr.splice(elmenu.parentroot.name+2,1, elmenu.parentroot.children[0])
+          else tr.splice(elmenu.parentroot.name+2,1)
+          }
+          else if(e.target.id=="f"){ 
+            if(elmenu.parentroot.children && elmenu.parentroot.children[0])
+            tr.splice(elmenu.parentroot.name+1,1, elmenu.parentroot.children[0])
+            else tr.splice(elmenu.parentroot.name+1,1)
+          }
           mode=1
           elmenu.parentroot.name="";
         }
         if(t.bgcolor=="yellow")
         t.bgcolor="white";
         if (t.name == elmenu.parentold.name) {
-         
-          t.children.map((tt, i) => {  
+
+          t.children && t.children.map((tt, i) => {  
             if (tt.name == elmenu.child.name) y = i;
           })
  
@@ -508,10 +518,22 @@ let strnew="";
           else { t.children.splice(y, 1)}
           y=-1
         }
-        if (t.children) removeopacity(t.children)
+        if (t.children){++q; removeopacity(e, t.children)}
       })
  
-    makeidlev(tree.children, 0, 0)
+      elmenu.parent.name="";
+      elmenu.parent.depth=null;
+      elmenu.parent.id=null;
+      elmenu.child.name="";
+      elmenu.child.depth=null;
+      elmenu.child.id=null;
+      elmenu.parentold.name="";
+      elmenu.parentold.depth=null;
+      elmenu.parentold.id=null;
+      elmenu.parentformer.name="";
+      elmenu.parentroot.name="";
+      makeidlev(tree.children, 0, 0)
+      q=0;
     for (let ii = 0; ii < 20; ii++) {
       c = 0;
       makeids(tree.children, ii)
@@ -520,6 +542,7 @@ let strnew="";
     setFamilyTree(props.familyTree)
     props.changeconfig(props.config==1 ? 2 : 1)
     mode = 1
+
   }
  
   const removeprobe = (nodes, r, remchild) => {
@@ -536,11 +559,26 @@ let strnew="";
 
     }
     if(remchild=="root")
-    {      if(nodes && nodes[1] && mode==0)
-      nodes[1].children && nodes[1].children.map((tt, i) =>{
-        if(tt.name==elmenu.child.name)yy=i;  
-         nodes[1].children.splice(yy, 1)
-      })
+    {     
+    let yy=0;
+    nodes.children.map((t)=>{
+      if(t.name==elmenu.parentformer.name)
+      {
+        t.children && t.children.map((tt, i) => {
+          if(tt.name==elmenu.child.name)
+            yy=i;
+        })
+        console.log(JSON.stringify(t)+"::"+yy)
+        t.children && t.children.splice(yy, 1)
+      }
+    })
+    if(typeof elmenu.parentroot.name == "number") 
+    {
+      if(q==0){
+        tree.children.splice(1, 0, {name: elmenu.child.name})
+        q=1;
+      }
+    }
       makeidlev(tree.children, 0, 0)
       for (let ii = 0; ii < 20; ii++) {
         c = 0;
@@ -668,8 +706,9 @@ let strnew="";
         }}
         
         onMouseDown={(e) => {
-
-          zrobopacity(e, t.name, props.depth - 1, props.id)
+          console.log(JSON.stringify(elmenu))
+          zrobopacity(e, t.name, props.depth - 1, props.pid)  
+          console.log("poooooooooooo                     "+JSON.stringify(elmenu))
           if (e.dataTransfer)
             e.dataTransfer.setData("text", e.target.id)
 
@@ -707,7 +746,11 @@ let strnew="";
           onDrop={(e) => {
             mode = 0; e.stopPropagation(); 
             e.preventDefault(); 
-            removeopacity(tree.children)
+       
+                    q=0
+            removeopacity(e, tree.children)
+            console.log(JSON.stringify(tree))
+
           }}
 
 
@@ -726,8 +769,8 @@ let strnew="";
 
 
             className="p fw-bold"
-            style={{ backgroundColor: t.bgcolor }}>{t.name}.1...
-            {pcl(t.name) != 0 ? pcl(t.name) : ""}
+            style={{ backgroundColor: t.bgcolor }}>{t.name}. 
+   pd.{props.depth}/pid/{props.id}/ppid{props.pid}/id/{t.id}
 
           </p>
         </div>
@@ -742,6 +785,7 @@ let strnew="";
             familyTree={t.children}
             settings={props.settings}
             ac={props.ac}
+            pid={t.id}
             pc={props.pc} id={i} depth={props.depth + 1} />
         }
 
@@ -757,10 +801,16 @@ let strnew="";
                   }} 
 
                   onDrop={(e) => { 
- 
-                    removeopacity(tree.children, props.depth)
+       
+                    removeopacity(e, tree.children, props.depth)
+                    console.log(JSON.stringify(tree))
                   }}
-
+                  onDragLeave={
+                    (e) => {
+                      e.stopPropagation();
+                      tree.children.splice(1,1)
+                    }
+                  }
             style={{ marginTop: "-30px", height: "50px", width: "100%", backgroundColor: "red" }} >##  ROOT</div>
         }</div>
 
@@ -768,23 +818,30 @@ let strnew="";
     })}
 
 
-
-
-
 {props.config == 2 && familyTree.map((t, i) => {
 
 
 return <div key={i} 
- 
- 
 
 
-  style={{ paddingLeft: "10px", paddingTop: "5px" }} >
+  style={{ paddingLeft: "10px", paddingTop: "5px" }} > 
 
 
-  {t.name != props.pc[0] && <div className="x" id="f" style={{ opacity: t.opacity, cursor: t.cursor }} draggable="true" onMouseDown={(e) => {
-
-    zrobopacity(e, t.name, props.depth - 1, props.id)
+  {t.name != props.pc[0] && <div className="x" id="f" style={{ opacity: t.opacity, cursor: t.cursor }} 
+  draggable="true" 
+  onMouseUp={()=>{    makeidlev2(0, tree.children, 0, 0)
+    for (let ii = 0; ii < 20; ii++) {
+      c = 0;
+      makeids(tree.children, ii)
+      
+    };
+    setFamilyTree(props.familyTree)
+  }}
+  
+  onMouseDown={(e) => {
+    console.log(JSON.stringify(elmenu))
+    zrobopacity(e, t.name, props.depth - 1, props.pid)  
+    console.log("poooooooooooo       2              "+JSON.stringify(elmenu))
     if (e.dataTransfer)
       e.dataTransfer.setData("text", e.target.id)
 
@@ -822,7 +879,10 @@ return <div key={i}
     onDrop={(e) => {
       mode = 0; e.stopPropagation(); 
       e.preventDefault(); 
-      removeopacity(tree.children, props.depth)
+ 
+      q=0;
+      removeopacity(e, tree.children)
+    
     }}
 
 
@@ -836,15 +896,13 @@ return <div key={i}
 
 
   >aadrag'n'drop
+          <p id="text"
 
-    <p id="text"
 
-
-      className="p fw-bold"
-      style={{ backgroundColor: t.bgcolor }}>{t.name}....
-      {pcl(t.name) != 0 ? pcl(t.name) : ""}
-
-    </p>
+className="p fw-bold"
+style={{ backgroundColor: t.bgcolor }}>{t.name}.1...
+   pd.{props.depth}/pid/{props.id}/ppid{props.pid}/id/{t.id}
+</p>
   </div>
   }
 
@@ -852,12 +910,13 @@ return <div key={i}
     t.children && <TreeNode changeintree={props.changeintree} config={props.config}
       parent={props.parent}
       changeconfig={props.changeconfig}
- 
+
       changeparent={props.changeparent}
       familyTree={t.children}
       settings={props.settings}
       ac={props.ac}
-      pc={props.pc} id={i} depth={props.depth + 1} />
+      pc={props.pc} pid={t.id}
+      id={i} depth={props.depth + 1} />
   }
 
   {
@@ -871,23 +930,22 @@ return <div key={i}
       addtoroot(tree)
             }} 
 
-            onDrop={(e) => {
-              mode = 0; e.stopPropagation(); 
-              e.preventDefault();
+            onDrop={(e) => { 
+            
+              removeopacity(e, tree.children, props.depth)
  
-               removeopacity(tree.children, props.depth)
             }}
-
+            onDragLeave={
+              (e) => {
+                e.stopPropagation();
+                tree.children.splice(1,1)
+              }
+            }
       style={{ marginTop: "-30px", height: "50px", width: "100%", backgroundColor: "red" }} >##  ROOT</div>
   }</div>
 
 
 })}
-
-
-
-
-
 
 
 
