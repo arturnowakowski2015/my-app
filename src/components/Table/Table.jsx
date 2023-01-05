@@ -551,22 +551,15 @@ const z = <div className="tablecontainer">
     { 
           props.checkall[1]===0 && 
             <div className={(countdown===tovalue  ? "s" : "s1") }>
-                {number}</div>
+                {countdown}</div>
     }
      
-     {
-     props.checkall[1]===1 &&
-             <div className={( data.length===0 ? "s" : "s1")}> {data.length}</div> 
-    }
-     <span style={{width: "20px"}}></span>  
-     {
-        (parseInt(firstPost) + parseInt(currentPost.length))-10+ " - "+ (parseInt(firstPost) + parseInt(currentPost.length)) + " from " + (data && data.length)
-    }
+ 
     </div>
 
 
 
-    const el = <div > {z}    
+    const el = <div className="pag">  
                  {   
                  window.location.href.indexOf("searchtext")!==-1 
                  ? 
@@ -588,10 +581,9 @@ const z = <div className="tablecontainer">
 
 
    
-        <div>
-            <div class="pagcon">
-                <div style={{paddingTop:"15px", paddingRight:"20px"}}>found: {  props.data.length}</div>   
-                    {((props.flagsettings !== 4 && data1.length) ||
+        <div className="pagcont">
+            <div class="pagcon"> {z}  
+                       {((props.flagsettings !== 4 && data1.length) ||
                     (data1.length===0 && window.location.href.indexOf("searchtext")===-1) 
                     || window.location.href.indexOf("searchtext")!==-1 && sliced.length!==0)
                     && data.length > 0 && 
@@ -605,6 +597,7 @@ const z = <div className="tablecontainer">
                          pageNumber={   pageNumber } 
                          limit={limit}
                         oldel={oldel}
+                        currentPost={currentPost}
                          ChangePage={ChangePage} 
                          setN={setN} 
                          length={ window.location.href.indexOf("searchtext")!==-1 ? data1.length : (props.data && props.data.length )}
