@@ -298,8 +298,10 @@ const Table = (props, columns) => {
 
             if(countdown%postPerPage===0 && countdown/postPerPage>0 && countdown<tovalue){setNumber(number=>number+1);setCountdown(countdown +1);}
             if(countdown%postPerPage===0 && countdown/postPerPage>0 && countdown>tovalue ) {setNumber(number=>number-1); setCountdown(countdown -1);}
-
-            navigate("/a/"+location.pathname.split("/")[2]+"/pagination/"+number+"/"+countdown)
+ 
+            navigate("/a/"+location.pathname.split("/")[2]+"/pagination/"+number+"/"+countdown+"/"+
+                
+           (location.pathname.split("/")[6]!=undefined ? location.pathname.split("/")[6] : ""))
      }, 50);
         return () => {
 
@@ -560,7 +562,13 @@ const z = <div className="tablecontainer">
 
 
     const el = <div className="pag">  
-                 {   
+                 
+
+   
+        <div className="pagcont">
+            <div class="pagcon"> {z}  
+
+            {   
                  window.location.href.indexOf("searchtext")!==-1 
                  ? 
                      <div className={props.desapear[4] ? "searchingvisible": "searching"}  transition-style= {props.desapear[4] ? "in:circle:center" : ""}>
@@ -575,14 +583,11 @@ const z = <div className="tablecontainer">
                              savetab={()=>savetab()}
                         />
                 </div>
+
                 :
                 <div style={{height:"30px"}}></div> 
             }
 
-
-   
-        <div className="pagcont">
-            <div class="pagcon"> {z}  
                        {((props.flagsettings !== 4 && data1.length) ||
                     (data1.length===0 && window.location.href.indexOf("searchtext")===-1) 
                     || window.location.href.indexOf("searchtext")!==-1 && sliced.length!==0)

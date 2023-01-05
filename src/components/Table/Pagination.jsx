@@ -37,8 +37,9 @@ const Pagination = props => {
         if (v > 0 && str === "Next" && props.firstPost < props.length - props.postPerPage)
             props.setN(v)
             props.changeintree(location.pathname.split("/")[2], 0, 1); 
-            navigate("/a/"+location.pathname.split("/")[2]+"/pagination/" + 
-            +v+"/"+props.countdown)
+ 
+            navigate("/a/"+location.pathname.split("/")[2]+"/pagination/"+v+"/"+props.countdown+"/"+                
+            (location.pathname.split("/")[6]!=undefined ? location.pathname.split("/")[6] : ""))
     }
     let rrr= 0;
     useEffect(()=>{
@@ -78,8 +79,9 @@ const Pagination = props => {
                                 && i<props.limit
                                 && <div className={ props.oldel===i  ?  "green" : "s"}  
                                  onClick={(event) => { event.preventDefault(); funk(event, Elem);
-                                navigate("/a/"+location.pathname.split("/")[2]+"/pagination/" + 
-                                +i+"/"+props.countdown)}}
+                                    navigate("/a/"+location.pathname.split("/")[2]+"/pagination/"+props.number+"/"+props.countdown+"/"+
+                
+                                    (location.pathname.split("/")[6]!=undefined ? location.pathname.split("/")[6] : ""))}}
 
 
                                 >{   Elem}
